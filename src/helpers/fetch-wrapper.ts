@@ -1,58 +1,59 @@
-import { useAuthStore } from '@/stores';
+import { useAuthStore } from '@/stores/auth';
 
 export const fetchWrapper = {
-    get: request('GET'),
-    post: request('POST'),
-    put: request('PUT'),
-    delete: request('DELETE')
+  get: request('GET'),
+  post: request('POST'),
+  put: request('PUT'),
+  delete: request('DELETE')
 };
 
 function request(method: string) {
-    return async (url: string, body?: Object) => {
-        const requestOptions: RequestInit = {
-            method,
-            headers: {
-                'Authorization': authHeader(url),
-                'Content-Type': 'application/json'
-            }
-        };
-        if (body) {
-            requestOptions.body = JSON.stringify(body);
-        }
-        return fetch(url, requestOptions).then(handleResponse);
+  return async (url: string, body: any) => {
+    const requestOptions: RequestInit = {
+      method,
+      headers: authHeader(url)
+    };
+    if (body) {
+      requestOptions.body = JSON.stringify(body);
     }
+    const response = await fetch(url, requestOptions);
+    return handleResponse(response);
+  };
 }
 
 // helper functions
 
-function authHeader(url: string) {
-    // return auth header with jwt if user is logged in and request is to the api url
-    const { user } = useAuthStore();
-    const isLoggedIn = !!user?.token;
-    const isApiUrl = url.startsWith(import.meta.env.VITE_API_URL);
-    if (isLoggedIn && isApiUrl) {
-        return `Bearer ${user.token}`;
-    } else {
-        return '';
-    }
+function authHeader(url: string): HeadersInit {
+  // return auth header with jwt if user is logged in and request is to the api url
+  const { auth } = useAuthStore();
+  const isLoggedIn = auth.valid();
+  // TODO
+  // const isApiUrl = url.startsWith('/api');
+  const isApiUrl = true;
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json'
+  };
+  if (isLoggedIn && isApiUrl) {
+    headers['Authorization'] = `Bearer ${auth.getToken}`;
+  }
+  return headers;
 }
 
-async function handleResponse(response: any) {
-    const isJson = response.headers?.get('content-type')?.includes('application/json');
-    const data = isJson ? await response.json() : null;
+function handleResponse(response: Response) {
+  return response.text().then((text) => {
+    const data = text && JSON.parse(text);
 
-    // check for error response
     if (!response.ok) {
-        const { user, logout } = useAuthStore();
-        if ([401, 403].includes(response.status) && user) {
-            // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-            logout();
-        }
+      const { auth, logout } = useAuthStore();
+      if ([401].includes(response.status) && auth) {
+        // auto logout if 401 Unauthorized response returned from api
+        logout();
+      }
 
-        // get error message from body or default to response status
-        const error = (data && data.message) || response.status;
-        return Promise.reject(error);
+      const error = (data && data.message) || response.statusText;
+      return Promise.reject(error);
     }
 
     return data;
+  });
 }
