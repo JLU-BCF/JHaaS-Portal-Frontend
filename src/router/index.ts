@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import StartView from '../views/StartView.vue';
 import { useAuthStore } from '@/stores/auth';
 import authRoutes from './auth.routes';
 
@@ -8,30 +8,44 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'start',
+      component: StartView
     },
     {
       path: '/about',
       name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue')
     },
-    { ...authRoutes }
+    { ...authRoutes },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/error/404.vue')
+    }
   ]
 });
 
 router.beforeEach(async (to) => {
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/auth/login'];
-  const authRequired = !publicPages.includes(to.path);
+  const publicPages = [
+    'start',
+    'about',
+    'login',
+    'not-found'
+  ];
+
+  let authRequired = true;
+  if (typeof to.name === 'string') {
+    authRequired = !publicPages.includes(to.name);
+  } else {
+    return;
+  }
+  
   const { auth } = useAuthStore();
 
   if (authRequired && !auth.valid()) {
     auth.returnUrl = to.fullPath;
-    return '/auth/login';
+    return router.resolve({ name: 'login' }).fullPath;
   }
 });
 

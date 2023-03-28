@@ -1,11 +1,11 @@
-import type { User } from "@/models/user.model";
+import type { User } from '@/models/user.model';
 
 interface AuthJWT {
-  exp: Date,
-  user: User
+  exp: Date;
+  user: User;
 }
 
-export const jwt_decode = function (jwt: string): { header: Object, payload: AuthJWT } | null {
+export const jwt_decode = function (jwt: string): { header: Object; payload: AuthJWT } | null {
   let splitted = jwt.split('.');
 
   if (splitted.length < 3) {

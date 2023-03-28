@@ -1,3 +1,6 @@
+# NFS zombies
+.nfs*
+
 # Logs
 logs
 *.log

@@ -7,7 +7,10 @@ export class Auth {
   public returnUrl?: string;
 
   constructor(oldAuthJSON?: string | null) {
+    console.log('going create...');
     if (oldAuthJSON) {
+      console.log('old data found...');
+
       const oldAuth = JSON.parse(oldAuthJSON) as Auth;
       if (oldAuth.token) {
         this.token = oldAuth.token;
@@ -17,6 +20,8 @@ export class Auth {
     }
 
     if (this.token) {
+      console.log('found token...');
+
       let data = jwt_payload(this.token);
       if (data) {
         const { exp } = data;
@@ -58,12 +63,19 @@ export class Auth {
 
   expired(): boolean {
     if (this.tokenExpiry) {
-      return new Date() < this.tokenExpiry;
+      return new Date() > this.tokenExpiry;
     }
     return false;
   }
 
   valid(): boolean {
     return typeof this.token === 'string' && !this.expired();
+  }
+
+  reset(): void {
+    this.token = undefined;
+    this.tokenExpiry = undefined;
+    this.refreshToken = undefined;
+    this.returnUrl = undefined;
   }
 }

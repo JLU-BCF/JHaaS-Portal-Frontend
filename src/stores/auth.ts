@@ -2,31 +2,36 @@ import { defineStore } from 'pinia';
 import { Auth } from '@/models/auth.model';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import router from '@/router';
+import { ref } from 'vue';
 
 // TODO: parameterize
 const baseUrl = 'http://localhost:8000/api';
 
 export const useAuthStore = defineStore('auth', () => {
-  const auth = new Auth(localStorage.getItem('auth'));
+  const auth = ref(new Auth(localStorage.getItem('auth')));
 
-  function valid(): boolean {
-    return auth.valid();
-  }
+  // function valid(): boolean {
+  //   return auth.value.valid();
+  // }
 
   async function login(username: string, password: string) {
     const { jwt } = await fetchWrapper.post(`${baseUrl}/auth`, { username, password });
 
     // update pinia state
-    auth.setToken(jwt);
+    auth.value.setToken(jwt);
 
     // store auth details in local storage to keep user logged in between page refreshes
-    localStorage.setItem('auth', JSON.stringify(auth));
+    localStorage.setItem('auth', JSON.stringify(auth.value));
 
     // redirect to previous url or default to home page
-    router.push(auth.returnUrl || '/');
+    router.push('/');
   }
 
-  function logout() {}
+  function logout() {
+    auth.value.reset();
+    localStorage.removeItem('auth');
+    router.push('/');
+  }
 
-  return { auth, login, logout, valid };
+  return { auth, login, logout };
 });
