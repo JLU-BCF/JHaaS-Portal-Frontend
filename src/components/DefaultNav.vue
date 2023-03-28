@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-const authStore = useAuthStore();
-const auth = authStore.auth;
+  import { RouterLink } from 'vue-router';
+  import { useAuthStore } from '@/stores/auth';
+  import { useUserStore } from '@/stores/user';
+  const authStore = useAuthStore();
+  const auth = authStore.auth;
+  const userStore = useUserStore();
+  const user = userStore.user;
 </script>
+
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Eighth navbar example">
-    <div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navigation">
+    <div class="container-fluid">
       <RouterLink class="navbar-brand" :to="{ name: 'start' }">JHaaS Portal</RouterLink>
       <button
         class="navbar-toggler"
@@ -36,12 +40,13 @@ const auth = authStore.auth;
               href="#"
               data-bs-toggle="dropdown"
               aria-expanded="false"
-              >Login</a
+              >{{ user?.firstName }}</a
             >
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
               <li><button class="dropdown-item" @click="authStore.logout()">Logout</button></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
           <li v-else class="nav-item">

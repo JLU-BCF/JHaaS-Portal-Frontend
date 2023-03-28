@@ -1,48 +1,57 @@
 import { jwt_decode, jwt_payload } from '@/helpers/jwt-decoder';
+import { useUserStore } from '@/stores/user';
 
 export class Auth {
-  private token?: string;
-  private tokenExpiry?: Date;
-  private refreshToken?: string;
-  public returnUrl?: string;
+  private userStore = useUserStore();
+  private _token?: string | undefined;
+  private _tokenExpiry?: Date | undefined;
+  private _refreshToken?: string | undefined;
+  private _returnUrl?: string | undefined;
+  
+  public get token(): string | undefined {
+    return this._token;
+  }
+  public set token(value: string | undefined) {
+    this._token = value;
+  }
+  public get tokenExpiry(): Date | undefined {
+    return this._tokenExpiry;
+  }
+  public set tokenExpiry(value: Date | undefined) {
+    this._tokenExpiry = value;
+  }
+  public get refreshToken(): string | undefined {
+    return this._refreshToken;
+  }
+  public set refreshToken(value: string | undefined) {
+    this._refreshToken = value;
+  }
+  public get returnUrl(): string | undefined {
+    return this._returnUrl;
+  }
+  public set returnUrl(value: string | undefined) {
+    this._returnUrl = value;
+  }
 
-  constructor(oldAuthJSON?: string | null) {
-    console.log('going create...');
-    if (oldAuthJSON) {
-      console.log('old data found...');
-
-      const oldAuth = JSON.parse(oldAuthJSON) as Auth;
-      if (oldAuth.token) {
-        this.token = oldAuth.token;
-        this.tokenExpiry = oldAuth.tokenExpiry;
-        this.refreshToken = oldAuth.refreshToken;
-      }
-    }
-
-    if (this.token) {
-      console.log('found token...');
-
-      let data = jwt_payload(this.token);
-      if (data) {
-        const { exp } = data;
-        if (typeof exp == 'number') {
-          this.tokenExpiry = new Date(exp * 1000);
-          console.log(this.tokenExpiry);
-        }
-      }
+  constructor(oldAuthToken?: string | null) {
+    if (oldAuthToken) {
+      this.setToken(oldAuthToken);
     }
   }
 
   setToken(token: string): void {
     let data = jwt_payload(token);
+
     if (data) {
-      const { exp } = data;
-      this.tokenExpiry = new Date(exp);
-      console.log(data);
+      this.token = token;
+      const { exp, user } = data;
+      if (typeof exp == 'number') {
+        this.tokenExpiry = new Date(exp * 1000);
+      }
+      if (user) {
+        this.userStore.setUser(user);
+      }
     }
-    // TODO: set expiry date, remove log
-    // console.log(data);
-    this.token = token;
   }
 
   getToken() {
@@ -77,5 +86,6 @@ export class Auth {
     this.tokenExpiry = undefined;
     this.refreshToken = undefined;
     this.returnUrl = undefined;
+    this.userStore.clearUser()
   }
 }

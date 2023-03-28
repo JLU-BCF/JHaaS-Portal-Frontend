@@ -5,23 +5,19 @@ import router from '@/router';
 import { ref } from 'vue';
 
 // TODO: parameterize
-const baseUrl = 'http://localhost:8000/api';
+const backend = import.meta.env.VITE_BACKEND_API;
 
 export const useAuthStore = defineStore('auth', () => {
   const auth = ref(new Auth(localStorage.getItem('auth')));
 
-  // function valid(): boolean {
-  //   return auth.value.valid();
-  // }
-
   async function login(username: string, password: string) {
-    const { jwt } = await fetchWrapper.post(`${baseUrl}/auth`, { username, password });
+    const { jwt } = await fetchWrapper.post(`${backend}/auth`, { username, password });
 
     // update pinia state
     auth.value.setToken(jwt);
 
     // store auth details in local storage to keep user logged in between page refreshes
-    localStorage.setItem('auth', JSON.stringify(auth.value));
+    localStorage.setItem('auth', jwt);
 
     // redirect to previous url or default to home page
     router.push('/');
