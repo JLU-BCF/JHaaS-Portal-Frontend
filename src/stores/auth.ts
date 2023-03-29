@@ -5,7 +5,7 @@ import router from '@/router';
 import { ref } from 'vue';
 
 // TODO: parameterize
-const backend = import.meta.env.VITE_BACKEND_API;
+const backend = import.meta.env.VITE_BACKEND_PATH;
 
 export const useAuthStore = defineStore('auth', () => {
   const auth = ref(new Auth(localStorage.getItem('auth')));

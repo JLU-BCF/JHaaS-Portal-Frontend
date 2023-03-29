@@ -1,0 +1,31 @@
+# This file is for use with Podman!
+# This is a compose file for development! Do not use in prod!
+# This file needs the backend to be started first!
+version: '3'
+
+services:
+  jhaas-portal-frontend:
+    image: node:16
+    container_name: jhaas-portal-frontend
+    hostname: jhaas-portal-frontend
+    restart: unless-stopped
+    networks:
+      - jhaas-portal-priv
+    ports:
+      - 127.0.0.1:3000:3000
+    volumes:
+      - cache:/root
+      - ./:/jhaas-app
+      - ./docker-entrypoint-dev.sh:/docker-entrypoint-dev.sh:ro
+    user: root
+    working_dir: /jhaas-app
+    entrypoint: [ "/docker-entrypoint-dev.sh" ]
+
+networks:
+  jhaas-portal-priv:
+    external: true
+    name: jhaas-portal-priv
+
+volumes:
+  cache:
+    name: jhaas-portal-frontend-cache
