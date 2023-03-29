@@ -1,56 +1,15 @@
 <script setup lang="ts">
-import { Form, Field } from 'vee-validate';
-import { useAuthStore } from '@/stores/auth';
-import * as Yup from 'yup';
-
-const schema = Yup.object().shape({
-  username: Yup.string().required('Username is required'),
-  password: Yup.string().required('Password is required')
-});
-
-function onSubmit(values: any) {
-  const authStore = useAuthStore();
-  const { username, password } = values;
-
-  return authStore.login(username, password);
-}
+  import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <div class="alert alert-info">
-    Username: test<br />
-    Password: test
-  </div>
-  <div class="form-signin w-100 m-auto">
+  <div class="form-signin w-100 m-auto mt-5 text-center">
     <h2>Login</h2>
-    <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
-      <div class="form-group">
-        <label>Username</label>
-        <Field
-          name="username"
-          type="text"
-          class="form-control"
-          :class="{ 'is-invalid': errors.username }"
-        />
-        <div class="invalid-feedback">{{ errors.username }}</div>
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <Field
-          name="password"
-          type="password"
-          class="form-control"
-          :class="{ 'is-invalid': errors.password }"
-        />
-        <div class="invalid-feedback">{{ errors.password }}</div>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-primary" :disabled="isSubmitting">
-          <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-          Login
-        </button>
-      </div>
-      <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{ errors.apiError }}</div>
-    </Form>
+    <p>Choose your Login Method</p>
+    <div class="my-5">
+      <RouterLink :to="{ name: 'localLogin' }" class="btn btn-outline-dark w-100 my-1">Local (testing)</RouterLink>
+      <RouterLink :to="{ name: 'ldapLogin' }" class="btn btn-outline-dark w-100 my-1">LDAP</RouterLink>
+      <RouterLink :to="{ name: 'oicdLogin' }" class="btn btn-outline-dark w-100 my-1">OICD</RouterLink>
+    </div>
   </div>
 </template>

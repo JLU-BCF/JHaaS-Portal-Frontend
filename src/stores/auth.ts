@@ -10,8 +10,8 @@ const backend = import.meta.env.VITE_BACKEND_PATH;
 export const useAuthStore = defineStore('auth', () => {
   const auth = ref(new Auth(localStorage.getItem('auth')));
 
-  async function login(username: string, password: string) {
-    const { jwt } = await fetchWrapper.post(`${backend}/auth`, { username, password });
+  async function localLogin(email: string, password: string) {
+    const { jwt } = await fetchWrapper.post(`${backend}/auth/local/login`, { email, password });
 
     // update pinia state
     auth.value.setToken(jwt);
@@ -20,7 +20,15 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.setItem('auth', jwt);
 
     // redirect to previous url or default to home page
-    router.push('/');
+    router.push(auth.value.returnUrl || '/');
+  }
+
+  async function ldapLogin(username: string, password: string) {
+    // do the ldap login
+  }
+
+  async function oicdLogin() {
+    // do the oicd login
   }
 
   function logout() {
@@ -29,5 +37,5 @@ export const useAuthStore = defineStore('auth', () => {
     router.push('/');
   }
 
-  return { auth, login, logout };
+  return { auth, localLogin, ldapLogin, oicdLogin, logout };
 });
