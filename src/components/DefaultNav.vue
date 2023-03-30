@@ -51,7 +51,9 @@ const user = userStore.user;
               >{{ user?.firstName }}</a
             >
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li>
+                <RouterLink :to="{ name: 'profile' }" class="dropdown-item">Profile</RouterLink>
+              </li>
               <li><a class="dropdown-item" href="#">Settings</a></li>
               <li><hr class="dropdown-divider" /></li>
               <li><button class="dropdown-item" @click="authStore.logout()">Logout</button></li>

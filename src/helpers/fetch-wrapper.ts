@@ -34,7 +34,7 @@ function authHeader(url: string): HeadersInit {
     headers['Content-Type'] = 'application/json';
   }
   if (isLoggedIn && isApiUrl) {
-    headers['Authorization'] = `Bearer ${auth.getToken}`;
+    headers['Authorization'] = `Bearer ${auth.getToken()}`;
   }
   return headers;
 }
