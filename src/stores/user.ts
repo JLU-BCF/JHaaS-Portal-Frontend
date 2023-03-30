@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { User } from '@/models/user.model';
 import type { UserInterface } from '@/models/user.model';

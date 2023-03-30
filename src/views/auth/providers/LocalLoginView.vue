@@ -9,11 +9,15 @@ const schema = Yup.object().shape({
   password: Yup.string().required('Password is required')
 });
 
-function onSubmit(values: any) {
+function onSubmit(values: { email?: string, password?: string }) {
   const authStore = useAuthStore();
   const { email, password } = values;
 
-  return authStore.localLogin(email, password);
+  if (email && password) {
+    return authStore.localLogin(email, password);
+  }
+
+  // TODO error
 }
 </script>
 
@@ -21,7 +25,12 @@ function onSubmit(values: any) {
   <div class="form-signin w-100 m-auto mt-5 text-center">
     <h2>Login</h2>
     <p>with local credentials</p>
-    <Form class="text-start my-5" @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
+    <Form
+      class="text-start my-5"
+      @submit="onSubmit"
+      :validation-schema="schema"
+      v-slot="{ errors, isSubmitting }"
+    >
       <div class="form-floating mb-2">
         <Field
           name="email"
@@ -54,10 +63,14 @@ function onSubmit(values: any) {
       </div>
       <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{ errors.apiError }}</div>
     </Form>
-    <hr>
+    <hr />
     <div class="d-grid gap-2 d-md-flex">
-      <RouterLink :to="{ name: 'login' }" class="w-100 btn btn-sm btn-outline-secondary">Back</RouterLink>
-      <RouterLink :to="{ name: 'login' }" class="w-100 btn btn-sm btn-outline-secondary">Register</RouterLink>
+      <RouterLink :to="{ name: 'login' }" class="w-100 btn btn-sm btn-outline-secondary"
+        >Back</RouterLink
+      >
+      <RouterLink :to="{ name: 'login' }" class="w-100 btn btn-sm btn-outline-secondary"
+        >Register</RouterLink
+      >
     </div>
   </div>
 </template>

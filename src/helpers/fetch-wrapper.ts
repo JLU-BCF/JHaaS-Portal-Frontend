@@ -8,7 +8,7 @@ export const fetchWrapper = {
 };
 
 function request(method: string) {
-  return async (url: string, body: any) => {
+  return async (url: string, body?: object) => {
     const requestOptions: RequestInit = {
       method,
       headers: authHeader(url)
@@ -22,17 +22,17 @@ function request(method: string) {
 }
 
 // helper functions
+const backend_url = import.meta.env.VITE_BACKEND_PATH;
 
 function authHeader(url: string): HeadersInit {
   // return auth header with jwt if user is logged in and request is to the api url
   const { auth } = useAuthStore();
   const isLoggedIn = auth.valid();
-  // TODO
-  // const isApiUrl = url.startsWith('/api');
-  const isApiUrl = true;
-  const headers: HeadersInit = {
-    'Content-Type': 'application/json'
-  };
+  const isApiUrl = url.startsWith(backend_url);
+  const headers: HeadersInit = {};
+  if (isApiUrl) {
+    headers['Content-Type'] = 'application/json';
+  }
   if (isLoggedIn && isApiUrl) {
     headers['Authorization'] = `Bearer ${auth.getToken}`;
   }

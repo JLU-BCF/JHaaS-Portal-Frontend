@@ -1,15 +1,40 @@
 /* eslint-env node */
-require('@rushstack/eslint-patch/modern-module-resolution')
+require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
-  root: true,
+  'root': true,
+  'parser': 'vue-eslint-parser',
+  'plugins': [
+    '@typescript-eslint'
+  ],
   'extends': [
     'plugin:vue/vue3-essential',
     'eslint:recommended',
     '@vue/eslint-config-typescript',
-    '@vue/eslint-config-prettier/skip-formatting'
+    '@vue/eslint-config-prettier/skip-formatting',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended'
   ],
-  parserOptions: {
-    ecmaVersion: 'latest'
+  'parserOptions': {
+    'parser': '@typescript-eslint/parser',
+    'ecmaVersion': 'latest'
+  },
+  'rules': {
+    'eol-last': ['error', 'always'],
+    'quotes': ['error', 'single'],
+    'semi': ['error', 'always'],
+    'indent': ['error', 2],
+    '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/explicit-function-return-type': 0,
+    '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '(next|res|req)' }],
+    '@typescript-eslint/indent': ['error', 2],
+    '@typescript-eslint/member-delimiter-style': ['error', {
+      'singleline': {
+        'delimiter': 'comma'
+      },
+      'multiline': {
+        'delimiter': 'comma'
+      }
+    }]
   }
-}
+};

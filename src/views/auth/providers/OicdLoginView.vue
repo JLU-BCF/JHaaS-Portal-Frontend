@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { Form, Field } from 'vee-validate';
+import { Form } from 'vee-validate';
 import { useAuthStore } from '@/stores/auth';
-import * as Yup from 'yup';
 import { RouterLink } from 'vue-router';
 
-function onSubmit(values: any) {
+function onSubmit() {
   const authStore = useAuthStore();
   return authStore.oicdLogin();
 }
@@ -23,9 +22,11 @@ function onSubmit(values: any) {
       </div>
       <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{ errors.apiError }}</div>
     </Form>
-    <hr>
+    <hr />
     <div class="d-grid gap-2 d-md-flex">
-      <RouterLink :to="{ name: 'login' }" class="w-100 btn btn-sm btn-outline-secondary">Back</RouterLink>
+      <RouterLink :to="{ name: 'login' }" class="w-100 btn btn-sm btn-outline-secondary"
+        >Back</RouterLink
+      >
     </div>
   </div>
 </template>

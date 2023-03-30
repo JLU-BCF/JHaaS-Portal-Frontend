@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function ldapLogin(username: string, password: string) {
-    // do the ldap login
+    await fetchWrapper.post(`${backend}/auth/ldap/login`, { username, password });
   }
 
   async function oicdLogin() {

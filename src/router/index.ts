@@ -20,16 +20,13 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: () => import('../views/error/404.vue')
+      component: () => import('../views/error/NotFoundView.vue')
     }
   ]
 });
 
 router.beforeEach(async (to, from, next) => {
-  const publicPages = [
-    'start',
-    'about'
-  ];
+  const publicPages = ['start', 'about'];
 
   const { auth } = useAuthStore();
   let isAuthPage = false;
@@ -39,14 +36,14 @@ router.beforeEach(async (to, from, next) => {
     isAuthPage = to.fullPath.startsWith(router.resolve({ name: 'auth' }).fullPath);
     isPublicPage = isAuthPage || publicPages.includes(to.name);
   }
-  
+
   if (isAuthPage && auth.valid()) {
-    return next({name: 'start'});
+    return next({ name: 'start' });
   }
 
   if (!isPublicPage && !auth.valid()) {
     auth.returnUrl = to.fullPath;
-    return next({name: 'login'});
+    return next({ name: 'login' });
   }
 
   return next();

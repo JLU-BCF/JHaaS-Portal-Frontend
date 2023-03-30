@@ -1,10 +1,10 @@
 export interface UserInterface {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
+  id: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  createdAt: Date,
+  updatedAt: Date,
 }
 
 export class User {
@@ -53,7 +53,7 @@ export class User {
 
   constructor(userObject?: UserInterface) {
     if (userObject !== undefined) {
-      this.setUser(userObject)
+      this.setUser(userObject);
     }
   }
 
@@ -69,5 +69,4 @@ export class User {
   public valid(): boolean {
     return this.id !== undefined;
   }
-
 }

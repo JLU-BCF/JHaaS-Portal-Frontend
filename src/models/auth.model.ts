@@ -1,4 +1,4 @@
-import { jwt_decode, jwt_payload } from '@/helpers/jwt-decoder';
+import { jwt_payload } from '@/helpers/jwt-decoder';
 import { useUserStore } from '@/stores/user';
 
 export class Auth {
@@ -7,7 +7,7 @@ export class Auth {
   private _tokenExpiry?: Date | undefined;
   private _refreshToken?: string | undefined;
   private _returnUrl?: string | undefined;
-  
+
   public get token(): string | undefined {
     return this._token;
   }
@@ -40,7 +40,7 @@ export class Auth {
   }
 
   setToken(token: string): void {
-    let data = jwt_payload(token);
+    const data = jwt_payload(token);
 
     if (data) {
       this.token = token;
@@ -86,6 +86,6 @@ export class Auth {
     this.tokenExpiry = undefined;
     this.refreshToken = undefined;
     this.returnUrl = undefined;
-    this.userStore.clearUser()
+    this.userStore.clearUser();
   }
 }
