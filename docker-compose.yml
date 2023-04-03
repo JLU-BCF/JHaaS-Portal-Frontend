@@ -1,0 +1,28 @@
+# This is a compose file for development! Do not use in prod!
+version: '3'
+
+services:
+  jhaas-portal-frontend:
+    image: jhaas-portal-frontend
+    container_name: jhaas-portal-frontend
+    hostname: jhaas-portal-frontend
+    restart: unless-stopped
+    build:
+      context: .
+      target: develop
+    networks:
+      - jhaas-portal-priv
+    ports:
+      - 127.0.0.1:3000:3000
+    volumes:
+      - cache:${CACHEDIR:-/jhaas-cache}
+      - ./:${APPDIR:-/jhaas-app}
+
+networks:
+  jhaas-portal-priv:
+    external: true
+    name: jhaas-portal-priv
+
+volumes:
+  cache:
+    name: jhaas-portal-frontend-cache
