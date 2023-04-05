@@ -42,7 +42,7 @@ const user = userStore.user;
           </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">
-          <li v-if="auth.getToken()" class="nav-item dropdown">
+          <li v-if="auth.valid()" class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               href="#"

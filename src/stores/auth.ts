@@ -3,24 +3,32 @@ import { Auth } from '@/models/auth.model';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import router from '@/router';
 import { ref } from 'vue';
-
-// TODO: parameterize
-const backend = import.meta.env.VITE_BACKEND_PATH;
+import { useNotificationStore } from './notification';
 
 export const useAuthStore = defineStore('auth', () => {
-  const auth = ref(new Auth(localStorage.getItem('auth')));
+  const backend = import.meta.env.VITE_BACKEND_PATH;
+  const { notify } = useNotificationStore();
+
+  const auth = ref(new Auth());
 
   async function localLogin(email: string, password: string) {
-    const { jwt } = await fetchWrapper.post(`${backend}/auth/local/login`, { email, password });
-
-    // update pinia state
-    auth.value.setToken(jwt);
-
-    // store auth details in local storage to keep user logged in between page refreshes
-    localStorage.setItem('auth', jwt);
-
-    // redirect to previous url or default to home page
-    router.push(auth.value.returnUrl || '/');
+    fetchWrapper
+      .post(`${backend}/auth/local/login`, { email, password })
+      .then((data) => {
+        console.log(data);
+        auth.value.setToken(data.jwt);
+        notify({
+          display: 'info',
+          message: 'You are now logged in.'
+        });
+        router.push(auth.value.returnUrl || { name: 'start' });
+      })
+      .catch((err) =>
+        notify({
+          display: 'danger',
+          message: err
+        })
+      );
   }
 
   async function ldapLogin(username: string, password: string) {
@@ -33,8 +41,11 @@ export const useAuthStore = defineStore('auth', () => {
 
   function logout() {
     auth.value.reset();
-    localStorage.removeItem('auth');
-    router.push('/');
+    notify({
+      display: 'info',
+      message: 'You are now logged out.'
+    });
+    router.push({ name: 'start' });
   }
 
   return { auth, localLogin, ldapLogin, oicdLogin, logout };

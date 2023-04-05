@@ -4,9 +4,8 @@ import { useUserStore } from '@/stores/user';
 export class Auth {
   private userStore = useUserStore();
   private _token?: string | undefined;
-  private _tokenExpiry?: Date | undefined;
-  private _refreshToken?: string | undefined;
   private _returnUrl?: string | undefined;
+  private _lastTokenRefresh?: Date | undefined;
 
   public get token(): string | undefined {
     return this._token;
@@ -14,26 +13,22 @@ export class Auth {
   public set token(value: string | undefined) {
     this._token = value;
   }
-  public get tokenExpiry(): Date | undefined {
-    return this._tokenExpiry;
-  }
-  public set tokenExpiry(value: Date | undefined) {
-    this._tokenExpiry = value;
-  }
-  public get refreshToken(): string | undefined {
-    return this._refreshToken;
-  }
-  public set refreshToken(value: string | undefined) {
-    this._refreshToken = value;
-  }
   public get returnUrl(): string | undefined {
     return this._returnUrl;
   }
   public set returnUrl(value: string | undefined) {
     this._returnUrl = value;
   }
+  public get lastTokenRefresh(): Date | undefined {
+    return this._lastTokenRefresh;
+  }
+  public set lastTokenRefresh(value: Date | undefined) {
+    this._lastTokenRefresh = value;
+  }
 
-  constructor(oldAuthToken?: string | null) {
+  constructor(initToken?: string | null) {
+    const oldAuthToken = initToken || localStorage.getItem('auth');
+
     if (oldAuthToken) {
       this.setToken(oldAuthToken);
     }
@@ -44,48 +39,22 @@ export class Auth {
 
     if (data) {
       this.token = token;
-      const { exp, user } = data;
-      if (typeof exp == 'number') {
-        this.tokenExpiry = new Date(exp * 1000);
-      }
-      if (user) {
-        this.userStore.setUser(user);
+      localStorage.setItem('auth', token);
+      if (data.user) {
+        this.userStore.setUser(data.user);
       }
     }
-  }
-
-  getToken() {
-    return this.token;
-  }
-
-  setRefreshToken(refreshToken: string) {
-    this.refreshToken = refreshToken;
-  }
-
-  getRefreshToken() {
-    return this.refreshToken;
-  }
-
-  getExpiry() {
-    return this.tokenExpiry;
-  }
-
-  expired(): boolean {
-    if (this.tokenExpiry) {
-      return new Date() > this.tokenExpiry;
-    }
-    return false;
   }
 
   valid(): boolean {
-    return typeof this.token === 'string' && !this.expired();
+    return typeof this.token === 'string';
   }
 
   reset(): void {
     this.token = undefined;
-    this.tokenExpiry = undefined;
-    this.refreshToken = undefined;
     this.returnUrl = undefined;
+    this.lastTokenRefresh = undefined;
     this.userStore.clearUser();
+    localStorage.removeItem('auth');
   }
 }

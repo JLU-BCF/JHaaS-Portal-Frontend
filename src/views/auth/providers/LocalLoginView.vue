@@ -5,8 +5,8 @@ import * as Yup from 'yup';
 import { RouterLink } from 'vue-router';
 
 const schema = Yup.object().shape({
-  email: Yup.string().required('E-Mail is required'),
-  password: Yup.string().required('Password is required')
+  email: Yup.string().email().required('E-Mail is required'),
+  password: Yup.string().min(8).required('Password is required')
 });
 
 function onSubmit(values: { email?: string, password?: string }) {

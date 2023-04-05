@@ -3,6 +3,7 @@ export interface UserInterface {
   firstName: string,
   lastName: string,
   email: string,
+  isAdmin: boolean,
   createdAt: Date,
   updatedAt: Date,
 }
@@ -12,6 +13,8 @@ export class User {
   private _firstName!: string;
   private _lastName!: string;
   private _email!: string;
+  private _isAdmin!: boolean;
+
   private _createdAt!: Date;
   private _updatedAt?: Date | undefined;
   public get id(): string {
@@ -38,6 +41,12 @@ export class User {
   public set email(value: string) {
     this._email = value;
   }
+  public get isAdmin(): boolean {
+    return this._isAdmin;
+  }
+  public set isAdmin(value: boolean) {
+    this._isAdmin = value;
+  }
   public get createdAt(): Date {
     return this._createdAt;
   }
@@ -62,6 +71,7 @@ export class User {
     this.firstName = userObject.firstName;
     this.lastName = userObject.lastName;
     this.email = userObject.email;
+    this.isAdmin = userObject.isAdmin;
     this.createdAt = userObject.createdAt;
     this.updatedAt = userObject.updatedAt;
   }
