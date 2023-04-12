@@ -44,6 +44,7 @@ function handleResponse(
   method: string,
   url: string,
   body?: object
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> {
   return response
     .text()

@@ -24,17 +24,7 @@ module.exports = {
     'quotes': ['error', 'single'],
     'semi': ['error', 'always'],
     'indent': ['error', 2],
-    '@typescript-eslint/no-var-requires': 0,
-    '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '(next|res|req)' }],
-    '@typescript-eslint/indent': ['error', 2],
-    '@typescript-eslint/member-delimiter-style': ['error', {
-      'singleline': {
-        'delimiter': 'comma'
-      },
-      'multiline': {
-        'delimiter': 'comma'
-      }
-    }]
+    '@typescript-eslint/indent': ['error', 2]
   }
 };

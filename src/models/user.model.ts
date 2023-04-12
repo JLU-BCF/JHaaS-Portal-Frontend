@@ -1,11 +1,11 @@
 export interface UserInterface {
-  id: string,
-  firstName: string,
-  lastName: string,
-  email: string,
-  isAdmin: boolean,
-  createdAt: Date,
-  updatedAt: Date,
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  isAdmin: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class User {

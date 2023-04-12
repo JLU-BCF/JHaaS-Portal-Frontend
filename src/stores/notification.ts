@@ -2,11 +2,11 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
 interface Notification {
-  display: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark',
-  message: string,
-  onlyOnce?: boolean,
-  seen?: boolean,
-  id?: number,
+  display: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+  message: string;
+  onlyOnce?: boolean;
+  seen?: boolean;
+  id?: number;
 }
 
 export const useNotificationStore = defineStore('notification', () => {

@@ -9,7 +9,7 @@ const schema = Yup.object().shape({
   password: Yup.string().required('Password is required')
 });
 
-function onSubmit(values: { username?: string, password?: string }) {
+function onSubmit(values: { username?: string; password?: string }) {
   const authStore = useAuthStore();
   const { username, password } = values;
 
