@@ -14,10 +14,8 @@ export const useNotificationStore = defineStore('notification', () => {
   let counter = 0;
 
   function notify(notification: Notification) {
-    notifications.value.add({
-      ...notification,
-      id: ++counter
-    });
+    notification.id = ++counter;
+    notifications.value.add(notification);
     setTimeout(() => removeNotification(notification), 5000);
   }
 

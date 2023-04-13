@@ -1,5 +1,15 @@
 @import './base.css';
 
+#app {
+  min-height: 100vh;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
 .form-signin {
   max-width: 330px;
 }
@@ -10,4 +20,12 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.dropdown.active > .dropdown-toggle {
+  color: var(--bs-navbar-active-color);
+}
+
+.table-responsive {
+  white-space: nowrap;
 }

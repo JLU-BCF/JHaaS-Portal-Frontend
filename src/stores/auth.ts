@@ -15,7 +15,6 @@ export const useAuthStore = defineStore('auth', () => {
     fetchWrapper
       .post(`${backend}/auth/local/login`, { email, password })
       .then((data) => {
-        console.log(data);
         auth.value.setToken(data.jwt);
         notify({
           display: 'info',

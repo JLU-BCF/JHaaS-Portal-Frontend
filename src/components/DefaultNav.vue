@@ -26,12 +26,13 @@ const user = userStore.user;
 
       <div class="collapse navbar-collapse" id="navbarsExample07">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li v-if="auth.valid()" class="nav-item">
+            <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'jupyter-overview' }"
+              >Hubs</RouterLink
+            >
+          </li>
           <li class="nav-item">
-            <RouterLink
-              :active-class="'active'"
-              class="nav-link"
-              aria-current="page"
-              :to="{ name: 'start' }"
+            <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'start' }"
               >Start</RouterLink
             >
           </li>
@@ -42,7 +43,11 @@ const user = userStore.user;
           </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">
-          <li v-if="auth.valid()" class="nav-item dropdown">
+          <li
+            v-if="auth.valid()"
+            class="nav-item dropdown"
+            :class="$route.matched.some(({ name }) => name == 'user') ? 'active' : ''"
+          >
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -52,7 +57,9 @@ const user = userStore.user;
             >
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
               <li>
-                <RouterLink :to="{ name: 'profile' }" class="dropdown-item">Profile</RouterLink>
+                <RouterLink :to="{ name: 'profile' }" class="dropdown-item" :active-class="'active'"
+                  >Profile</RouterLink
+                >
               </li>
               <li><a class="dropdown-item" href="#">Settings</a></li>
               <li><hr class="dropdown-divider" /></li>
