@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
           display: 'info',
           message: 'You are now logged in.'
         });
-        router.push(auth.value.returnUrl || { name: 'start' });
+        router.push(auth.value.returnUrl || { name: 'jupyter-overview' });
       })
       .catch((err) =>
         notify({
