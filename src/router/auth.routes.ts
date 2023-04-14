@@ -26,6 +26,16 @@ export default {
           component: () => import('../views/auth/providers/OicdLoginView.vue')
         }
       ]
+    },
+    {
+      path: 'register',
+      children: [
+        {
+          path: 'local',
+          name: 'localRegister',
+          component: () => import('../views/auth/providers/LocalRegisterView.vue')
+        }
+      ]
     }
   ]
 };

@@ -30,6 +30,25 @@ export const useAuthStore = defineStore('auth', () => {
       );
   }
 
+  async function localRegister(values: { [key: string]: string }) {
+    fetchWrapper
+      .post(`${backend}/auth/local/signup`, values)
+      .then((data) => {
+        auth.value.setToken(data.jwt);
+        notify({
+          display: 'info',
+          message: 'You are now registered and logged in.'
+        });
+        router.push(auth.value.returnUrl || { name: 'jupyter-overview' });
+      })
+      .catch((err) =>
+        notify({
+          display: 'danger',
+          message: err
+        })
+      );
+  }
+
   async function ldapLogin(username: string, password: string) {
     await fetchWrapper.post(`${backend}/auth/ldap/login`, { username, password });
   }
@@ -47,5 +66,5 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'start' });
   }
 
-  return { auth, localLogin, ldapLogin, oicdLogin, logout };
+  return { auth, localLogin, localRegister, ldapLogin, oicdLogin, logout };
 });

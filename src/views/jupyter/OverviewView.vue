@@ -12,7 +12,7 @@ import { RouterLink } from 'vue-router';
     impedit corrupti.
   </p>
 
-  <RouterLink class="btn btn-outline-dark mb-5" :to="{ name: 'jupyter-overview' }"
+  <RouterLink class="btn btn-outline-dark mb-5" :to="{ name: 'jupyter-create' }"
     >+ Create new Request</RouterLink
   >
 

@@ -9,7 +9,7 @@ const user = userStore.user;
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Navigation">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" aria-label="Navigation">
     <div class="container-fluid">
       <RouterLink class="navbar-brand" :to="{ name: 'start' }">JHaaS Portal</RouterLink>
       <button

@@ -4,14 +4,25 @@
   min-height: 100vh;
 }
 
+main {
+  padding-bottom: 168px;
+  padding-top: 60px;
+}
+
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+  background-color: var(--color-background-soft);
+  box-shadow: inset 0px 3px 3px -3px;
 }
 
 .form-signin {
   max-width: 330px;
+}
+
+.form-floating > textarea.tall {
+  height: 6em;
 }
 
 .alert-holder {
@@ -20,6 +31,7 @@ footer {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1;
 }
 
 .dropdown.active > .dropdown-toggle {
@@ -28,4 +40,26 @@ footer {
 
 .table-responsive {
   white-space: nowrap;
+}
+
+/* Extra small devices (portrait phones, less than 576px)
+No media query for `xs` since this is the default in Bootstrap */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  main {
+    padding-bottom: 128px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
 }
