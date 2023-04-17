@@ -8,7 +8,7 @@ export default {
       component: () => import('../views/jupyter/OverviewView.vue')
     },
     {
-      path: '/create',
+      path: 'create',
       name: 'jupyter-create',
       component: () => import('../views/jupyter/CreateView.vue')
     }

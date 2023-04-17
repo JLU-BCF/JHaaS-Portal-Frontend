@@ -3,7 +3,7 @@ export default {
   name: 'user',
   children: [
     {
-      path: '',
+      path: 'profile',
       name: 'profile',
       component: () => import('../views/user/ProfileView.vue')
     }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form, Field } from 'vee-validate';
-import { useAuthStore } from '@/stores/auth';
+import { useJupyterStore } from '@/stores/jupyter';
 import * as Yup from 'yup';
 import { RouterLink } from 'vue-router';
 import {
@@ -9,13 +9,13 @@ import {
   getTodayAsIso
 } from '../../helpers/date';
 
-const authStore = useAuthStore();
+const jupyterStore = useJupyterStore();
 
 const schema = Yup.object().shape({
-  firstName: Yup.string().required('First Name is required'),
-  lastName: Yup.string().required('Last Name is required'),
-  email: Yup.string().email().required('E-Mail is required'),
-  password: Yup.string().min(8).required('Password is required')
+  // firstName: Yup.string().required('First Name is required'),
+  // lastName: Yup.string().required('Last Name is required'),
+  // email: Yup.string().email().required('E-Mail is required'),
+  // password: Yup.string().min(8).required('Password is required')
 });
 </script>
 
@@ -32,7 +32,7 @@ const schema = Yup.object().shape({
   <div class="col-12 col-md-10 col-lg-8 col-xxl-6 mt-3">
     <Form
       class="text-start my-5"
-      @submit="authStore.localRegister"
+      @submit="jupyterStore.createJupyter"
       :validation-schema="schema"
       v-slot="{ errors, isSubmitting }"
     >
@@ -63,15 +63,15 @@ const schema = Yup.object().shape({
         <label for="slug-input">Slug</label>
       </div>
       <div class="form-floating mb-2">
-        <textarea
+        <Field
+          as="textarea"
           name="description"
-          type="textarea"
           class="form-control tall"
           id="description-input"
           placeholder="Description"
           :class="{ 'is-invalid': errors.description }"
           required
-        ></textarea>
+        />
         <label for="description-input">Description</label>
       </div>
 
@@ -125,7 +125,7 @@ const schema = Yup.object().shape({
         <div class="col-6 col-xl-3">
           <div class="form-floating mb-2">
             <Field
-              name="userCount"
+              name="userConf.userCount"
               type="number"
               step="5"
               min="5"
@@ -143,7 +143,7 @@ const schema = Yup.object().shape({
         <div class="col-6 col-xl-3">
           <div class="form-floating mb-2">
             <Field
-              name="ram"
+              name="userConf.ramPerUser"
               type="number"
               step="0.25"
               min="0.25"
@@ -161,7 +161,7 @@ const schema = Yup.object().shape({
         <div class="col-6 col-xl-3">
           <div class="form-floating mb-2">
             <Field
-              name="cpu"
+              name="userConf.cpusPerUser"
               type="number"
               step="0.25"
               min="0.25"
@@ -179,7 +179,7 @@ const schema = Yup.object().shape({
         <div class="col-6 col-xl-3">
           <div class="form-floating mb-2">
             <Field
-              name="storage"
+              name="userConf.storagePerUser"
               type="number"
               step="0.5"
               min="0.5"
@@ -199,7 +199,7 @@ const schema = Yup.object().shape({
       <p class="lead mb-1 mt-4">Confirmation</p>
 
       <div class="form-check">
-        <input
+        <Field
           class="form-check-input"
           name="tos-confirmation"
           type="checkbox"

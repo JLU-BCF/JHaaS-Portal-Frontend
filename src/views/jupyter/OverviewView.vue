@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
+import { useJupyterStore } from '@/stores/jupyter';
+
+const jupyter = useJupyterStore();
+jupyter.fetchJupyters();
+
 </script>
 
 <template>
@@ -16,40 +21,48 @@ import { RouterLink } from 'vue-router';
     >+ Create new Request</RouterLink
   >
 
-  <div class="table-responsive">
-    <table class="table table-striped table-hover">
+  <div v-if="jupyter.fetchInProgress">
+    <p>
+      <div class="spinner-grow spinner-grow-sm align-middle" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <span class="mx-3">Loading...</span>
+    </p>
+  </div>
+
+  <div v-if="jupyter.jupyters.size" class="">
+    <table class="table table-striped table-responsive table-hover align-middle">
       <thead>
         <tr>
-          <th scope="col"><strong>Slug</strong></th>
           <th scope="col"><strong>Name</strong></th>
+          <th scope="col"><strong>Slug</strong></th>
           <th scope="col" class="text-center"><strong>Status</strong></th>
-          <th scope="col" class="text-end"><strong>Actions</strong></th>
-          <th scope="col" class="text-end"><strong>Created</strong></th>
+          <th scope="col" class="text-end"><strong>Request Period</strong></th>
+          <th scope="col" class="text-end"><strong></strong></th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">my-course</th>
-          <td>My first course</td>
-          <td class="text-center">pending</td>
-          <td class="text-end">...</td>
-          <td class="text-end">2023-04-13</td>
-        </tr>
-        <tr>
-          <th scope="row">my-course-2</th>
-          <td>My second course</td>
-          <td class="text-center">pending</td>
-          <td class="text-end">...</td>
-          <td class="text-end">2023-04-13</td>
-        </tr>
-        <tr>
-          <th scope="row">my-course-3</th>
-          <td>My third course</td>
-          <td class="text-center">pending</td>
-          <td class="text-end">...</td>
-          <td class="text-end">2023-04-13</td>
+        <tr v-for="jhRequest in jupyter.jupyters" :key="jhRequest.id">
+          <th scope="row">{{ jhRequest.name }}</th>
+          <td>{{ jhRequest.slug }}</td>
+          <td class="text-center">{{ jhRequest.status }}</td>
+          <td class="text-end">{{ jhRequest.startDate?.toLocaleDateString() }} - {{ jhRequest.endDate?.toLocaleDateString() }}</td>
+          <td class="text-end dropdown">
+            <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              actions
+            </button>
+
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Request Change</a></li>
+              <li><a class="dropdown-item" href="#">Cancel Request</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </td>
         </tr>
       </tbody>
     </table>
+  </div>
+  <div v-if="!jupyter.jupyters.size && !jupyter.fetchInProgress">
+    <p>You have no Hubs yet.</p>
   </div>
 </template>

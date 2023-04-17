@@ -9,7 +9,7 @@ const user = userStore.user;
 </script>
 
 <template>
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" aria-label="Navigation">
+  <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark" aria-label="Navigation">
     <div class="container-fluid">
       <RouterLink class="navbar-brand" :to="{ name: 'start' }">JHaaS Portal</RouterLink>
       <button
@@ -25,7 +25,7 @@ const user = userStore.user;
       </button>
 
       <div class="collapse navbar-collapse" id="navbarsExample07">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li v-if="auth.valid()" class="nav-item">
             <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'jupyter-overview' }"
               >Hubs</RouterLink
@@ -42,7 +42,7 @@ const user = userStore.user;
             >
           </li>
         </ul>
-        <ul class="navbar-nav mb-2 mb-lg-0">
+        <ul class="navbar-nav mb-2 mb-md-0">
           <li
             v-if="auth.valid()"
             class="nav-item dropdown"
