@@ -28,7 +28,24 @@ export const useJupyterStore = defineStore('jupyter', () => {
         notify({
           display: 'danger',
           message: err
-        })
+        });
+      });
+  }
+
+  async function fetchJupyter(slug: string | string[]) {
+    fetchInProgress.value = true;
+    return fetchWrapper
+      .get(`${backend}/jupyter/${slug}`)
+      .then((data) => {
+        fetchInProgress.value = false;
+        return new Jupyter(data);
+      })
+      .catch((err) => {
+        fetchInProgress.value = false;
+        notify({
+          display: 'danger',
+          message: err
+        });
       });
   }
 
@@ -37,10 +54,9 @@ export const useJupyterStore = defineStore('jupyter', () => {
     fetchWrapper
       .post(`${backend}/jupyter`, values)
       .then((data) => {
-        // TODO rework... wip...
         notify({
           display: 'info',
-          message: JSON.stringify(data)
+          message: `Created "${data.name}"`
         });
         router.push({ name: 'jupyter-overview' });
       })
@@ -52,5 +68,5 @@ export const useJupyterStore = defineStore('jupyter', () => {
       );
   }
 
-  return { fetchJupyters, createJupyter, fetchInProgress, jupyters };
+  return { fetchJupyters, fetchJupyter, createJupyter, fetchInProgress, jupyters };
 });

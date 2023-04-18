@@ -11,6 +11,11 @@ export default {
       path: 'create',
       name: 'jupyter-create',
       component: () => import('../views/jupyter/CreateView.vue')
+    },
+    {
+      path: ':slug',
+      name: 'jupyter-details',
+      component: () => import('../views/jupyter/DetailsView.vue')
     }
   ]
 };

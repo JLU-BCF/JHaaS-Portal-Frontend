@@ -4,7 +4,6 @@ import { useJupyterStore } from '@/stores/jupyter';
 
 const jupyter = useJupyterStore();
 jupyter.fetchJupyters();
-
 </script>
 
 <template>
@@ -22,12 +21,8 @@ jupyter.fetchJupyters();
   >
 
   <div v-if="jupyter.fetchInProgress">
-    <p>
-      <div class="spinner-grow spinner-grow-sm align-middle" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <span class="mx-3">Loading...</span>
-    </p>
+    <div class="spinner-grow spinner-grow-sm align-middle" role="status"></div>
+    <span class="mx-3">Loading...</span>
   </div>
 
   <div v-if="jupyter.jupyters.size" class="">
@@ -46,17 +41,19 @@ jupyter.fetchJupyters();
           <th scope="row">{{ jhRequest.name }}</th>
           <td>{{ jhRequest.slug }}</td>
           <td class="text-center">{{ jhRequest.status }}</td>
-          <td class="text-end">{{ jhRequest.startDate?.toLocaleDateString() }} - {{ jhRequest.endDate?.toLocaleDateString() }}</td>
+          <td class="text-end">
+            {{ jhRequest.startDate?.toLocaleDateString() }} -
+            {{ jhRequest.endDate?.toLocaleDateString() }}
+          </td>
           <td class="text-end dropdown">
-            <button class="btn btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              actions
-            </button>
-
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Request Change</a></li>
-              <li><a class="dropdown-item" href="#">Cancel Request</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+            <RouterLink
+              :to="{ name: 'jupyter-details', params: { slug: jhRequest.slug } }"
+              class="btn btn-sm btn-dark"
+              type="button"
+            >
+              <span class="visually-hidden">Details</span>
+              <span class="mx-1">&rsaquo;</span>
+            </RouterLink>
           </td>
         </tr>
       </tbody>
