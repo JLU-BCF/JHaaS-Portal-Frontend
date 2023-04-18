@@ -2,14 +2,18 @@
 import { Form, Field } from 'vee-validate';
 import { useJupyterStore } from '@/stores/jupyter';
 import * as Yup from 'yup';
-import { RouterLink } from 'vue-router';
-import {
-  getNextSemesterStartDateAsIso,
-  getNextSemesterEndDateAsIso,
-  getTodayAsIso
-} from '../../helpers/date';
+import { RouterLink, useRoute } from 'vue-router';
+import { getTodayAsIso, dateToDateString } from '../../helpers/date';
+import { ref, type Ref } from 'vue';
+import type { Jupyter } from '@/models/jupyter.model';
 
+const route = useRoute();
 const jupyterStore = useJupyterStore();
+
+const jupyter: Ref<Jupyter | null> = ref(null);
+jupyterStore
+  .fetchJupyter(route.params.slug)
+  .then((jupyterInstance) => (jupyter.value = jupyterInstance ?? null));
 
 const schema = Yup.object().shape({
   // firstName: Yup.string().required('First Name is required'),
@@ -20,7 +24,7 @@ const schema = Yup.object().shape({
 </script>
 
 <template>
-  <h1>New Jupyter Hub Request</h1>
+  <h1>Change Request</h1>
   <hr />
 
   <p>
@@ -29,7 +33,7 @@ const schema = Yup.object().shape({
     impedit corrupti.
   </p>
 
-  <div class="col-12 col-md-10 col-lg-8 col-xxl-6 mt-3">
+  <div v-if="jupyter" class="col-12 col-md-10 col-lg-8 col-xxl-6 mt-3">
     <Form
       class="text-start my-5"
       @submit="jupyterStore.createJupyter"
@@ -44,6 +48,7 @@ const schema = Yup.object().shape({
           type="text"
           class="form-control"
           id="name-input"
+          :value="jupyter.name"
           placeholder="Project Name"
           :class="{ 'is-invalid': errors.name }"
           required
@@ -56,9 +61,10 @@ const schema = Yup.object().shape({
           type="text"
           class="form-control"
           id="slug-input"
+          :value="jupyter.slug"
           placeholder="Slug"
           :class="{ 'is-invalid': errors.slug }"
-          required
+          disabled
         />
         <label for="slug-input">Slug</label>
       </div>
@@ -68,6 +74,7 @@ const schema = Yup.object().shape({
           name="description"
           class="form-control tall"
           id="description-input"
+          :value="jupyter.description"
           placeholder="Description"
           :class="{ 'is-invalid': errors.description }"
           required
@@ -81,7 +88,7 @@ const schema = Yup.object().shape({
         <Field
           name="startDate"
           type="date"
-          :value="getNextSemesterStartDateAsIso()"
+          :value="dateToDateString(jupyter.startDate!)"
           :min="getTodayAsIso()"
           class="form-control"
           id="startdate-input"
@@ -95,7 +102,7 @@ const schema = Yup.object().shape({
         <Field
           name="endDate"
           type="date"
-          :value="getNextSemesterEndDateAsIso()"
+          :value="dateToDateString(jupyter.endDate!)"
           :min="getTodayAsIso()"
           class="form-control"
           id="enddate-input"
@@ -114,6 +121,7 @@ const schema = Yup.object().shape({
           type="text"
           class="form-control"
           id="containerimage-input"
+          :value="jupyter.containerImage"
           placeholder="Juptyer Container Image"
           :class="{ 'is-invalid': errors.containerImage }"
           required
@@ -132,7 +140,7 @@ const schema = Yup.object().shape({
               step="5"
               min="5"
               max="500"
-              value="25"
+              :value="jupyter.userConf?.userCount"
               class="form-control"
               id="usercount-input"
               placeholder="Num. of users"
@@ -150,7 +158,7 @@ const schema = Yup.object().shape({
               step="0.25"
               min="0.25"
               max="4"
-              value="0.25"
+              :value="jupyter.userConf?.ramPerUser"
               class="form-control"
               id="ram-input"
               placeholder="RAM per User"
@@ -168,7 +176,7 @@ const schema = Yup.object().shape({
               step="0.25"
               min="0.25"
               max="2"
-              value="0.25"
+              :value="jupyter.userConf?.cpusPerUser"
               class="form-control"
               id="cpu-input"
               placeholder="CPU per User"
@@ -186,7 +194,7 @@ const schema = Yup.object().shape({
               step="0.5"
               min="0.5"
               max="10"
-              value="0.5"
+              :value="jupyter.userConf?.storagePerUser"
               class="form-control"
               id="storage-input"
               placeholder="Storage per User"
@@ -218,7 +226,7 @@ const schema = Yup.object().shape({
       <div class="form-floating mt-5">
         <button class="btn btn-dark w-100" :disabled="isSubmitting" type="submit">
           <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-          Submit request
+          Submit Change request
         </button>
       </div>
       <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{ errors.apiError }}</div>

@@ -6,16 +6,16 @@ export type JupyterHubRequestUserConf = {
 };
 
 export class Jupyter {
-  private _id?: string | undefined;
-  private _name?: string | undefined;
-  private _slug?: string | undefined;
-  private _description?: string | undefined;
-  private _userConf?: JupyterHubRequestUserConf | undefined;
-  private _containerImage?: string | undefined;
-  private _status?: number | undefined;
-  private _startDate?: Date | undefined;
-  private _endDate?: Date | undefined;
-  private _createdAt?: Date | undefined;
+  private _id!: string | undefined;
+  private _name!: string | undefined;
+  private _slug!: string | undefined;
+  private _description!: string | undefined;
+  private _userConf!: JupyterHubRequestUserConf | undefined;
+  private _containerImage!: string | undefined;
+  private _status!: number | undefined;
+  private _startDate!: Date | undefined;
+  private _endDate!: Date | undefined;
+  private _createdAt!: Date | undefined;
 
   public get id(): string | undefined {
     return this._id;

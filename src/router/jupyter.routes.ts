@@ -13,9 +13,14 @@ export default {
       component: () => import('../views/jupyter/CreateView.vue')
     },
     {
-      path: ':slug',
+      path: 'details/:slug',
       name: 'jupyter-details',
       component: () => import('../views/jupyter/DetailsView.vue')
+    },
+    {
+      path: 'update/:slug',
+      name: 'jupyter-update',
+      component: () => import('../views/jupyter/CreateChangeView.vue')
     }
   ]
 };

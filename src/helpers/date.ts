@@ -20,7 +20,7 @@ export function getNextSemesterStartDateAsIso(): string {
     start.setUTCFullYear(today.getUTCFullYear() + 1);
   }
 
-  return start.toISOString().slice(0, 10);
+  return dateToDateString(start);
 }
 
 export function getNextSemesterEndDateAsIso(): string {
@@ -40,9 +40,13 @@ export function getNextSemesterEndDateAsIso(): string {
     end.setUTCFullYear(today.getUTCFullYear() + 1);
   }
 
-  return end.toISOString().slice(0, 10);
+  return dateToDateString(end);
 }
 
 export function getTodayAsIso(): string {
-  return today.toISOString().slice(0, 10);
+  return dateToDateString(today);
+}
+
+export function dateToDateString(date: Date): string {
+  return date.toISOString().slice(0, 10);
 }
