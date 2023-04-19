@@ -67,15 +67,24 @@ jupyterStore
         <td>[GiB]</td>
       </tr>
     </table>
-
-    <RouterLink class="btn btn-outline-danger mb-5" :to="{ name: 'jupyter-update' }">
-      Create change request
-    </RouterLink>
   </div>
 
-  <RouterLink class="btn btn-outline-dark mb-5" :to="{ name: 'jupyter-overview' }">
-    Back
-  </RouterLink>
+  <hr />
+
+  <div v-if="jupyter" class="row">
+    <div class="col-12 col-sm-9 col-md-6 col-lg-4 col-xl-3 mb-2">
+      <RouterLink class="btn btn-dark w-100" :to="{ name: 'jupyter-update' }">
+        Create change request
+      </RouterLink>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-9 col-md-6 col-lg-4 col-xl-3">
+      <RouterLink class="btn btn-outline-dark mb-5 w-100" :to="{ name: 'jupyter-overview' }">
+        Back
+      </RouterLink>
+    </div>
+  </div>
 
   <div v-if="!jupyter && !jupyterStore.fetchInProgress">
     <p>You have no Hubs yet.</p>

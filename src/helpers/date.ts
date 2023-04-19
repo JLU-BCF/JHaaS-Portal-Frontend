@@ -47,6 +47,12 @@ export function getTodayAsIso(): string {
   return dateToDateString(today);
 }
 
+export function getYearsLaterAsIso(years: number): string {
+  const yearsLater = new Date();
+  yearsLater.setUTCFullYear(today.getUTCFullYear() + years);
+  return dateToDateString(yearsLater);
+}
+
 export function dateToDateString(date: Date): string {
   return date.toISOString().slice(0, 10);
 }

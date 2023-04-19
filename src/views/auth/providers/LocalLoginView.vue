@@ -1,24 +1,10 @@
 <script setup lang="ts">
 import { Form, Field } from 'vee-validate';
 import { useAuthStore } from '@/stores/auth';
-import * as Yup from 'yup';
 import { RouterLink } from 'vue-router';
+import { localLoginSchema } from '@/helpers/validators';
 
-const schema = Yup.object().shape({
-  email: Yup.string().email().required('E-Mail is required'),
-  password: Yup.string().min(8).required('Password is required')
-});
-
-function onSubmit(values: { email?: string; password?: string }) {
-  const authStore = useAuthStore();
-  const { email, password } = values;
-
-  if (email && password) {
-    return authStore.localLogin(email, password);
-  }
-
-  // TODO error
-}
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -27,8 +13,8 @@ function onSubmit(values: { email?: string; password?: string }) {
     <p>with local credentials</p>
     <Form
       class="text-start my-5"
-      @submit="onSubmit"
-      :validation-schema="schema"
+      @submit="authStore.localLogin"
+      :validation-schema="localLoginSchema"
       v-slot="{ errors, isSubmitting }"
     >
       <div class="form-floating mb-2">
@@ -42,6 +28,7 @@ function onSubmit(values: { email?: string; password?: string }) {
           required
         />
         <label for="email-input">E-Mail Address</label>
+        <div class="invalid-feedback">{{ errors.email }}</div>
       </div>
       <div class="form-floating mb-2">
         <Field
@@ -54,6 +41,7 @@ function onSubmit(values: { email?: string; password?: string }) {
           required
         />
         <label>Password</label>
+        <div class="invalid-feedback">{{ errors.password }}</div>
       </div>
       <div class="form-floating">
         <button class="btn btn-dark w-100" :disabled="isSubmitting" type="submit">

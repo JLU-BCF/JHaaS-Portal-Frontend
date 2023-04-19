@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import { Form, Field } from 'vee-validate';
 import { useAuthStore } from '@/stores/auth';
-import * as Yup from 'yup';
 import { RouterLink } from 'vue-router';
+import { localRegisterSchema } from '@/helpers/validators';
 
 const authStore = useAuthStore();
-
-const schema = Yup.object().shape({
-  firstName: Yup.string().required('First Name is required'),
-  lastName: Yup.string().required('Last Name is required'),
-  email: Yup.string().email().required('E-Mail is required'),
-  password: Yup.string().min(8).required('Password is required')
-});
 </script>
 
 <template>
@@ -21,7 +14,7 @@ const schema = Yup.object().shape({
     <Form
       class="text-start my-5"
       @submit="authStore.localRegister"
-      :validation-schema="schema"
+      :validation-schema="localRegisterSchema"
       v-slot="{ errors, isSubmitting }"
     >
       <div class="form-floating mb-2">
@@ -35,6 +28,7 @@ const schema = Yup.object().shape({
           required
         />
         <label for="firstname-input">First Name</label>
+        <div class="invalid-feedback">{{ errors.firstName }}</div>
       </div>
       <div class="form-floating mb-2">
         <Field
@@ -47,6 +41,7 @@ const schema = Yup.object().shape({
           required
         />
         <label for="lastname-input">Last Name</label>
+        <div class="invalid-feedback">{{ errors.lastName }}</div>
       </div>
       <div class="form-floating mb-2">
         <Field
@@ -59,6 +54,7 @@ const schema = Yup.object().shape({
           required
         />
         <label for="email-input">E-Mail Address</label>
+        <div class="invalid-feedback">{{ errors.email }}</div>
       </div>
       <div class="form-floating mb-2">
         <Field
@@ -71,6 +67,7 @@ const schema = Yup.object().shape({
           required
         />
         <label>Password</label>
+        <div class="invalid-feedback">{{ errors.password }}</div>
       </div>
       <div class="form-floating">
         <button class="btn btn-dark w-100" :disabled="isSubmitting" type="submit">
