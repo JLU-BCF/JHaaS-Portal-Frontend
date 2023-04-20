@@ -4,6 +4,7 @@ import { useAuthStore } from '@/stores/auth';
 import authRoutes from './auth.routes';
 import userRoutes from './user.routes';
 import jupyterRoutes from './jupyter.routes';
+import adminRoutes from './admin.routes';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,7 @@ const router = createRouter({
     { ...authRoutes },
     { ...userRoutes },
     { ...jupyterRoutes },
+    { ...adminRoutes },
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',

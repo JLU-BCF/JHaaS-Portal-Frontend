@@ -62,7 +62,7 @@ function handleResponse(
             throw 'Your session could not be restored.';
           });
       }
-      throw JSON.parse(err) || response.statusText;
+      throw err ? JSON.parse(err) : response.statusText;
     });
 }
 

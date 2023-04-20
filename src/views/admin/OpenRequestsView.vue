@@ -3,11 +3,11 @@ import { RouterLink } from 'vue-router';
 import { useJupyterStore } from '@/stores/jupyter';
 
 const jupyter = useJupyterStore();
-jupyter.fetchJupyters();
+jupyter.fetchOpenJupyters();
 </script>
 
 <template>
-  <h1>My Jupyter Hubs</h1>
+  <h1>Review</h1>
   <hr />
 
   <p>
@@ -31,7 +31,7 @@ jupyter.fetchJupyters();
         <tr>
           <th scope="col"><strong>Name</strong></th>
           <th scope="col"><strong>Slug</strong></th>
-          <th scope="col" class="text-center"><strong>Status</strong></th>
+          <th scope="col"><strong>User</strong></th>
           <th scope="col" class="text-end"><strong>Request Period</strong></th>
           <th scope="col" class="text-end"><strong></strong></th>
         </tr>
@@ -43,17 +43,20 @@ jupyter.fetchJupyters();
             <div v-if="jhRequest.changeRequests?.length">
               <small>
                 <span class="text-secondary">
-                  {{ jhRequest.changeRequests.length }} change requests
+                  {{ jhRequest.changeRequests.length }} change requests,
                 </span>
-                <span v-if="jhRequest.pending()" class="text-info">
-                  ({{ jhRequest.pending() }} pending)
+                <span :class="`text-${jhRequest.pending() ? 'info' : 'success'}`">
+                  {{ jhRequest.pending() }} pending
                 </span>
               </small>
             </div>
           </th>
           <td>{{ jhRequest.slug }}</td>
-          <td class="text-center">
-            <span :class="`text-${jhRequest.getStatusColor()}`">{{ jhRequest.status }}</span>
+          <td>
+            {{ jhRequest.creator?.firstName }} {{ jhRequest.creator?.lastName }}
+            <div>
+              <small class="text-secondary">{{ jhRequest.creator?.email }}</small>
+            </div>
           </td>
           <td class="text-end">
             {{ jhRequest.startDate?.toLocaleDateString() }} -
@@ -68,6 +71,8 @@ jupyter.fetchJupyters();
               <span class="visually-hidden">Details</span>
               <span class="mx-1">&rsaquo;</span>
             </RouterLink>
+            <button @click="jupyter.acceptJupyter(jhRequest.id!)">Accept</button>
+            <button @click="jupyter.rejectJupyter(jhRequest.id!)">Reject</button>
           </td>
         </tr>
       </tbody>

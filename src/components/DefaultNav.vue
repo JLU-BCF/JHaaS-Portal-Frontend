@@ -26,11 +26,6 @@ const user = userStore.user;
 
       <div class="collapse navbar-collapse" id="navbarsExample07">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-          <li v-if="auth.valid()" class="nav-item">
-            <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'jupyter-overview' }"
-              >Hubs</RouterLink
-            >
-          </li>
           <li class="nav-item">
             <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'start' }"
               >Start</RouterLink
@@ -39,6 +34,16 @@ const user = userStore.user;
           <li class="nav-item">
             <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'about' }"
               >About</RouterLink
+            >
+          </li>
+          <li v-if="auth.valid()" class="nav-item">
+            <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'jupyter-overview' }"
+              >Hubs</RouterLink
+            >
+          </li>
+          <li v-if="auth.valid() && user.isAdmin" class="nav-item">
+            <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'admin-overview' }"
+              >Admin</RouterLink
             >
           </li>
         </ul>

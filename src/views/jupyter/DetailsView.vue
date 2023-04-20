@@ -3,6 +3,8 @@ import { RouterLink, useRoute } from 'vue-router';
 import { useJupyterStore } from '@/stores/jupyter';
 import { ref, type Ref } from 'vue';
 import type { Jupyter } from '@/models/jupyter.model';
+import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vue';
+import ChangeRequestList from '@/components/jupyter/ChangeRequestList.vue';
 
 const route = useRoute();
 
@@ -18,75 +20,48 @@ jupyterStore
     <div class="spinner-grow spinner-grow-sm align-middle" role="status"></div>
     <span class="mx-3">Loading...</span>
   </div>
+  <div v-if="!jupyter && !jupyterStore.fetchInProgress">
+    <p>Oops - something went wrong.</p>
+  </div>
 
   <div v-if="jupyter">
-    <h1>{{ jupyter.name }}</h1>
+    <h1>
+      {{ jupyter.name }}
+      <small class="text-secondary ms-2">/{{ jupyter.slug }}</small>
+    </h1>
     <p>
       From <strong>{{ jupyter.startDate?.toLocaleDateString() }}</strong> until
       <strong>{{ jupyter.endDate?.toLocaleDateString() }}</strong
       >.
       <br />
-      Status: <strong>{{ jupyter.status }}</strong>
+      Status: <strong :class="`text-${jupyter.getStatusColor()}`">{{ jupyter.status }}</strong>
     </p>
 
     <hr />
-    <p>
-      {{ jupyter.description }}
-    </p>
 
-    <p>
-      <strong>Estimated usage:</strong>
-    </p>
-    <table>
-      <tr>
-        <td>User Count:</td>
-        <td class="text-end">
-          <span class="ms-2">{{ jupyter.userConf?.userCount }}</span>
-        </td>
-        <td>[user]</td>
-      </tr>
-      <tr>
-        <td>CPU per User:</td>
-        <td class="text-end">
-          <span class="ms-2">{{ jupyter.userConf?.cpusPerUser }}</span>
-        </td>
-        <td>[shares]</td>
-      </tr>
-      <tr>
-        <td>RAM per User:</td>
-        <td class="text-end">
-          <span class="ms-2">{{ jupyter.userConf?.ramPerUser }}</span>
-        </td>
-        <td>[GiB]</td>
-      </tr>
-      <tr>
-        <td>Storage per User:</td>
-        <td class="text-end">
-          <span class="ms-2">{{ jupyter.userConf?.storagePerUser }}</span>
-        </td>
-        <td>[GiB]</td>
-      </tr>
-    </table>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="card">
+          <div class="card-header text-bg-dark">
+            <p class="lead m-0">Details</p>
+          </div>
+          <div class="card-body">
+            <JupyterRequestDetails :jupyter="jupyter" />
+          </div>
+        </div>
+        <RouterLink class="btn btn-dark w-100 mt-4" :to="{ name: 'jupyter-update' }">
+          Create change request
+        </RouterLink>
+      </div>
+      <div class="col-12 col-md-6 mt-5 mt-md-0">
+        <ChangeRequestList :changeRequests="jupyter.changeRequests" />
+      </div>
+    </div>
   </div>
 
   <hr />
 
-  <div v-if="jupyter" class="row">
-    <div class="col-12 col-sm-9 col-md-6 col-lg-4 col-xl-3 mb-2">
-      <RouterLink class="btn btn-dark w-100" :to="{ name: 'jupyter-update' }">
-        Create change request
-      </RouterLink>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-12 col-sm-9 col-md-6 col-lg-4 col-xl-3">
-      <RouterLink class="btn btn-outline-dark mb-5 w-100" :to="{ name: 'jupyter-overview' }">
-        Back
-      </RouterLink>
-    </div>
-  </div>
-
-  <div v-if="!jupyter && !jupyterStore.fetchInProgress">
-    <p>You have no Hubs yet.</p>
-  </div>
+  <RouterLink class="btn btn-outline-dark w-100 mw-330" :to="{ name: 'jupyter-overview' }">
+    Back
+  </RouterLink>
 </template>

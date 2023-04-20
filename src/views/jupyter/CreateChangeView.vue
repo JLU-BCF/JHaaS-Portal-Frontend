@@ -29,10 +29,11 @@ jupyterStore
   <div v-if="jupyter" class="col-12 col-md-10 col-lg-8 col-xxl-6 mt-3">
     <Form
       class="text-start my-5"
-      @submit="jupyterStore.createJupyter"
+      @submit="jupyterStore.createJupyterChange"
       :validation-schema="jupyterRequestSchema"
       v-slot="{ errors, isSubmitting }"
     >
+      <Field name="id" type="hidden" :value="jupyter.id" />
       <p class="lead mb-1 mt-4">General</p>
 
       <div class="form-floating mb-2">
@@ -248,8 +249,11 @@ jupyterStore
       Cancel
     </RouterLink>
     <div v-if="jupyter" class="text-center mt-5">
-      <button class="btn btn-sm btn-outline-danger px-3 px-md-5">
-        Cancel this Jupyter Hub request?
+      <button
+        @click="jupyterStore.cancelJupyter(jupyter!.id!)"
+        class="btn btn-sm btn-outline-danger px-3 px-md-5"
+      >
+        Cancel this Jupyter Hub request
       </button>
     </div>
   </div>

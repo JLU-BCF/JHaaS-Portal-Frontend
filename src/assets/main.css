@@ -17,6 +17,7 @@ footer {
   box-shadow: inset 0px 3px 3px -3px;
 }
 
+.mw-330,
 .form-signin {
   max-width: 330px;
 }
