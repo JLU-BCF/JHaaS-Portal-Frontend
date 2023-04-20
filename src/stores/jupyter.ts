@@ -10,7 +10,7 @@ export const useJupyterStore = defineStore('jupyter', () => {
   const { notify } = useNotificationStore();
 
   const fetchInProgress = ref(true);
-  const jupyters = ref(new Set<Jupyter>());
+  const jupyters = ref(new Array<Jupyter>());
 
   async function fetchJupyters() {
     fetchInProgress.value = true;
@@ -18,9 +18,12 @@ export const useJupyterStore = defineStore('jupyter', () => {
       .get(`${backend}/jupyter/list`)
       .then((data) => {
         fetchInProgress.value = false;
-        jupyters.value.clear();
+        jupyters.value = [];
         data.forEach((element: object) => {
-          jupyters.value.add(new Jupyter(element));
+          jupyters.value.push(new Jupyter(element));
+        });
+        jupyters.value = jupyters.value.sort((a, b) => {
+          return b.createdAt?.getTime() - a.createdAt?.getTime();
         });
       })
       .catch((err) => {
@@ -38,9 +41,12 @@ export const useJupyterStore = defineStore('jupyter', () => {
       .get(`${backend}/jupyter/open`)
       .then((data) => {
         fetchInProgress.value = false;
-        jupyters.value.clear();
+        jupyters.value = [];
         data.forEach((element: object) => {
-          jupyters.value.add(new Jupyter(element));
+          jupyters.value.push(new Jupyter(element));
+        });
+        jupyters.value = jupyters.value.sort((a, b) => {
+          return b.createdAt?.getTime() - a.createdAt?.getTime();
         });
       })
       .catch((err) => {
@@ -113,7 +119,7 @@ export const useJupyterStore = defineStore('jupyter', () => {
     }
     fetchInProgress.value = true;
     fetchWrapper
-      .delete(`${backend}/jupyter/${id}`)
+      .put(`${backend}/jupyter/cancel/${id}`)
       .then((data) => {
         notify({
           display: 'info',

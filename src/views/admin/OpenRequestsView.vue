@@ -25,7 +25,7 @@ jupyter.fetchOpenJupyters();
     <span class="mx-3">Loading...</span>
   </div>
 
-  <div v-if="jupyter.jupyters.size" class="table-responsive">
+  <div v-if="jupyter.jupyters.length" class="table-responsive">
     <table class="table table-striped table-responsive table-hover align-middle">
       <thead>
         <tr>
@@ -78,7 +78,7 @@ jupyter.fetchOpenJupyters();
       </tbody>
     </table>
   </div>
-  <div v-if="!jupyter.jupyters.size && !jupyter.fetchInProgress">
+  <div v-if="!jupyter.jupyters.length && !jupyter.fetchInProgress">
     <p>You have no Hubs yet.</p>
   </div>
 </template>
