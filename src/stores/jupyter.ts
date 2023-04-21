@@ -179,8 +179,31 @@ export const useJupyterStore = defineStore('jupyter', () => {
       );
   }
 
+  async function acceptJupyterChange(id: string) {
+    if (!confirm('This Change Request will be accepted. Continue?')) {
+      return;
+    }
+    fetchInProgress.value = true;
+    fetchWrapper
+      .put(`${backend}/jupyter/change/accept/${id}`)
+      .then((data) => {
+        notify({
+          display: 'info',
+          message: `Accepted Request "${data.name}"`
+        });
+        router.push({ name: 'jupyter-overview' });
+      })
+      .catch((err) =>
+        notify({
+          display: 'danger',
+          message: err
+        })
+      );
+  }
+
   return {
     acceptJupyter,
+    acceptJupyterChange,
     rejectJupyter,
     fetchJupyters,
     fetchOpenJupyters,

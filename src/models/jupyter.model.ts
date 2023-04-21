@@ -12,7 +12,7 @@ export class JupyterBase {
   private _creator!: User;
   private _name!: string;
   private _slug!: string;
-  private _description?: string;
+  private _description?: string | undefined;
   private _userConf!: JupyterHubRequestUserConf;
   private _containerImage!: string;
   private _status!: string;
@@ -47,7 +47,7 @@ export class JupyterBase {
   public get description(): string | undefined {
     return this._description;
   }
-  public set description(value: string) {
+  public set description(value: string | undefined) {
     this._description = value;
   }
   public get userConf(): JupyterHubRequestUserConf {
