@@ -1,217 +1,149 @@
 import { defineStore } from 'pinia';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import { useNotificationStore } from './notification';
 import { Jupyter } from '@/models/jupyter.model';
 import router from '@/router';
+import { sortByCreationTime } from '@/helpers/sort';
 
 export const useJupyterStore = defineStore('jupyter', () => {
   const backend = import.meta.env.VITE_BACKEND_PATH;
   const { notify } = useNotificationStore();
 
   const fetchInProgress = ref(true);
-  const jupyters = ref(new Array<Jupyter>());
+  const myJupyters: Ref<Jupyter[]> = ref([]);
 
-  async function fetchJupyters() {
+  async function fetch(scope: 'id' | 'slug', id: string | string[]): Promise<Jupyter>;
+  async function fetch(scope?: 'mine' | 'pending' | 'all'): Promise<Jupyter[]>;
+  async function fetch(
+    scope: 'mine' | 'id' | 'slug' | 'pending' | 'all' = 'mine',
+    id?: string | string[]
+  ) {
     fetchInProgress.value = true;
-    fetchWrapper
-      .get(`${backend}/jupyter/list`)
+    let url = `${backend}/jupyter`;
+
+    /* eslint-disable indent */
+    switch (scope) {
+      case 'id':
+        url += `/by-id/${id}`;
+        break;
+      case 'slug':
+        url += `/by-slug/${id}`;
+        break;
+      case 'pending':
+        url += '/open';
+        break;
+      case 'all':
+        url += '/';
+        break;
+      case 'mine':
+      default:
+        url += '/list';
+    }
+    /* eslint-enable indent */
+
+    return fetchWrapper
+      .get(url)
       .then((data) => {
-        fetchInProgress.value = false;
-        jupyters.value = [];
+        if (['id', 'slug'].includes(scope)) {
+          return new Jupyter(data);
+        }
+        let jupyters: Array<Jupyter> = [];
         data.forEach((element: object) => {
-          jupyters.value.push(new Jupyter(element));
+          jupyters.push(new Jupyter(element));
         });
-        jupyters.value = jupyters.value.sort((a, b) => {
-          return b.createdAt?.getTime() - a.createdAt?.getTime();
-        });
+        jupyters = jupyters.sort(sortByCreationTime);
+        return jupyters;
       })
       .catch((err) => {
-        fetchInProgress.value = false;
         notify({
           display: 'danger',
           message: err
         });
-      });
+      })
+      .finally(() => (fetchInProgress.value = false));
   }
 
-  async function fetchOpenJupyters() {
+  async function createJupyter(values: object, isChangeRequest = false) {
     fetchInProgress.value = true;
-    fetchWrapper
-      .get(`${backend}/jupyter/open`)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let fetchPromise: Promise<any>;
+    const url = `${backend}/jupyter`;
+
+    if (isChangeRequest) {
+      fetchPromise = fetchWrapper.put(url, values);
+    } else {
+      fetchPromise = fetchWrapper.post(url, values);
+    }
+
+    fetchPromise
       .then((data) => {
-        fetchInProgress.value = false;
-        jupyters.value = [];
-        data.forEach((element: object) => {
-          jupyters.value.push(new Jupyter(element));
+        notify({
+          display: 'info',
+          message: `Created ${isChangeRequest ? 'change ' : ''}request "${data.name}"`
         });
-        jupyters.value = jupyters.value.sort((a, b) => {
-          return b.createdAt?.getTime() - a.createdAt?.getTime();
-        });
+        const newJupyter = new Jupyter(data);
+        updateMyJupyters(newJupyter);
+        router.push({ name: 'jupyter-details', params: { slug: newJupyter.slug } });
       })
-      .catch((err) => {
-        fetchInProgress.value = false;
+      .catch((err) =>
         notify({
           display: 'danger',
           message: err
-        });
-      });
+        })
+      )
+      .finally(() => (fetchInProgress.value = false));
   }
 
-  async function fetchJupyter(slug: string | string[]) {
+  async function jupyterAction(
+    id: string,
+    action: 'cancel' | 'accept' | 'reject',
+    isChangeRequest: boolean
+  ) {
+    if (
+      !confirm(`This ${isChangeRequest ? 'change ' : ''}request will be ${action}ed. Continue?`)
+    ) {
+      return;
+    }
+
+    const url = `${backend}/jupyter${isChangeRequest ? '/change' : ''}/${action}/${id}`;
+
     fetchInProgress.value = true;
     return fetchWrapper
-      .get(`${backend}/jupyter/by-slug/${slug}`)
-      .then((data) => {
-        fetchInProgress.value = false;
-        return new Jupyter(data);
-      })
-      .catch((err) => {
-        fetchInProgress.value = false;
-        notify({
-          display: 'danger',
-          message: err
-        });
-      });
-  }
-
-  async function createJupyter(values: object) {
-    fetchInProgress.value = true;
-    fetchWrapper
-      .post(`${backend}/jupyter`, values)
+      .put(url)
       .then((data) => {
         notify({
           display: 'info',
-          message: `Created "${data.name}"`
+          message: `${action}ed "${data.name}"`
         });
-        router.push({ name: 'jupyter-overview' });
+        const newJupyter = new Jupyter(data);
+        updateMyJupyters(newJupyter);
+        return newJupyter;
       })
       .catch((err) =>
         notify({
           display: 'danger',
           message: err
         })
-      );
+      )
+      .finally(() => (fetchInProgress.value = false));
   }
 
-  async function createJupyterChange(values: object) {
-    fetchInProgress.value = true;
-    fetchWrapper
-      .put(`${backend}/jupyter`, values)
-      .then((data) => {
-        notify({
-          display: 'info',
-          message: `Created Change Request for "${data.name}"`
-        });
-        router.push({ name: 'jupyter-overview' });
-      })
-      .catch((err) =>
-        notify({
-          display: 'danger',
-          message: err
-        })
-      );
+  function updateMyJupyters(newJupyter: Jupyter) {
+    const jupyters = myJupyters.value.filter((jupyter) => jupyter.id !== newJupyter.id);
+    jupyters.push(newJupyter);
+    myJupyters.value = jupyters.sort(sortByCreationTime);
   }
 
-  async function cancelJupyter(id: string) {
-    if (!confirm('This Request will be canceled. Continue?')) {
-      return;
-    }
-    fetchInProgress.value = true;
-    fetchWrapper
-      .put(`${backend}/jupyter/cancel/${id}`)
-      .then((data) => {
-        notify({
-          display: 'info',
-          message: `Canceled Request for "${data.name}"`
-        });
-        router.push({ name: 'jupyter-overview' });
-      })
-      .catch((err) =>
-        notify({
-          display: 'danger',
-          message: err
-        })
-      );
-  }
-
-  async function acceptJupyter(id: string) {
-    if (!confirm('This Request will be accepted. Continue?')) {
-      return;
-    }
-    fetchInProgress.value = true;
-    fetchWrapper
-      .put(`${backend}/jupyter/accept/${id}`)
-      .then((data) => {
-        notify({
-          display: 'info',
-          message: `Accepted Request "${data.name}"`
-        });
-        router.push({ name: 'jupyter-overview' });
-      })
-      .catch((err) =>
-        notify({
-          display: 'danger',
-          message: err
-        })
-      );
-  }
-
-  async function rejectJupyter(id: string) {
-    if (!confirm('This Request will be rejected. Continue?')) {
-      return;
-    }
-    fetchInProgress.value = true;
-    fetchWrapper
-      .put(`${backend}/jupyter/reject/${id}`)
-      .then((data) => {
-        notify({
-          display: 'info',
-          message: `Rejected Request "${data.name}"`
-        });
-        router.push({ name: 'jupyter-overview' });
-      })
-      .catch((err) =>
-        notify({
-          display: 'danger',
-          message: err
-        })
-      );
-  }
-
-  async function acceptJupyterChange(id: string) {
-    if (!confirm('This Change Request will be accepted. Continue?')) {
-      return;
-    }
-    fetchInProgress.value = true;
-    fetchWrapper
-      .put(`${backend}/jupyter/change/accept/${id}`)
-      .then((data) => {
-        notify({
-          display: 'info',
-          message: `Accepted Request "${data.name}"`
-        });
-        router.push({ name: 'jupyter-overview' });
-      })
-      .catch((err) =>
-        notify({
-          display: 'danger',
-          message: err
-        })
-      );
-  }
+  fetch().then((jupyters) => {
+    myJupyters.value = jupyters;
+  });
 
   return {
-    acceptJupyter,
-    acceptJupyterChange,
-    rejectJupyter,
-    fetchJupyters,
-    fetchOpenJupyters,
-    fetchJupyter,
+    fetch,
     createJupyter,
-    createJupyterChange,
-    cancelJupyter,
+    jupyterAction,
     fetchInProgress,
-    jupyters
+    myJupyters
   };
 });

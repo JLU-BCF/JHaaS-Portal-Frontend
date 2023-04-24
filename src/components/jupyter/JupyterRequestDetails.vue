@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { JupyterChange } from '@/models/jupyter.model';
+import { JupyterBase } from '@/models/jupyter.model';
 import UserConfDetails from './UserConfDetails.vue';
+
 defineProps({
-  jupyter: Object as () => JupyterChange
+  jupyter: JupyterBase
 });
 </script>
 

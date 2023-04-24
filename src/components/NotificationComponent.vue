@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useNotificationStore } from '@/stores/notification';
+
 const { notifications } = useNotificationStore();
 </script>
 

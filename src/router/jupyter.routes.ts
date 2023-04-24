@@ -15,7 +15,10 @@ export default {
     {
       path: 'details/:slug',
       name: 'jupyter-details',
-      component: () => import('../views/jupyter/DetailsView.vue')
+      component: () => import('../views/jupyter/DetailsView.vue'),
+      props: {
+        isReview: false
+      }
     },
     {
       path: 'update/:slug',

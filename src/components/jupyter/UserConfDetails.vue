@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { JupyterHubRequestUserConf } from '@/models/jupyter.model';
+
 defineProps({
   userConf: Object as () => JupyterHubRequestUserConf
 });

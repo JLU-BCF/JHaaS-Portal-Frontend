@@ -113,6 +113,10 @@ export class JupyterBase {
     }
     return '';
   }
+
+  public changesAllowed() {
+    return ['PENDING', 'ACCEPTED', 'REJECTED'].includes(this.status);
+  }
 }
 
 export class Jupyter extends JupyterBase {
@@ -132,7 +136,7 @@ export class Jupyter extends JupyterBase {
     super(jupyterObject);
     if (jupyterObject) {
       this.slug = jupyterObject['slug'];
-      for (const changeRequest of jupyterObject.changeRequests) {
+      for (const changeRequest of jupyterObject.changeRequests || []) {
         this._changeRequests.push(new JupyterChange(changeRequest));
       }
       this._changeRequests = this._changeRequests.sort(
@@ -146,5 +150,9 @@ export class JupyterChange extends JupyterBase {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   constructor(jupyterObject: { [key: string]: any }) {
     super(jupyterObject);
+  }
+
+  public changesAllowed() {
+    return ['PENDING', 'REJECTED'].includes(this.status);
   }
 }

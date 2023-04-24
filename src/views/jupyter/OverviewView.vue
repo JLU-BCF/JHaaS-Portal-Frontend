@@ -2,8 +2,7 @@
 import { RouterLink } from 'vue-router';
 import { useJupyterStore } from '@/stores/jupyter';
 
-const jupyter = useJupyterStore();
-jupyter.fetchJupyters();
+const jupyterStore = useJupyterStore();
 </script>
 
 <template>
@@ -20,12 +19,12 @@ jupyter.fetchJupyters();
     >+ Create new Request</RouterLink
   >
 
-  <div v-if="jupyter.fetchInProgress">
+  <div v-if="jupyterStore.fetchInProgress">
     <div class="spinner-grow spinner-grow-sm align-middle" role="status"></div>
     <span class="mx-3">Loading...</span>
   </div>
 
-  <div v-if="jupyter.jupyters.length" class="table-responsive">
+  <div v-if="jupyterStore.myJupyters.length" class="table-responsive">
     <table class="table table-striped table-responsive table-hover align-middle">
       <thead>
         <tr>
@@ -37,31 +36,31 @@ jupyter.fetchJupyters();
         </tr>
       </thead>
       <tbody>
-        <tr v-for="jhRequest in jupyter.jupyters" :key="jhRequest.id">
+        <tr v-for="jupyter in jupyterStore.myJupyters" :key="jupyter.id">
           <th scope="row">
-            {{ jhRequest.name }}
-            <div v-if="jhRequest.changeRequests?.length">
+            {{ jupyter.name }}
+            <div v-if="jupyter.changeRequests?.length">
               <small>
                 <span class="text-secondary">
-                  {{ jhRequest.changeRequests.length }} change requests
+                  {{ jupyter.changeRequests.length }} change requests
                 </span>
-                <span v-if="jhRequest.pending()" class="text-info">
-                  ({{ jhRequest.pending() }} pending)
+                <span v-if="jupyter.pending()" class="text-info">
+                  ({{ jupyter.pending() }} pending)
                 </span>
               </small>
             </div>
           </th>
-          <td>{{ jhRequest.slug }}</td>
+          <td>{{ jupyter.slug }}</td>
           <td class="text-center">
-            <span :class="`text-${jhRequest.getStatusColor()}`">{{ jhRequest.status }}</span>
+            <span :class="`text-${jupyter.getStatusColor()}`">{{ jupyter.status }}</span>
           </td>
           <td class="text-end">
-            {{ jhRequest.startDate?.toLocaleDateString() }} -
-            {{ jhRequest.endDate?.toLocaleDateString() }}
+            {{ jupyter.startDate?.toLocaleDateString() }} -
+            {{ jupyter.endDate?.toLocaleDateString() }}
           </td>
           <td class="text-end dropdown">
             <RouterLink
-              :to="{ name: 'jupyter-details', params: { slug: jhRequest.slug } }"
+              :to="{ name: 'jupyter-details', params: { slug: jupyter.slug } }"
               class="btn btn-sm btn-dark"
               type="button"
             >
@@ -73,7 +72,7 @@ jupyter.fetchJupyters();
       </tbody>
     </table>
   </div>
-  <div v-if="!jupyter.jupyters.length && !jupyter.fetchInProgress">
+  <div v-if="!jupyterStore.myJupyters.length && !jupyterStore.fetchInProgress">
     <p>You have no Hubs yet.</p>
   </div>
 </template>

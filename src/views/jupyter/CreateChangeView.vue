@@ -9,11 +9,15 @@ import { jupyterRequestSchema } from '@/helpers/validators';
 
 const route = useRoute();
 const jupyterStore = useJupyterStore();
+const jupyter: Ref<Jupyter | undefined> = ref();
 
-const jupyter: Ref<Jupyter | null> = ref(null);
 jupyterStore
-  .fetchJupyter(route.params.slug)
-  .then((jupyterInstance) => (jupyter.value = jupyterInstance ?? null));
+  .fetch('slug', route.params.slug)
+  .then((jupyterInstance) => (jupyter.value = jupyterInstance));
+
+function createJupyterChange(values: object) {
+  jupyterStore.createJupyter(values, true);
+}
 </script>
 
 <template>
@@ -29,7 +33,7 @@ jupyterStore
   <div v-if="jupyter" class="col-12 col-md-10 col-lg-8 col-xxl-6 mt-3">
     <Form
       class="text-start my-5"
-      @submit="jupyterStore.createJupyterChange"
+      @submit="createJupyterChange"
       :validation-schema="jupyterRequestSchema"
       v-slot="{ errors, isSubmitting }"
     >
@@ -248,13 +252,5 @@ jupyterStore
     <RouterLink :to="{ name: 'jupyter-overview' }" class="w-100 btn btn-sm btn-outline-secondary">
       Cancel
     </RouterLink>
-    <div v-if="jupyter" class="text-center mt-5">
-      <button
-        @click="jupyterStore.cancelJupyter(jupyter!.id!)"
-        class="btn btn-sm btn-outline-danger px-3 px-md-5"
-      >
-        Cancel this Jupyter Hub request
-      </button>
-    </div>
   </div>
 </template>

@@ -1,25 +1,23 @@
 <script setup lang="ts">
 import type { JupyterChange } from '@/models/jupyter.model';
 import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vue';
-import { useJupyterStore } from '@/stores/jupyter';
-
-const jupyter = useJupyterStore();
+import JupyterActions from './JupyterActions.vue';
 
 defineProps({
-  changeRequests: Object as () => JupyterChange[]
+  changeRequests: Array<JupyterChange>,
+  isReview: Boolean
 });
 </script>
+
 <template>
   <div v-if="changeRequests">
     <div v-if="changeRequests.length" class="card">
       <div class="card-header">
         <p class="float-start lead m-0">Latest Change Request</p>
-        <button @click="jupyter.acceptJupyterChange(changeRequests![0].id)" class="float-end">
-          ACCEPT
-        </button>
       </div>
       <div class="card-body">
         <JupyterRequestDetails :jupyter="changeRequests[0]" />
+        <JupyterActions :isReview="isReview" :jupyter="changeRequests[0]" :isChangeRequest="true" />
       </div>
     </div>
     <div v-if="changeRequests.length > 1" class="mt-4">

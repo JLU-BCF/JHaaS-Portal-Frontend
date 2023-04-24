@@ -11,6 +11,10 @@ import {
 import { jupyterRequestSchema } from '@/helpers/validators';
 
 const jupyterStore = useJupyterStore();
+
+function createJupyter(values: object) {
+  jupyterStore.createJupyter(values, false);
+}
 </script>
 
 <template>
@@ -26,7 +30,7 @@ const jupyterStore = useJupyterStore();
   <div class="col-12 col-md-10 col-lg-8 col-xxl-6 mt-3">
     <Form
       class="text-start my-5"
-      @submit="jupyterStore.createJupyter"
+      @submit="createJupyter"
       :validation-schema="jupyterRequestSchema"
       v-slot="{ errors, isSubmitting }"
     >

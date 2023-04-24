@@ -5,14 +5,25 @@ import { ref, type Ref } from 'vue';
 import type { Jupyter } from '@/models/jupyter.model';
 import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vue';
 import ChangeRequestList from '@/components/jupyter/ChangeRequestList.vue';
+import JupyterActions from '@/components/jupyter/JupyterActions.vue';
+import { useUserStore } from '../../stores/user';
+
+defineProps({
+  isReview: Boolean
+});
 
 const route = useRoute();
-
+const { user } = useUserStore();
 const jupyterStore = useJupyterStore();
-const jupyter: Ref<Jupyter | null> = ref(null);
+const jupyter: Ref<Jupyter | undefined> = ref();
+
 jupyterStore
-  .fetchJupyter(route.params.slug)
-  .then((jupyterInstance) => (jupyter.value = jupyterInstance ?? null));
+  .fetch('slug', route.params.slug)
+  .then((jupyterInstance) => (jupyter.value = jupyterInstance));
+
+function updateJupyter(newInstance: Jupyter) {
+  jupyter.value = newInstance;
+}
 </script>
 
 <template>
@@ -47,21 +58,53 @@ jupyterStore
           </div>
           <div class="card-body">
             <JupyterRequestDetails :jupyter="jupyter" />
+            <div v-if="jupyter.changesAllowed()">
+              <RouterLink
+                class="btn btn-warning w-100 mt-4"
+                :to="{ name: 'jupyter-update', params: { slug: jupyter.slug } }"
+              >
+                Create change request
+              </RouterLink>
+              <JupyterActions
+                @action-taken="updateJupyter"
+                :isReview="isReview"
+                :jupyter="jupyter"
+                :isChangeRequest="false"
+              />
+            </div>
+            <div v-else class="alert alert-warning mt-4 mb-0" role="alert">
+              <strong>No more modifications are allowed.</strong>
+            </div>
           </div>
         </div>
-        <RouterLink class="btn btn-dark w-100 mt-4" :to="{ name: 'jupyter-update' }">
-          Create change request
-        </RouterLink>
       </div>
       <div class="col-12 col-md-6 mt-5 mt-md-0">
-        <ChangeRequestList :changeRequests="jupyter.changeRequests" />
+        <ChangeRequestList :changeRequests="jupyter.changeRequests" :isReview="isReview" />
       </div>
     </div>
   </div>
 
-  <hr />
-
-  <RouterLink class="btn btn-outline-dark w-100 mw-330" :to="{ name: 'jupyter-overview' }">
+  <RouterLink
+    class="btn btn-outline-dark mt-5 w-100 mw-330"
+    :to="{ name: isReview ? 'admin-open-requests' : 'jupyter-overview' }"
+  >
     Back
   </RouterLink>
+
+  <div v-if="jupyter && user.isAdmin" class="w-100 mw-330 mt-2">
+    <RouterLink
+      v-if="!isReview && jupyter.changesAllowed()"
+      class="btn btn-outline-info w-100"
+      :to="{ name: 'admin-review-jupyter', params: { slug: jupyter.slug } }"
+    >
+      Enter Review
+    </RouterLink>
+    <RouterLink
+      v-if="isReview"
+      class="btn btn-outline-info w-100"
+      :to="{ name: 'jupyter-details', params: { slug: jupyter.slug } }"
+    >
+      Leave Review
+    </RouterLink>
+  </div>
 </template>

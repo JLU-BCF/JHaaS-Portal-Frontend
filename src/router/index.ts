@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import StartView from '../views/StartView.vue';
 import { useAuthStore } from '@/stores/auth';
+import { useUserStore } from '@/stores/user';
 import authRoutes from './auth.routes';
 import userRoutes from './user.routes';
 import jupyterRoutes from './jupyter.routes';
@@ -32,18 +33,25 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const { auth } = useAuthStore();
+  const { user } = useUserStore();
   const publicPages = ['start', 'about'];
 
-  const { auth } = useAuthStore();
   let isAuthPage = false;
+  let isAdminPage = false;
   let isPublicPage = false;
 
   if (typeof to.name === 'string') {
     isAuthPage = to.fullPath.startsWith(router.resolve({ name: 'auth' }).fullPath);
+    isAdminPage = to.fullPath.startsWith(router.resolve({ name: 'admin' }).fullPath);
     isPublicPage = isAuthPage || publicPages.includes(to.name);
   }
 
   if (isAuthPage && auth.valid()) {
+    return next({ name: 'start' });
+  }
+
+  if (isAdminPage && (!auth.valid() || !user.isAdmin)) {
     return next({ name: 'start' });
   }
 

@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { useJupyterStore } from '@/stores/jupyter';
-
-const jupyter = useJupyterStore();
-jupyter.fetchJupyters();
 </script>
 
 <template>
