@@ -49,7 +49,7 @@ export const useJupyterStore = defineStore('jupyter', () => {
           return new Jupyter(data);
         }
         let jupyters: Array<Jupyter> = [];
-        data.forEach((element: object) => {
+        data.instances.forEach((element: object) => {
           jupyters.push(new Jupyter(element));
         });
         jupyters = jupyters.sort(sortByCreationTime);
@@ -129,6 +129,19 @@ export const useJupyterStore = defineStore('jupyter', () => {
       .finally(() => (fetchInProgress.value = false));
   }
 
+  async function checkSlug(slug: string) {
+    return fetchWrapper
+      .get(`${backend}/jupyter/check-slug/${slug}`)
+      .then((data) => Boolean(data))
+      .catch(() => {
+        notify({
+          display: 'danger',
+          message: 'Could not check slug availability.'
+        });
+        return false;
+      });
+  }
+
   function updateMyJupyters(newJupyter: Jupyter) {
     const jupyters = myJupyters.value.filter((jupyter) => jupyter.id !== newJupyter.id);
     jupyters.push(newJupyter);
@@ -143,6 +156,7 @@ export const useJupyterStore = defineStore('jupyter', () => {
     fetch,
     createJupyter,
     jupyterAction,
+    checkSlug,
     fetchInProgress,
     myJupyters
   };

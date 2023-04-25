@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { JupyterChange } from '@/models/jupyter.model';
+import type { Jupyter, JupyterChange } from '@/models/jupyter.model';
 import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vue';
 import JupyterActions from './JupyterActions.vue';
 
@@ -7,6 +7,16 @@ defineProps({
   changeRequests: Array<JupyterChange>,
   isReview: Boolean
 });
+
+const emits = defineEmits({
+  actionTaken(instance: Jupyter) {
+    return instance;
+  }
+});
+
+function passThroughEmit(instance: Jupyter) {
+  emits('actionTaken', instance);
+}
 </script>
 
 <template>
@@ -17,7 +27,12 @@ defineProps({
       </div>
       <div class="card-body">
         <JupyterRequestDetails :jupyter="changeRequests[0]" />
-        <JupyterActions :isReview="isReview" :jupyter="changeRequests[0]" :isChangeRequest="true" />
+        <JupyterActions
+          @action-taken="passThroughEmit"
+          :isReview="isReview"
+          :jupyter="changeRequests[0]"
+          :isChangeRequest="true"
+        />
       </div>
     </div>
     <div v-if="changeRequests.length > 1" class="mt-4">

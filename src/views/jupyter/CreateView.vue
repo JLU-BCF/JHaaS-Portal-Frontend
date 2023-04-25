@@ -9,11 +9,20 @@ import {
   getYearsLaterAsIso
 } from '../../helpers/date';
 import { jupyterRequestSchema } from '@/helpers/validators';
+import { ref } from 'vue';
 
 const jupyterStore = useJupyterStore();
+const slugAvail = ref(true);
+
+async function checkSlug(event: UIEvent) {
+  const slug = (event.target as HTMLInputElement).value;
+  if (slug.match(/^(?!-)[A-Za-z0-9-]{3,63}(?<!-)$/)) {
+    slugAvail.value = await jupyterStore.checkSlug(slug);
+  }
+}
 
 function createJupyter(values: object) {
-  jupyterStore.createJupyter(values, false);
+  slugAvail.value && jupyterStore.createJupyter(values, false);
 }
 </script>
 
@@ -56,11 +65,13 @@ function createJupyter(values: object) {
           class="form-control"
           id="slug-input"
           placeholder="Slug"
-          :class="{ 'is-invalid': errors.slug }"
+          :class="{ 'is-invalid': errors.slug || !slugAvail }"
+          @blur="checkSlug"
           required
         />
         <label for="slug-input">Slug</label>
         <div class="invalid-feedback">{{ errors.slug }}</div>
+        <div v-if="!slugAvail" class="invalid-feedback">Slug is already taken</div>
       </div>
       <div class="form-floating mb-2">
         <Field

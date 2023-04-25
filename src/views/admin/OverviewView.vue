@@ -22,7 +22,7 @@ import { RouterLink } from 'vue-router';
           Review open Requests
         </RouterLink>
 
-        <RouterLink class="btn btn-outline-dark mb-2 w-100" :to="{ name: 'jupyter-create' }">
+        <RouterLink class="btn btn-outline-dark mb-2 w-100" :to="{ name: 'admin-list-requests' }">
           Search Requests
         </RouterLink>
       </div>

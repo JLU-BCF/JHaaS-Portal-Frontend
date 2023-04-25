@@ -74,7 +74,7 @@ function createJupyterChange(values: object) {
           name="description"
           class="form-control tall"
           id="description-input"
-          :value="jupyter.description"
+          :value="jupyter.description || undefined"
           placeholder="Description"
           :class="{ 'is-invalid': errors.description }"
           required

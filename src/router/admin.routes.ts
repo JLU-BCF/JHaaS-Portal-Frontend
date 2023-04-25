@@ -8,17 +8,39 @@ export default {
       component: () => import('../views/admin/OverviewView.vue')
     },
     {
-      path: 'review',
-      name: 'admin-open-requests',
-      component: () => import('../views/admin/OpenRequestsView.vue')
+      path: 'user',
+      name: 'admin-user',
+      children: [
+        {
+          path: 'list',
+          name: 'admin-list-user',
+          component: () => import('../views/admin/AllRequestsView.vue')
+        }
+      ]
     },
     {
-      path: 'review/:slug',
-      name: 'admin-review-jupyter',
-      component: () => import('../views/jupyter/DetailsView.vue'),
-      props: {
-        isReview: true
-      }
+      path: 'jupyter',
+      name: 'admin-jupyter',
+      children: [
+        {
+          path: '',
+          name: 'admin-list-requests',
+          component: () => import('../views/admin/AllRequestsView.vue')
+        },
+        {
+          path: 'review',
+          name: 'admin-open-requests',
+          component: () => import('../views/admin/OpenRequestsView.vue')
+        },
+        {
+          path: 'review/:slug',
+          name: 'admin-review-jupyter',
+          component: () => import('../views/jupyter/DetailsView.vue'),
+          props: {
+            isReview: true
+          }
+        }
+      ]
     }
   ]
 };

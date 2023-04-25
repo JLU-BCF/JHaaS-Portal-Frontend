@@ -30,7 +30,7 @@ function takeJupyterAction(action: 'cancel' | 'accept' | 'reject') {
 
 <template>
   <div v-if="jupyter?.changesAllowed()">
-    <button @click="takeJupyterAction('cancel')" class="btn btn-outline-danger w-100 mt-2">
+    <button @click="takeJupyterAction('cancel')" class="btn btn-link btn-sm text-danger w-100 mt-4">
       Cancel Request
     </button>
     <div v-if="isReview">

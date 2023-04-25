@@ -47,6 +47,22 @@ function updateJupyter(newInstance: Jupyter) {
       <br />
       Status: <strong :class="`text-${jupyter.getStatusColor()}`">{{ jupyter.status }}</strong>
     </p>
+    <div v-if="jupyter && user.isAdmin" class="w-100 mw-330 mt-2">
+      <RouterLink
+        v-if="!isReview && jupyter.changesAllowed()"
+        class="text-info"
+        :to="{ name: 'admin-review-jupyter', params: { slug: jupyter.slug } }"
+      >
+        Enter Review
+      </RouterLink>
+      <RouterLink
+        v-if="isReview"
+        class="text-info"
+        :to="{ name: 'jupyter-details', params: { slug: jupyter.slug } }"
+      >
+        Leave Review
+      </RouterLink>
+    </div>
 
     <hr />
 
@@ -79,7 +95,11 @@ function updateJupyter(newInstance: Jupyter) {
         </div>
       </div>
       <div class="col-12 col-md-6 mt-5 mt-md-0">
-        <ChangeRequestList :changeRequests="jupyter.changeRequests" :isReview="isReview" />
+        <ChangeRequestList
+          @action-taken="updateJupyter"
+          :changeRequests="jupyter.changeRequests"
+          :isReview="isReview"
+        />
       </div>
     </div>
   </div>
@@ -90,21 +110,4 @@ function updateJupyter(newInstance: Jupyter) {
   >
     Back
   </RouterLink>
-
-  <div v-if="jupyter && user.isAdmin" class="w-100 mw-330 mt-2">
-    <RouterLink
-      v-if="!isReview && jupyter.changesAllowed()"
-      class="btn btn-outline-info w-100"
-      :to="{ name: 'admin-review-jupyter', params: { slug: jupyter.slug } }"
-    >
-      Enter Review
-    </RouterLink>
-    <RouterLink
-      v-if="isReview"
-      class="btn btn-outline-info w-100"
-      :to="{ name: 'jupyter-details', params: { slug: jupyter.slug } }"
-    >
-      Leave Review
-    </RouterLink>
-  </div>
 </template>

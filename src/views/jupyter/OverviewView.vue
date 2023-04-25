@@ -1,8 +1,23 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import { useJupyterStore } from '@/stores/jupyter';
+import { computed, ref } from 'vue';
 
 const jupyterStore = useJupyterStore();
+const hideOldies = ref(true);
+
+const jupyters = computed(() => {
+  if (hideOldies.value) {
+    return jupyterStore.myJupyters.filter(
+      (elem) => !['CANCELED', 'DEGRATED'].includes(elem.status)
+    );
+  }
+  return jupyterStore.myJupyters;
+});
+
+function toggleOldies() {
+  hideOldies.value = !hideOldies.value;
+}
 </script>
 
 <template>
@@ -15,7 +30,7 @@ const jupyterStore = useJupyterStore();
     impedit corrupti.
   </p>
 
-  <RouterLink class="btn btn-outline-dark mb-5" :to="{ name: 'jupyter-create' }"
+  <RouterLink class="btn btn-outline-success mb-5" :to="{ name: 'jupyter-create' }"
     >+ Create new Request</RouterLink
   >
 
@@ -24,7 +39,15 @@ const jupyterStore = useJupyterStore();
     <span class="mx-3">Loading...</span>
   </div>
 
-  <div v-if="jupyterStore.myJupyters.length" class="table-responsive">
+  <div v-if="jupyters" class="table-responsive">
+    <p class="text-end mb-0">
+      <button class="btn btn-link text-secondary" v-if="hideOldies" @click="toggleOldies">
+        Show cancelled and degrated requests
+      </button>
+      <button class="btn btn-link text-secondary" v-else @click="toggleOldies">
+        Hide cancelled and degrated requests
+      </button>
+    </p>
     <table class="table table-striped table-responsive table-hover align-middle">
       <thead>
         <tr>
@@ -36,7 +59,7 @@ const jupyterStore = useJupyterStore();
         </tr>
       </thead>
       <tbody>
-        <tr v-for="jupyter in jupyterStore.myJupyters" :key="jupyter.id">
+        <tr v-for="jupyter in jupyters" :key="jupyter.id">
           <th scope="row">
             {{ jupyter.name }}
             <div v-if="jupyter.changeRequests?.length">
