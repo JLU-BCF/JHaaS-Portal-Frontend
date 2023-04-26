@@ -62,7 +62,7 @@ function toggleOldies() {
         <tr v-for="jupyter in jupyters" :key="jupyter.id">
           <th scope="row">
             {{ jupyter.name }}
-            <div v-if="jupyter.changeRequests?.length">
+            <div v-if="jupyter.changeRequests.length">
               <small>
                 <span class="text-secondary">
                   {{ jupyter.changeRequests.length }} change requests
@@ -78,8 +78,8 @@ function toggleOldies() {
             <span :class="`text-${jupyter.getStatusColor()}`">{{ jupyter.status }}</span>
           </td>
           <td class="text-end">
-            {{ jupyter.startDate?.toLocaleDateString() }} -
-            {{ jupyter.endDate?.toLocaleDateString() }}
+            {{ jupyter.startDate.toLocaleDateString() }} -
+            {{ jupyter.endDate.toLocaleDateString() }}
           </td>
           <td class="text-end dropdown">
             <RouterLink

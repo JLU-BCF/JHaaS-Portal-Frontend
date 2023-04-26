@@ -2,12 +2,15 @@
 import type { Jupyter } from '@/models/jupyter.model';
 
 defineProps({
-  jupyters: Array<Jupyter>
+  jupyters: {
+    type: Array<Jupyter>,
+    required: true
+  }
 });
 </script>
 
 <template>
-  <div v-if="jupyters?.length" class="table-responsive">
+  <div v-if="jupyters.length" class="table-responsive">
     <table class="table table-striped table-responsive table-hover align-middle">
       <thead>
         <tr>
@@ -19,34 +22,34 @@ defineProps({
         </tr>
       </thead>
       <tbody>
-        <tr v-for="jhRequest in jupyters" :key="jhRequest.id">
+        <tr v-for="jupyter in jupyters" :key="jupyter.id">
           <th scope="row">
-            {{ jhRequest.name }}
-            <div v-if="jhRequest.changeRequests?.length">
+            {{ jupyter.name }}
+            <div v-if="jupyter.changeRequests.length">
               <small>
                 <span class="text-secondary">
-                  {{ jhRequest.changeRequests.length }} change requests,
+                  {{ jupyter.changeRequests.length }} change requests,
                 </span>
-                <span :class="`text-${jhRequest.pending() ? 'info' : 'success'}`">
-                  {{ jhRequest.pending() }} pending
+                <span :class="`text-${jupyter.pending() ? 'info' : 'success'}`">
+                  {{ jupyter.pending() }} pending
                 </span>
               </small>
             </div>
           </th>
-          <td>{{ jhRequest.slug }}</td>
+          <td>{{ jupyter.slug }}</td>
           <td>
-            {{ jhRequest.creator?.firstName }} {{ jhRequest.creator?.lastName }}
+            {{ jupyter.creator.firstName }} {{ jupyter.creator.lastName }}
             <div>
-              <small class="text-secondary">{{ jhRequest.creator?.email }}</small>
+              <small class="text-secondary">{{ jupyter.creator.email }}</small>
             </div>
           </td>
           <td class="text-end">
-            {{ jhRequest.startDate?.toLocaleDateString() }} -
-            {{ jhRequest.endDate?.toLocaleDateString() }}
+            {{ jupyter.startDate.toLocaleDateString() }} -
+            {{ jupyter.endDate.toLocaleDateString() }}
           </td>
           <td class="text-end dropdown">
             <RouterLink
-              :to="{ name: 'admin-review-jupyter', params: { slug: jhRequest.slug } }"
+              :to="{ name: 'admin-review-jupyter', params: { slug: jupyter.slug } }"
               class="btn btn-sm btn-dark"
               type="button"
             >

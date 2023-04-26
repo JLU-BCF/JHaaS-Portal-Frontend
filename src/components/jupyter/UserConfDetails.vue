@@ -2,7 +2,10 @@
 import type { JupyterHubRequestUserConf } from '@/models/jupyter.model';
 
 defineProps({
-  userConf: Object as () => JupyterHubRequestUserConf
+  userConf: {
+    type: Object as () => JupyterHubRequestUserConf,
+    required: true
+  }
 });
 </script>
 
@@ -15,28 +18,28 @@ defineProps({
       <tr>
         <td>User Count:</td>
         <td class="text-end">
-          <span class="ms-2">{{ userConf?.userCount }}</span>
+          <span class="ms-2">{{ userConf.userCount }}</span>
         </td>
         <td>[user]</td>
       </tr>
       <tr>
         <td>CPU per User:</td>
         <td class="text-end">
-          <span class="ms-2">{{ userConf?.cpusPerUser }}</span>
+          <span class="ms-2">{{ userConf.cpusPerUser }}</span>
         </td>
         <td>[shares]</td>
       </tr>
       <tr>
         <td>RAM per User:</td>
         <td class="text-end">
-          <span class="ms-2">{{ userConf?.ramPerUser }}</span>
+          <span class="ms-2">{{ userConf.ramPerUser }}</span>
         </td>
         <td>[GiB]</td>
       </tr>
       <tr>
         <td>Storage per User:</td>
         <td class="text-end">
-          <span class="ms-2">{{ userConf?.storagePerUser }}</span>
+          <span class="ms-2">{{ userConf.storagePerUser }}</span>
         </td>
         <td>[GiB]</td>
       </tr>

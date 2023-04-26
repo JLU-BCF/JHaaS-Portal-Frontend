@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { JupyterBase, Jupyter } from '../../models/jupyter.model';
-import { useJupyterStore } from '../../stores/jupyter';
+import { JupyterBase, Jupyter } from '@/models/jupyter.model';
+import { useJupyterStore } from '@/stores/jupyter';
 
 const props = defineProps({
   jupyter: {
@@ -29,7 +29,7 @@ function takeJupyterAction(action: 'cancel' | 'accept' | 'reject') {
 </script>
 
 <template>
-  <div v-if="jupyter?.changesAllowed()">
+  <div v-if="jupyter.changesAllowed()">
     <button @click="takeJupyterAction('cancel')" class="btn btn-link btn-sm text-danger w-100 mt-4">
       Cancel Request
     </button>

@@ -7,7 +7,7 @@ import {
   getNextSemesterEndDateAsIso,
   getTodayAsIso,
   getYearsLaterAsIso
-} from '../../helpers/date';
+} from '@/helpers/date';
 import { jupyterRequestSchema } from '@/helpers/validators';
 import { ref } from 'vue';
 

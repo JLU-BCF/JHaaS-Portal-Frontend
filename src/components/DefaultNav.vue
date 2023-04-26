@@ -59,7 +59,7 @@ const user = userStore.user;
               href="#"
               data-bs-toggle="dropdown"
               aria-expanded="false"
-              >{{ user?.firstName }}</a
+              >{{ user.firstName }}</a
             >
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
               <li>

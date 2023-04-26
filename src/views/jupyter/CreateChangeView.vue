@@ -2,7 +2,7 @@
 import { Form, Field } from 'vee-validate';
 import { useJupyterStore } from '@/stores/jupyter';
 import { RouterLink, useRoute } from 'vue-router';
-import { getTodayAsIso, dateToDateString, getYearsLaterAsIso } from '../../helpers/date';
+import { getTodayAsIso, dateToDateString, getYearsLaterAsIso } from '@/helpers/date';
 import { ref, type Ref } from 'vue';
 import type { Jupyter } from '@/models/jupyter.model';
 import { jupyterRequestSchema } from '@/helpers/validators';
@@ -145,7 +145,7 @@ function createJupyterChange(values: object) {
               step="5"
               min="5"
               max="500"
-              :value="jupyter.userConf?.userCount"
+              :value="jupyter.userConf.userCount"
               class="form-control"
               id="usercount-input"
               placeholder="Num. of users"
@@ -164,7 +164,7 @@ function createJupyterChange(values: object) {
               step="0.25"
               min="0.25"
               max="4"
-              :value="jupyter.userConf?.ramPerUser"
+              :value="jupyter.userConf.ramPerUser"
               class="form-control"
               id="ram-input"
               placeholder="RAM per User"
@@ -183,7 +183,7 @@ function createJupyterChange(values: object) {
               step="0.25"
               min="0.25"
               max="2"
-              :value="jupyter.userConf?.cpusPerUser"
+              :value="jupyter.userConf.cpusPerUser"
               class="form-control"
               id="cpu-input"
               placeholder="CPU per User"
@@ -202,7 +202,7 @@ function createJupyterChange(values: object) {
               step="0.5"
               min="0.5"
               max="10"
-              :value="jupyter.userConf?.storagePerUser"
+              :value="jupyter.userConf.storagePerUser"
               class="form-control"
               id="storage-input"
               placeholder="Storage per User"

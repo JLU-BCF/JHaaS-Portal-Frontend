@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { JupyterBase } from '@/models/jupyter.model';
-import UserConfDetails from './UserConfDetails.vue';
+import UserConfDetails from '@/components/jupyter/UserConfDetails.vue';
 
 defineProps({
-  jupyter: JupyterBase
+  jupyter: {
+    type: JupyterBase,
+    required: true
+  }
 });
 </script>
 
@@ -12,25 +15,25 @@ defineProps({
     <table>
       <tr>
         <td class="pe-2">Created</td>
-        <td>{{ jupyter?.createdAt?.toDateString() }}</td>
+        <td>{{ jupyter.createdAt.toDateString() }}</td>
       </tr>
       <tr>
         <td class="pe-2">Status</td>
         <td>
-          <strong :class="`text-${jupyter?.getStatusColor()}`">{{ jupyter?.status }}</strong>
+          <strong :class="`text-${jupyter.getStatusColor()}`">{{ jupyter.status }}</strong>
         </td>
       </tr>
       <tr>
         <td class="pe-2">Name</td>
-        <td>{{ jupyter?.name }}</td>
+        <td>{{ jupyter.name }}</td>
       </tr>
       <tr>
         <td class="pe-2">From</td>
-        <td>{{ jupyter?.startDate?.toDateString() }}</td>
+        <td>{{ jupyter.startDate.toDateString() }}</td>
       </tr>
       <tr>
         <td class="pe-2">Until</td>
-        <td>{{ jupyter?.endDate?.toDateString() }}</td>
+        <td>{{ jupyter.endDate.toDateString() }}</td>
       </tr>
     </table>
   </div>
@@ -38,12 +41,12 @@ defineProps({
   <p class="mb-2">
     <strong>Description:</strong>
     <br />
-    {{ jupyter?.description }}
+    {{ jupyter.description }}
   </p>
   <p class="mb-2">
     <strong>Container Image:</strong>
     <br />
-    {{ jupyter?.containerImage }}
+    {{ jupyter.containerImage }}
   </p>
-  <UserConfDetails :user-conf="jupyter?.userConf" />
+  <UserConfDetails :user-conf="jupyter.userConf" />
 </template>

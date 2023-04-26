@@ -6,7 +6,7 @@ import type { Jupyter } from '@/models/jupyter.model';
 import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vue';
 import ChangeRequestList from '@/components/jupyter/ChangeRequestList.vue';
 import JupyterActions from '@/components/jupyter/JupyterActions.vue';
-import { useUserStore } from '../../stores/user';
+import { useUserStore } from '@/stores/user';
 
 defineProps({
   isReview: Boolean
@@ -41,8 +41,8 @@ function updateJupyter(newInstance: Jupyter) {
       <small class="text-secondary ms-2">/{{ jupyter.slug }}</small>
     </h1>
     <p>
-      From <strong>{{ jupyter.startDate?.toLocaleDateString() }}</strong> until
-      <strong>{{ jupyter.endDate?.toLocaleDateString() }}</strong
+      From <strong>{{ jupyter.startDate.toLocaleDateString() }}</strong> until
+      <strong>{{ jupyter.endDate.toLocaleDateString() }}</strong
       >.
       <br />
       Status: <strong :class="`text-${jupyter.getStatusColor()}`">{{ jupyter.status }}</strong>
