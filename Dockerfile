@@ -1,4 +1,4 @@
-FROM node:16 as develop
+FROM node:18 as develop
 
 ARG USER='1000:1000'
 ARG CACHEDIR=/jhaas-cache
@@ -17,7 +17,7 @@ WORKDIR ${APPDIR}
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-FROM node:16 AS build
+FROM node:18 AS build
 
 ARG APPDIR=/jhaas-app
 
@@ -29,16 +29,8 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM node:16-alpine AS production
+FROM nginx:1.23-alpine AS production
 
 ARG APPDIR=/jhaas-app
 
-WORKDIR ${APPDIR}
-COPY --from=build ${APPDIR}/package*.json ./
-
-RUN npm ci --production
-COPY --from=build ${APPDIR}/dist/ ./dist/
-
-EXPOSE 8000
-ENTRYPOINT ["/usr/local/bin/node"]
-CMD ["./dist/server.js"]
+COPY --from=build ${APPDIR}/dist /usr/share/nginx/html

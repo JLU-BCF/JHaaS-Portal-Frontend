@@ -1,5 +1,5 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "extends": "@vue/tsconfig/tsconfig.json",
   "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
   "compilerOptions": {
     "baseUrl": ".",
@@ -10,11 +10,5 @@
     "importsNotUsedAsValues": "remove",
     "verbatimModuleSyntax": true,
     "lib": ["ES2016", "DOM", "DOM.Iterable", "ES2018.Promise"]
-  },
-
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  }
 }
