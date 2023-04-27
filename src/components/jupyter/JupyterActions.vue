@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { JupyterBase, Jupyter } from '@/models/jupyter.model';
+import { type JupyterBase, Jupyter } from '@/models/jupyter.model';
 import { useJupyterStore } from '@/stores/jupyter';
 
 const props = defineProps({
   jupyter: {
-    type: JupyterBase,
+    type: Object as () => JupyterBase,
     required: true
   },
   isChangeRequest: Boolean,
