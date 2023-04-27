@@ -18,7 +18,7 @@ export const useJupyterStore = defineStore('jupyter', () => {
   async function fetch(
     scope: 'mine' | 'id' | 'slug' | 'pending' | 'all' = 'mine',
     id?: string | string[]
-  ) {
+  ): Promise<void | Jupyter | Jupyter[]> {
     fetchInProgress.value = true;
     let url = `${backend}/jupyter`;
 
@@ -49,7 +49,7 @@ export const useJupyterStore = defineStore('jupyter', () => {
           return new Jupyter(data);
         }
         let jupyters: Array<Jupyter> = [];
-        data.instances.forEach((element: object) => {
+        data.instances.forEach((element: Jupyter) => {
           jupyters.push(new Jupyter(element));
         });
         jupyters = jupyters.sort(sortByCreationTime);
@@ -65,18 +65,11 @@ export const useJupyterStore = defineStore('jupyter', () => {
   }
 
   async function createJupyter(values: object, isChangeRequest = false) {
-    fetchInProgress.value = true;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let fetchPromise: Promise<any>;
     const url = `${backend}/jupyter`;
+    const meth = isChangeRequest ? 'put' : 'post';
+    fetchInProgress.value = true;
 
-    if (isChangeRequest) {
-      fetchPromise = fetchWrapper.put(url, values);
-    } else {
-      fetchPromise = fetchWrapper.post(url, values);
-    }
-
-    fetchPromise
+    fetchWrapper[meth](url, values)
       .then((data) => {
         notify({
           display: 'info',

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { User } from '@/models/user.model';
-import type { UserInterface } from '@/models/user.model';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import { useNotificationStore } from '@/stores/notification';
 
@@ -10,7 +9,7 @@ export const useUserStore = defineStore('user', () => {
   const backend = import.meta.env.VITE_BACKEND_PATH;
   const { notify } = useNotificationStore();
 
-  function setUser(userObject: UserInterface) {
+  function setUser(userObject: User) {
     user.value.setUser(userObject);
   }
 
