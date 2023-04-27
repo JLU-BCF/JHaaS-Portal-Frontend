@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import StartView from '../views/StartView.vue';
+import StartView from '@/views/StartView.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
-import authRoutes from './auth.routes';
-import userRoutes from './user.routes';
-import jupyterRoutes from './jupyter.routes';
-import adminRoutes from './admin.routes';
+import authRoutes from '@/router/auth.routes';
+import userRoutes from '@/router/user.routes';
+import jupyterRoutes from '@/router/jupyter.routes';
+import adminRoutes from '@/router/admin.routes';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

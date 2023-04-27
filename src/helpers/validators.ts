@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { getTodayAsIso, getYearsLaterAsIso } from './date';
+import { getTodayAsIso, getYearsLaterAsIso } from '@/helpers/date';
 
 const containerImageRe =
   /^(?!-)[A-Za-z0-9-]+(?<!-)(\.(?!-)[A-Za-z0-9-]+(?<!-))*(:[0-9]+)?(\/[A-Za-z0-9-_.]+)+(@[A-Za-z0-9]+)?(:[A-Za-z0-9-_.]+)?$/;

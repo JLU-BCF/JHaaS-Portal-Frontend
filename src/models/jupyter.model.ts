@@ -1,4 +1,4 @@
-import { User } from './user.model';
+import { User } from '@/models/user.model';
 
 export type JupyterHubRequestUserConf = {
   storagePerUser: number;

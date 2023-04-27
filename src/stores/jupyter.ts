@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import { ref, type Ref } from 'vue';
-import { useNotificationStore } from './notification';
+import { useNotificationStore } from '@/stores/notification';
 import { Jupyter } from '@/models/jupyter.model';
 import router from '@/router';
 import { sortByCreationTime } from '@/helpers/sort';

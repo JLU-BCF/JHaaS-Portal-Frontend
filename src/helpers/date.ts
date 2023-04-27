@@ -1,6 +1,6 @@
 // Month calc starts at 0! So, January = 0, December = 11!
-const summerStartMonth = 3,
-  winterStartMonth = 9;
+const summerStartMonth = 3;
+const winterStartMonth = 9;
 const today = new Date();
 
 export function getNextSemesterStartDateAsIso(): string {

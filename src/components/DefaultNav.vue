@@ -2,11 +2,29 @@
 import { RouterLink } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
+import { onMounted, onUpdated } from 'vue';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const auth = authStore.auth;
 const user = userStore.user;
+
+onMounted(addCloseNavListeners);
+onUpdated(addCloseNavListeners);
+
+function addCloseNavListeners() {
+  document
+    .querySelectorAll('.navbar-collapse .nav-item, .navbar-collapse .dropdown-item')
+    .forEach((link) => {
+      if (!link.classList.contains('dropdown') && !link.classList.contains('auto-toggle-applied')) {
+        link.classList.add('auto-toggle-applied');
+        link.addEventListener('click', () => {
+          let btn = document.getElementById('navbar-toggle-btn');
+          if (btn?.checkVisibility()) btn?.click();
+        });
+      }
+    });
+}
 </script>
 
 <template>
@@ -15,17 +33,18 @@ const user = userStore.user;
       <RouterLink class="navbar-brand" :to="{ name: 'start' }">JHaaS Portal</RouterLink>
       <button
         class="navbar-toggler"
+        id="navbar-toggle-btn"
         type="button"
         data-bs-toggle="collapse"
-        data-bs-target="#navbarsExample07"
-        aria-controls="navbarsExample07"
+        data-bs-target="#navbar-collapse"
+        aria-controls="navbar-collapse"
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarsExample07">
+      <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
             <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'start' }"

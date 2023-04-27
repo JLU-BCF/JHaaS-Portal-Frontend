@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useJupyterStore } from '@/stores/jupyter';
-import AdminOverviewList from '@/components/jupyter/AdminOverviewList.vue';
+import JupyterList from '@/components/jupyter/JupyterList.vue';
 import type { Jupyter } from '@/models/jupyter.model';
 import { ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
@@ -23,7 +23,8 @@ const page = ref(Number(route.query.page) || 1);
     <div class="spinner-grow spinner-grow-sm align-middle" role="status"></div>
     <span class="mx-3">Loading...</span>
   </div>
-  <AdminOverviewList v-else :jupyters="jupyters">
+
+  <JupyterList v-else :jupyters="jupyters" :show-status="true" :show-user="true">
     There are no pending requests for review.
-  </AdminOverviewList>
+  </JupyterList>
 </template>

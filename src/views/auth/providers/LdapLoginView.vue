@@ -9,65 +9,54 @@ const schema = Yup.object().shape({
   password: Yup.string().required('Password is required')
 });
 
-function onSubmit(values: { username?: string; password?: string }) {
-  const authStore = useAuthStore();
-  const { username, password } = values;
-
-  if (username && password) {
-    return authStore.ldapLogin(username, password);
-  }
-
-  // TODO error
-}
+const authStore = useAuthStore();
 </script>
 
 <template>
-  <div class="form-signin w-100 m-auto mt-5 text-center">
-    <h2>Login</h2>
-    <p>with your ldap credentials</p>
-    <Form
-      class="text-start my-5"
-      @submit="onSubmit"
-      :validation-schema="schema"
-      v-slot="{ errors, isSubmitting }"
-    >
-      <div class="form-floating mb-2">
-        <Field
-          name="username"
-          type="text"
-          class="form-control"
-          id="username-input"
-          placeholder="E-Mail Address"
-          :class="{ 'is-invalid': errors.username }"
-          required
-        />
-        <label for="username-input">Username</label>
-      </div>
-      <div class="form-floating mb-2">
-        <Field
-          name="password"
-          type="password"
-          class="form-control"
-          id="password-input"
-          placeholder="Password"
-          :class="{ 'is-invalid': errors.password }"
-          required
-        />
-        <label>Password</label>
-      </div>
-      <div class="form-floating">
-        <button class="btn btn-dark w-100" :disabled="isSubmitting" type="submit">
-          <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-          Login
-        </button>
-      </div>
-      <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{ errors.apiError }}</div>
-    </Form>
-    <hr />
-    <div class="d-grid gap-2 d-md-flex">
-      <RouterLink :to="{ name: 'login' }" class="w-100 btn btn-sm btn-outline-secondary"
-        >Back</RouterLink
-      >
+  <h2>Login</h2>
+  <p>with your ldap credentials</p>
+  <Form
+    class="text-start my-5"
+    @submit="authStore.ldapLogin"
+    :validation-schema="schema"
+    v-slot="{ errors, isSubmitting }"
+  >
+    <div class="form-floating mb-2">
+      <Field
+        name="username"
+        type="text"
+        class="form-control"
+        id="username-input"
+        placeholder="E-Mail Address"
+        :class="{ 'is-invalid': errors.username }"
+        required
+      />
+      <label for="username-input">Username</label>
     </div>
+    <div class="form-floating mb-2">
+      <Field
+        name="password"
+        type="password"
+        class="form-control"
+        id="password-input"
+        placeholder="Password"
+        :class="{ 'is-invalid': errors.password }"
+        required
+      />
+      <label>Password</label>
+    </div>
+    <div class="form-floating">
+      <button class="btn btn-dark w-100" :disabled="isSubmitting" type="submit">
+        <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
+        Login
+      </button>
+    </div>
+    <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{ errors.apiError }}</div>
+  </Form>
+  <hr />
+  <div class="d-grid gap-2 d-md-flex">
+    <RouterLink :to="{ name: 'login' }" class="w-100 btn btn-sm btn-outline-secondary"
+      >Back</RouterLink
+    >
   </div>
 </template>

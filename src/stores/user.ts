@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { User } from '@/models/user.model';
 import type { UserInterface } from '@/models/user.model';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
-import { useNotificationStore } from './notification';
+import { useNotificationStore } from '@/stores/notification';
 
 export const useUserStore = defineStore('user', () => {
   const user = ref(new User());

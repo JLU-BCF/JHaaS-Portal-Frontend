@@ -1,6 +1,6 @@
 <template>
   <footer class="d-flex flex-wrap justify-content-between align-items-center px-3 py-1 mt-4">
-    <p class="col-md-5 col-12 mb-0 text-secondary text-center text-md-start">
+    <p class="lh-lg col-md-5 col-12 mb-0 text-secondary text-center text-md-start">
       2023 Computational Bio
     </p>
 
