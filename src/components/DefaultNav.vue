@@ -13,17 +13,22 @@ onMounted(addCloseNavListeners);
 onUpdated(addCloseNavListeners);
 
 function addCloseNavListeners() {
-  document
-    .querySelectorAll('.navbar-collapse .nav-item, .navbar-collapse .dropdown-item')
-    .forEach((link) => {
-      if (!link.classList.contains('dropdown') && !link.classList.contains('auto-toggle-applied')) {
-        link.classList.add('auto-toggle-applied');
-        link.addEventListener('click', () => {
-          let btn = document.getElementById('navbar-toggle-btn');
-          if (btn?.checkVisibility()) btn?.click();
-        });
-      }
-    });
+  const btn = document.getElementById('navbar-toggle-btn');
+  if (btn) {
+    document
+      .querySelectorAll('#navbar-collapse .nav-link, #navbar-collapse .dropdown-item')
+      .forEach((item) => {
+        if (
+          !item.classList.contains('dropdown-toggle') &&
+          !item.hasAttribute('auto-toggle-applied')
+        ) {
+          item.setAttribute('auto-toggle-applied', '1');
+          item.addEventListener('click', () => {
+            if (window.getComputedStyle(btn).display !== 'none') btn.click();
+          });
+        }
+      });
+  }
 }
 </script>
 
