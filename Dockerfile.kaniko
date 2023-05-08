@@ -15,6 +15,9 @@ RUN npm run build
 
 FROM nginx:1.23-alpine AS production
 
+# pull in latest security patches for base
+RUN apk upgrade --no-cache
+
 ARG APPDIR=/jhaas-app
 
 COPY --from=build ${APPDIR}/dist /usr/share/nginx/html
