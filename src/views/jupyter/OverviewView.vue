@@ -4,6 +4,7 @@ import { useJupyterStore } from '@/stores/jupyter';
 import JupyterList from '@/components/jupyter/JupyterList.vue';
 
 const jupyterStore = useJupyterStore();
+jupyterStore.loadMyJupyters();
 </script>
 
 <template>

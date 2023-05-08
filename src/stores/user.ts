@@ -33,5 +33,19 @@ export const useUserStore = defineStore('user', () => {
     return me;
   }
 
-  return { user, setUser, clearUser, fetchMe };
+  async function fetchLoginMethod() {
+    return fetchWrapper
+      .get(`${backend}/user/${user.value.id}/auth`)
+      .then((val) => {
+        return val;
+      })
+      .catch((err) =>
+        notify({
+          display: 'danger',
+          message: err
+        })
+      );
+  }
+
+  return { user, setUser, clearUser, fetchMe, fetchLoginMethod };
 });

@@ -11,7 +11,7 @@ export const jupyterRequestSchema = Yup.object().shape({
     .max(63)
     .matches(
       /^(?!-)[a-z0-9-]+(?<!-)$/,
-      'Slug must be DNS compliant: only numbers, letters and hyphens are allowed, must not begin or end with a hyphen'
+      'Slug must be DNS compliant: only numbers, lowercase letters and hyphens are allowed, must not begin or end with a hyphen'
     )
     .required()
     .label('Slug'),

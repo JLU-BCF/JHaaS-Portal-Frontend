@@ -10,7 +10,8 @@ export const useJupyterStore = defineStore('jupyter', () => {
   const backend = import.meta.env.VITE_BACKEND_PATH;
   const { notify } = useNotificationStore();
 
-  const fetchInProgress = ref(true);
+  let jupytersLoaded = false;
+  const fetchInProgress = ref(false);
   const myJupyters: Ref<Jupyter[]> = ref([]);
 
   async function fetch(scope: 'id' | 'slug', id: string | string[]): Promise<Jupyter>;
@@ -141,15 +142,26 @@ export const useJupyterStore = defineStore('jupyter', () => {
     myJupyters.value = jupyters.sort(sortByCreationTime);
   }
 
-  fetch().then((jupyters) => {
-    myJupyters.value = jupyters;
-  });
+  function loadMyJupyters() {
+    jupytersLoaded ||
+      fetch().then((jupyters) => {
+        jupytersLoaded = true;
+        myJupyters.value = jupyters;
+      });
+  }
+
+  function clearMyJupyters() {
+    myJupyters.value = [];
+    jupytersLoaded = false;
+  }
 
   return {
     fetch,
     createJupyter,
     jupyterAction,
     checkSlug,
+    loadMyJupyters,
+    clearMyJupyters,
     fetchInProgress,
     myJupyters
   };

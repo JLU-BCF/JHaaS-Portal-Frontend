@@ -4,10 +4,12 @@ import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import router from '@/router';
 import { ref } from 'vue';
 import { useNotificationStore } from '@/stores/notification';
+import { useJupyterStore } from './jupyter';
 
 export const useAuthStore = defineStore('auth', () => {
   const backend = import.meta.env.VITE_BACKEND_PATH;
   const { notify } = useNotificationStore();
+  const jupyterStore = useJupyterStore();
 
   const auth = ref(new Auth());
 
@@ -59,6 +61,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   function logout() {
     auth.value.reset();
+    jupyterStore.clearMyJupyters();
     notify({
       display: 'info',
       message: 'You are now logged out.'

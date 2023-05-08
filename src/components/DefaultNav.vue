@@ -88,10 +88,9 @@ function addCloseNavListeners() {
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
               <li>
                 <RouterLink :to="{ name: 'profile' }" class="dropdown-item" :active-class="'active'"
-                  >Profile</RouterLink
+                  >Profile Settings</RouterLink
                 >
               </li>
-              <li><a class="dropdown-item" href="#">Settings</a></li>
               <li><hr class="dropdown-divider" /></li>
               <li><button class="dropdown-item" @click="authStore.logout()">Logout</button></li>
             </ul>
