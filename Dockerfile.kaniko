@@ -21,3 +21,4 @@ RUN apk upgrade --no-cache --purge
 ARG APPDIR=/jhaas-app
 
 COPY --from=build ${APPDIR}/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf

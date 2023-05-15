@@ -34,3 +34,4 @@ FROM nginx:1.23-alpine AS production
 ARG APPDIR=/jhaas-app
 
 COPY --from=build ${APPDIR}/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
