@@ -2,31 +2,31 @@ export default [
   {
     path: '/',
     name: 'start',
-    component: () => import('../views/StartView.vue')
+    component: () => import('../views/public/StartView.vue')
   },
   {
     path: '/about',
     name: 'about',
-    component: () => import('../views/AboutView.vue')
+    component: () => import('../views/public/AboutView.vue')
   },
   {
     path: '/contact',
     name: 'contact',
-    component: () => import('../views/ContactView.vue')
+    component: () => import('../views/public/ContactView.vue')
   },
   {
     path: '/terms-of-use',
     name: 'tos',
-    component: () => import('../views/TosView.vue')
+    component: () => import('../views/public/TosView.vue')
   },
   {
     path: '/imprint',
     name: 'imprint',
-    component: () => import('../views/ImprintView.vue')
+    component: () => import('../views/public/ImprintView.vue')
   },
   {
     path: '/faq',
     name: 'faq',
-    component: () => import('../views/FaqView.vue')
+    component: () => import('../views/public/FaqView.vue')
   }
 ];

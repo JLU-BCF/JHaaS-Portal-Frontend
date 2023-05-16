@@ -15,6 +15,11 @@ export default {
           path: 'list',
           name: 'admin-list-user',
           component: () => import('../views/admin/AllRequestsView.vue')
+        },
+        {
+          path: 'create',
+          name: 'admin-create-user',
+          component: () => import('../views/admin/CreateLocalUserView.vue')
         }
       ]
     },
