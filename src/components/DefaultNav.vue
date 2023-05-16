@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { onMounted, onUpdated } from 'vue';
@@ -8,6 +8,7 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 const auth = authStore.auth;
 const user = userStore.user;
+const route = useRoute();
 
 onMounted(addCloseNavListeners);
 onUpdated(addCloseNavListeners);
@@ -76,7 +77,7 @@ function addCloseNavListeners() {
           <li
             v-if="auth.valid()"
             class="nav-item dropdown"
-            :class="$route.matched.some(({ name }) => name == 'user') ? 'active' : ''"
+            :class="route.matched.some(({ name }) => name == 'user') ? 'active' : ''"
           >
             <a
               class="nav-link dropdown-toggle"
