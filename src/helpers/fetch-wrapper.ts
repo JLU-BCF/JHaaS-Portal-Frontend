@@ -78,7 +78,7 @@ function jwtRefresh() {
 
   return fetchWrapper
     .post(`${backend_url}/auth/refresh`, undefined, jwtRefreshResponse)
-    .then((data) => auth.setToken(data.jwt))
+    .then((data) => auth.setUser(data))
     .catch((err) => {
       throw err;
     });

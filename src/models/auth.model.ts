@@ -1,5 +1,5 @@
-import { jwt_payload } from '@/helpers/jwt-decoder';
 import { useUserStore } from '@/stores/user';
+import type { User } from './user.model';
 
 export class Auth {
   userStore = useUserStore();
@@ -7,28 +7,19 @@ export class Auth {
   returnUrl?: string;
   lastTokenRefresh?: Date;
 
-  constructor(initToken?: string | null) {
-    const oldAuthToken = initToken || localStorage.getItem('auth');
-
-    if (oldAuthToken) {
-      this.setToken(oldAuthToken);
-    }
+  constructor(user?: User | null) {
+    const oldUser = localStorage.getItem('user');
+    if (user) this.setUser(user);
+    else if (oldUser) this.setUser(JSON.parse(oldUser));
   }
 
-  setToken(token: string): void {
-    const data = jwt_payload(token);
-
-    if (data) {
-      this.token = token;
-      localStorage.setItem('auth', token);
-      if (data.user) {
-        this.userStore.setUser(data.user);
-      }
-    }
+  setUser(user: User) {
+    this.userStore.setUser(user);
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
   valid(): boolean {
-    return typeof this.token === 'string';
+    return typeof this.userStore.user.id === 'string';
   }
 
   reset(): void {
@@ -36,6 +27,6 @@ export class Auth {
     this.returnUrl = undefined;
     this.lastTokenRefresh = undefined;
     this.userStore.clearUser();
-    localStorage.removeItem('auth');
+    localStorage.removeItem('user');
   }
 }

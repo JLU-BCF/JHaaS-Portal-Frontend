@@ -15,18 +15,13 @@ export default {
           path: 'local',
           name: 'localLogin',
           component: () => import('../views/auth/providers/LocalLoginView.vue')
-        },
-        {
-          path: 'ldap',
-          name: 'ldapLogin',
-          component: () => import('../views/auth/providers/LdapLoginView.vue')
-        },
-        {
-          path: 'oicd',
-          name: 'oicdLogin',
-          component: () => import('../views/auth/providers/OicdLoginView.vue')
         }
       ]
+    },
+    {
+      path: 'verify',
+      name: 'auth-verify',
+      component: () => import('../views/auth/VerifyView.vue')
     },
     {
       path: 'register',
