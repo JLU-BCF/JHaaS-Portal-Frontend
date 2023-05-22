@@ -3,7 +3,8 @@ import { useAuthStore } from '../../stores/auth';
 
 const authStore = useAuthStore();
 
-setTimeout(authStore.oidcVerify, 2000);
+// TODO
+setTimeout(authStore.oidcVerify, 1000);
 </script>
 
 <template>

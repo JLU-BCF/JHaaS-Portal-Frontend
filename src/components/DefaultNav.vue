@@ -93,7 +93,11 @@ function addCloseNavListeners() {
                 >
               </li>
               <li><hr class="dropdown-divider" /></li>
-              <li><button class="dropdown-item" @click="authStore.logout()">Logout</button></li>
+              <li>
+                <form action="/api/auth/logout" method="post">
+                  <button class="dropdown-item" type="submit">Logout</button>
+                </form>
+              </li>
             </ul>
           </li>
           <li v-else class="nav-item">

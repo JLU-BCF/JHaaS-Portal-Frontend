@@ -14,7 +14,7 @@ export default {
         {
           path: '',
           name: 'auth-logout',
-          component: () => import('../views/auth/LogoutView.vue')
+          component: () => import('../views/auth/VerifyView.vue')
         }
       ]
     }

@@ -71,27 +71,9 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function logout() {
-    router.replace({ name: 'auth-logout' });
-
-    setTimeout(() => {
-      fetchWrapper
-        .delete(`${backend}/auth/session`)
-        .then((data) => {
-          auth.value.reset();
-          jupyterStore.clearMyJupyters();
-          notify({
-            display: 'info',
-            message: data
-          });
-          router.push({ name: 'start' });
-        })
-        .catch((err) =>
-          notify({
-            display: 'danger',
-            message: err
-          })
-        );
-    }, 2000);
+    auth.value.reset();
+    jupyterStore.clearMyJupyters();
+    router.push({ name: 'start' });
   }
 
   return { auth, localLogin, localRegister, oidcVerify, logout };
