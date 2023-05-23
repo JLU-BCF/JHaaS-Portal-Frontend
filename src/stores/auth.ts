@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
     fetchWrapper
       .post(`${backend}/auth/local/login`, values)
       .then((data) => {
-        auth.value.setToken(data.jwt);
+        auth.value.setUser(data);
         notify({
           display: 'info',
           message: 'You are now logged in.'
@@ -36,7 +36,7 @@ export const useAuthStore = defineStore('auth', () => {
     fetchWrapper
       .post(`${backend}/auth/local/signup`, values)
       .then((data) => {
-        auth.value.setToken(data.jwt);
+        auth.value.setUser(data);
         notify({
           display: 'info',
           message: 'You are now registered and logged in.'
@@ -51,23 +51,30 @@ export const useAuthStore = defineStore('auth', () => {
       );
   }
 
-  async function ldapLogin(values: { [key: string]: string }) {
-    await fetchWrapper.post(`${backend}/auth/ldap/login`, values);
-  }
-
-  async function oicdLogin() {
-    // do the oicd login
+  async function oidcVerify() {
+    fetchWrapper
+      .get(`${backend}`)
+      .then((data) => {
+        auth.value.setUser(data);
+        notify({
+          display: 'info',
+          message: 'You are now logged in.'
+        });
+        router.push(auth.value.returnUrl || { name: 'jupyter-overview' });
+      })
+      .catch((err) =>
+        notify({
+          display: 'danger',
+          message: err
+        })
+      );
   }
 
   function logout() {
     auth.value.reset();
     jupyterStore.clearMyJupyters();
-    notify({
-      display: 'info',
-      message: 'You are now logged out.'
-    });
     router.push({ name: 'start' });
   }
 
-  return { auth, localLogin, localRegister, ldapLogin, oicdLogin, logout };
+  return { auth, localLogin, localRegister, oidcVerify, logout };
 });

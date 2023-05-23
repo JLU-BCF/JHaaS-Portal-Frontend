@@ -9,11 +9,6 @@ import { RouterLink } from 'vue-router';
     <RouterLink :to="{ name: 'localLogin' }" class="btn btn-outline-dark w-100 my-1"
       >Local (testing)</RouterLink
     >
-    <RouterLink :to="{ name: 'ldapLogin' }" class="btn btn-outline-dark w-100 my-1"
-      >LDAP</RouterLink
-    >
-    <RouterLink :to="{ name: 'oicdLogin' }" class="btn btn-outline-dark w-100 my-1"
-      >OICD</RouterLink
-    >
+    <a href="/api/auth/oidc/login" class="btn btn-outline-dark w-100 my-1">OICD</a>
   </div>
 </template>

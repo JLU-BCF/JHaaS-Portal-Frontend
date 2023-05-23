@@ -23,7 +23,7 @@ const props = defineProps({
 
 const hideOldies = ref(true);
 
-const jupyters = computed(() => {
+const computedJupyters = computed(() => {
   if (hideOldies.value && !props.isReview) {
     return props.jupyters.filter((elem) => !['CANCELED', 'DEGRATED'].includes(elem.status));
   }
@@ -44,7 +44,7 @@ function toggleOldies() {
       Hide cancelled and degrated requests
     </button>
   </p>
-  <div v-if="jupyters.length" class="table-responsive">
+  <div v-if="computedJupyters.length" class="table-responsive">
     <table class="table table-striped table-responsive table-hover align-middle">
       <thead>
         <tr>
@@ -57,7 +57,7 @@ function toggleOldies() {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="jupyter in jupyters" :key="jupyter.id">
+        <tr v-for="jupyter in computedJupyters" :key="jupyter.id">
           <th scope="row">
             {{ jupyter.name }}
             <div v-if="jupyter.changeRequests.length">
