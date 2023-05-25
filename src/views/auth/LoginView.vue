@@ -9,6 +9,6 @@ import { RouterLink } from 'vue-router';
     <RouterLink :to="{ name: 'localLogin' }" class="btn btn-outline-dark w-100 my-1"
       >Local (testing)</RouterLink
     >
-    <a href="/api/auth/oidc/login" class="btn btn-outline-dark w-100 my-1">OICD</a>
+    <a href="/api/auth/oidc/login" class="btn btn-outline-dark w-100 my-1">OIDC</a>
   </div>
 </template>

@@ -4,6 +4,7 @@ interface UserInterface {
   lastName: string;
   email: string;
   isAdmin: boolean;
+  isLead: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -14,6 +15,7 @@ export class User implements UserInterface {
   lastName!: string;
   email!: string;
   isAdmin!: boolean;
+  isLead!: boolean;
   createdAt!: Date;
   updatedAt!: Date;
 
@@ -27,6 +29,7 @@ export class User implements UserInterface {
     this.lastName = userObject.lastName;
     this.email = userObject.email;
     this.isAdmin = userObject.isAdmin;
+    this.isLead = userObject.isLead;
     this.createdAt = userObject.createdAt;
     this.updatedAt = userObject.updatedAt;
   }

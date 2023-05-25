@@ -67,9 +67,14 @@ function addCloseNavListeners() {
               >Hubs</RouterLink
             >
           </li>
+          <li v-if="auth.valid() && user.isLead" class="nav-item">
+            <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'jupyter-overview' }"
+              >Leadership</RouterLink
+            >
+          </li>
           <li v-if="auth.valid() && user.isAdmin" class="nav-item">
             <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'admin-overview' }"
-              >Admin</RouterLink
+              >Administration</RouterLink
             >
           </li>
         </ul>
@@ -80,6 +85,7 @@ function addCloseNavListeners() {
             :class="route.matched.some(({ name }) => name == 'user') ? 'active' : ''"
           >
             <a
+              id="auth-dropdown"
               class="nav-link dropdown-toggle"
               href="#"
               data-bs-toggle="dropdown"

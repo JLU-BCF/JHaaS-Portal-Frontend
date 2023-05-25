@@ -34,6 +34,24 @@ footer {
   z-index: 1;
 }
 
+#auth-dropdown {
+	max-width: 200px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+  padding-right: 1em;
+}
+
+#auth-dropdown::after {
+  position: absolute;
+  right: 0;
+  top: calc(50% - 0.15em);
+}
+
+#auth-dropdown.show::after {
+  border-bottom: .3em solid;
+  border-top: 0;
+}
+
 .dropdown.active > .dropdown-toggle {
   color: var(--bs-navbar-active-color);
 }

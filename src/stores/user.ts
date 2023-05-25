@@ -17,22 +17,6 @@ export const useUserStore = defineStore('user', () => {
     user.value = new User();
   }
 
-  function fetchMe() {
-    const me = ref('waiting...');
-    fetchWrapper
-      .get(`${backend}/user/${user.value.id}`)
-      .then((val) => {
-        me.value = val;
-      })
-      .catch((err) =>
-        notify({
-          display: 'danger',
-          message: err
-        })
-      );
-    return me;
-  }
-
   async function fetchLoginMethod() {
     return fetchWrapper
       .get(`${backend}/user/${user.value.id}/auth`)
@@ -47,5 +31,5 @@ export const useUserStore = defineStore('user', () => {
       );
   }
 
-  return { user, setUser, clearUser, fetchMe, fetchLoginMethod };
+  return { user, setUser, clearUser, fetchLoginMethod };
 });
