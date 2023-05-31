@@ -63,7 +63,10 @@ function addCloseNavListeners() {
             >
           </li>
           <li v-if="auth.valid()" class="nav-item">
-            <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'jupyter-overview' }"
+            <RouterLink
+              :active-class="'active'"
+              class="nav-link"
+              :to="{ name: 'participation-overview' }"
               >Hubs</RouterLink
             >
           </li>

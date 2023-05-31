@@ -35,9 +35,9 @@ footer {
 }
 
 #auth-dropdown {
-	max-width: 200px;
-	text-overflow: ellipsis;
-	overflow: hidden;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
   padding-right: 1em;
 }
 
@@ -48,7 +48,7 @@ footer {
 }
 
 #auth-dropdown.show::after {
-  border-bottom: .3em solid;
+  border-bottom: 0.3em solid;
   border-top: 0;
 }
 

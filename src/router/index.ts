@@ -5,6 +5,7 @@ import publicRoutes from '@/router/public.routes';
 import authRoutes from '@/router/auth.routes';
 import userRoutes from '@/router/user.routes';
 import jupyterRoutes from '@/router/jupyter.routes';
+import participationRoutes from '@/router/participation.routes';
 import adminRoutes from '@/router/admin.routes';
 import { useNotificationStore } from '@/stores/notification';
 
@@ -20,6 +21,7 @@ const router = createRouter({
     { ...authRoutes },
     { ...userRoutes },
     { ...jupyterRoutes },
+    { ...participationRoutes },
     { ...adminRoutes },
     {
       path: '/:pathMatch(.*)*',
@@ -35,7 +37,7 @@ router.beforeEach(async (to, from, next) => {
   const { notify } = useNotificationStore();
 
   let isAuthPage = false;
-  let isLeaderPage = false;
+  const isLeaderPage = false;
   let isAdminPage = false;
   let isPublicPage = false;
 
