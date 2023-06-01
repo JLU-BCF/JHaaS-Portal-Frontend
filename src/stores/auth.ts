@@ -53,14 +53,19 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function oidcVerify() {
     fetchWrapper
-      .get(`${backend}`)
+      .get(`${backend}/`)
       .then((data) => {
         auth.value.setUser(data);
         notify({
           display: 'info',
           message: 'You are now logged in.'
         });
-        router.push(auth.value.returnUrl || { name: 'jupyter-overview' });
+        const defaultReturnTarget = auth.value.userStore.user.isAdmin
+          ? 'admin-overview'
+          : auth.value.userStore.user.isLead
+            ? 'jupyter-overview'
+            : 'participation-overview';
+        router.push(auth.value.returnUrl || { name: defaultReturnTarget });
       })
       .catch((err) =>
         notify({

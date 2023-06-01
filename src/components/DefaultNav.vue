@@ -4,6 +4,9 @@ import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { onMounted, onUpdated } from 'vue';
 
+const local_accounts_enabled = ['true', true, 1].includes(
+  import.meta.env.VITE_ENABLE_LOCAL_ACCOUNTS
+);
 const authStore = useAuthStore();
 const userStore = useUserStore();
 const auth = authStore.auth;
@@ -109,10 +112,13 @@ function addCloseNavListeners() {
               </li>
             </ul>
           </li>
-          <li v-else class="nav-item">
+          <li v-else-if="local_accounts_enabled" class="nav-item">
             <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'login' }"
               >Login</RouterLink
             >
+          </li>
+          <li v-else class="nav-item">
+            <a href="/api/auth/oidc/login" class="nav-link">Login</a>
           </li>
         </ul>
       </div>
