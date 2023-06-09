@@ -70,7 +70,7 @@ function addCloseNavListeners() {
               :active-class="'active'"
               class="nav-link"
               :to="{ name: 'participation-overview' }"
-              >Hubs</RouterLink
+              >Participation</RouterLink
             >
           </li>
           <li v-if="auth.valid() && user.isLead" class="nav-item">
