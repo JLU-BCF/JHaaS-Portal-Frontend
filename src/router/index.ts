@@ -56,7 +56,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (!isPublicPage && !auth.valid()) {
-    auth.returnUrl = to.fullPath;
+    auth.setReturnUrl(to.fullPath);
     notify({
       display: 'warning',
       message: 'You must be logged in to view this page.'

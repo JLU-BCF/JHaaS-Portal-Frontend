@@ -18,5 +18,17 @@ export const useParticipationStore = defineStore('participation', () => {
       });
   }
 
-  return { fetchUserParticipations };
+  async function fetchJupyterForParticipation(slug: string | string[]) {
+    return fetchWrapper
+      .get(`${backend}/participation/hub/${slug}`)
+      .then((data) => data)
+      .catch((err) => {
+        notify({
+          display: 'danger',
+          message: err
+        });
+      });
+  }
+
+  return { fetchUserParticipations, fetchJupyterForParticipation };
 });
