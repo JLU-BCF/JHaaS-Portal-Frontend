@@ -5,6 +5,7 @@ import { useParticipationStore, type HubForParticipation } from '@/stores/partic
 import { ref, type Ref } from 'vue';
 import { Participation } from '@/models/participation.model';
 import { useNotificationStore } from '@/stores/notification';
+import { useUserStore } from '@/stores/user';
 
 const route = useRoute();
 const slug = route.params.slug;
@@ -15,6 +16,8 @@ const participation: Ref<Participation | undefined> = ref();
 const loadingHub = ref(true);
 const loadingParticipation = ref(false);
 const { notify } = useNotificationStore();
+
+const { user } = useUserStore();
 
 participationStore
   .fetchJupyterForParticipation(slug)
@@ -89,7 +92,16 @@ function requestAccess(slug: string) {
             <span v-else class="text-secondary"> your request is pending! </span>
           </p>
         </div>
-
+        <div v-else-if="hub.creatorId == user.id">
+          <hr />
+          <p class="text-info text-center">This is your own hub!</p>
+          <RouterLink
+            :to="{ name: 'jupyter-details', params: { slug: hub.slug } }"
+            class="btn btn-outline-info w-100"
+          >
+            Open details
+          </RouterLink>
+        </div>
         <div v-else>
           <button @click="requestAccess(hub.slug)" class="btn btn-success w-100 mt-3">
             Request access now

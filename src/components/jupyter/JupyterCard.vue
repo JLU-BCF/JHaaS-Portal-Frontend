@@ -41,7 +41,13 @@ const borderClass = accepted
       </div>
       <div v-else-if="participation.hub.status == 'DEPLOYED'">
         <p class="text-center">Hub is <strong class="text-success">online</strong></p>
-        <a v-show="accepted" href="#" class="btn btn-success w-100">Open</a>
+        <a
+          v-show="accepted"
+          :href="participation.hub.hubUrl"
+          target="_blank"
+          class="btn btn-success w-100"
+          >Open</a
+        >
       </div>
       <div v-else>
         <p class="text-center"><strong class="text-danger">Hub is offline</strong></p>

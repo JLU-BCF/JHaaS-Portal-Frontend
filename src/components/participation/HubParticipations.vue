@@ -68,7 +68,7 @@ function updateParticipation(updatedParticipation: Participation) {
 
     <div
       v-if="acceptedParticipations.length"
-      class="table-responsive border-start border-success ps-2"
+      class="table-responsive border-start border-success ps-2 mt-4"
     >
       <h6 class="text-success">Confirmed Participations</h6>
       <ParticipationTable
@@ -81,7 +81,7 @@ function updateParticipation(updatedParticipation: Participation) {
 
     <div
       v-if="rejectedParticipations.length"
-      class="table-responsive border-start border-danger ps-2"
+      class="table-responsive border-start border-danger ps-2 mt-4"
     >
       <h6 class="text-danger">Rejected Participations</h6>
       <ParticipationTable

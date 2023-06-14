@@ -3,6 +3,7 @@ import { useNotificationStore } from '@/stores/notification';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 
 export type HubForParticipation = {
+  creatorId: string;
   name: string;
   slug: string;
   description?: string;

@@ -8,6 +8,8 @@ import ChangeRequestList from '@/components/jupyter/ChangeRequestList.vue';
 import JupyterActions from '@/components/jupyter/JupyterActions.vue';
 import HubParticipations from '@/components/participation/HubParticipations.vue';
 import { useUserStore } from '@/stores/user';
+import router from '@/router';
+import { copy2clip } from '../../helpers/clipboard';
 
 defineProps({
   isReview: Boolean
@@ -17,6 +19,12 @@ const route = useRoute();
 const { user } = useUserStore();
 const jupyterStore = useJupyterStore();
 const jupyter: Ref<Jupyter | undefined> = ref();
+
+const participationPath = router.resolve({
+  name: 'participation-participate',
+  params: { slug: route.params.slug }
+}).fullPath;
+const participationUrl = new URL(participationPath, window.location.origin).href;
 
 jupyterStore
   .fetch('slug', route.params.slug)
@@ -47,6 +55,24 @@ function updateJupyter(newInstance: Jupyter) {
       >.
       <br />
       Status: <strong :class="`text-${jupyter.getStatusColor()}`">{{ jupyter.status }}</strong>
+    </p>
+    <p v-if="jupyter.invitationsAllowed()">
+      Invitation link:
+      <RouterLink :to="{ name: 'participation-participate', params: { slug: jupyter.slug } }">
+        {{ participationUrl }}
+      </RouterLink>
+      <button @click="copy2clip(participationUrl)" class="btn btn-sm btn-outline-info mx-3">
+        copy to clipboard
+      </button>
+    </p>
+    <p v-if="jupyter.status == 'DEPLOYED'">
+      Hub URL:
+      <a :href="jupyter.hubUrl">
+        {{ jupyter.hubUrl }}
+      </a>
+      <button @click="copy2clip(jupyter.hubUrl)" class="btn btn-sm btn-outline-info mx-3">
+        copy to clipboard
+      </button>
     </p>
     <div v-if="jupyter && user.isAdmin" class="w-100 mw-330 mt-2">
       <RouterLink

@@ -12,6 +12,7 @@ interface JupyterBaseInterface {
   creator: User;
   name: string;
   slug: string;
+  hubUrl: string;
   description?: string;
   userConf: JupyterHubRequestUserConf;
   containerImage: string;
@@ -27,6 +28,7 @@ export class JupyterBase {
   creator!: User;
   name!: string;
   slug!: string;
+  hubUrl!: string;
   description?: string;
   userConf!: JupyterHubRequestUserConf;
   containerImage!: string;
@@ -80,6 +82,7 @@ export class Jupyter extends JupyterBase {
     super(jupyterObject);
     if (jupyterObject) {
       this.slug = jupyterObject['slug'];
+      this.hubUrl = jupyterObject['hubUrl'];
       for (const changeRequest of jupyterObject.changeRequests || []) {
         this.changeRequests.push(new JupyterChange(changeRequest));
       }
