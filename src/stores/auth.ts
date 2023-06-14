@@ -66,6 +66,7 @@ export const useAuthStore = defineStore('auth', () => {
             ? 'jupyter-overview'
             : 'participation-overview';
         router.push(auth.value.returnUrl || { name: defaultReturnTarget });
+        auth.value.clearReturnUrl();
       })
       .catch((err) =>
         notify({
@@ -77,6 +78,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   function logout() {
     auth.value.reset();
+    auth.value.setReturnUrl(router.currentRoute.value.fullPath);
     jupyterStore.clearMyJupyters();
     router.push({ name: 'start' });
   }

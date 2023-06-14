@@ -5,7 +5,7 @@ interface ParticipationInterface {
   participantId: string;
   hubId: string;
   status: string;
-  hub: Jupyter;
+  hub?: Jupyter;
   participant?: User;
   createdAt: Date;
   updatedAt: Date;
@@ -15,7 +15,7 @@ export class Participation implements ParticipationInterface {
   participantId!: string;
   hubId!: string;
   status!: string;
-  hub!: Jupyter;
+  hub?: Jupyter;
   participant?: User;
   createdAt!: Date;
   updatedAt!: Date;
@@ -28,9 +28,15 @@ export class Participation implements ParticipationInterface {
     this.participantId = participationObject.participantId;
     this.hubId = participationObject.hubId;
     this.status = participationObject.status;
-    this.hub = new Jupyter(participationObject.hub);
-    this.participant = participationObject.participant;
     this.createdAt = participationObject.createdAt;
     this.updatedAt = participationObject.updatedAt;
+
+    if (participationObject.hub) {
+      this.hub = new Jupyter(participationObject.hub);
+    }
+
+    if (participationObject.participant) {
+      this.participant = new User(participationObject.participant);
+    }
   }
 }

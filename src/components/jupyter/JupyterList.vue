@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Jupyter } from '@/models/jupyter.model';
+import router from '@/router';
 import { computed, ref } from 'vue';
+import { useNotificationStore } from '@/stores/notification';
 
 const props = defineProps({
   jupyters: {
@@ -22,6 +24,7 @@ const props = defineProps({
 });
 
 const hideOldies = ref(true);
+const { notify } = useNotificationStore();
 
 const computedJupyters = computed(() => {
   if (hideOldies.value && !props.isReview) {
@@ -32,6 +35,27 @@ const computedJupyters = computed(() => {
 
 function toggleOldies() {
   hideOldies.value = !hideOldies.value;
+}
+
+function copyInviteUrl(slug: string) {
+  const path = router.resolve({ name: 'participation-participate', params: { slug } }).fullPath;
+  const url = new URL(path, window.location.origin).href;
+  if (confirm(`Invitation URL:\n\n${url}\n\nDo you want to copy this url to clipboard?`)) {
+    navigator.clipboard
+      .writeText(url)
+      .then(() => {
+        notify({
+          display: 'info',
+          message: 'Copied to clipboard.'
+        });
+      })
+      .catch(() => {
+        notify({
+          display: 'danger',
+          message: 'Could not copy to clipboard.'
+        });
+      });
+  }
 }
 </script>
 
@@ -86,6 +110,13 @@ function toggleOldies() {
             {{ jupyter.endDate.toLocaleDateString() }}
           </td>
           <td class="text-end dropdown">
+            <button
+              v-if="jupyter.invitationsAllowed()"
+              class="btn btn-sm btn-outline-dark me-2"
+              @click="copyInviteUrl(jupyter.slug)"
+            >
+              Invite
+            </button>
             <RouterLink
               :to="{
                 name: isReview ? 'admin-review-jupyter' : 'jupyter-details',

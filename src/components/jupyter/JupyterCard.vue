@@ -21,19 +21,19 @@ const borderClass = accepted
 </script>
 
 <template>
-  <div class="card" :class="borderClass">
+  <div v-if="participation.hub" class="card" :class="borderClass">
     <div class="card-body">
-      <h5 class="card-title">{{ participation.hub!.name }}</h5>
-      <p class="card-text">{{ participation.hub!.description }}</p>
+      <h5 class="card-title">{{ participation.hub.name }}</h5>
+      <p class="card-text">{{ participation.hub.description }}</p>
       <hr />
-      <div v-if="today.getTime() < participation.hub!.startDate.getTime()">
+      <div v-if="today.getTime() < participation.hub.startDate.getTime()">
         <p class="text-center">
           Starts at
           <strong class="text-success">{{ participation.hub.startDate.toDateString() }}</strong>
         </p>
         <a v-show="accepted" href="#" class="btn btn-secondary w-100 disabled">Hub not started</a>
       </div>
-      <div v-else-if="today.getTime() > participation.hub!.endDate.getTime()">
+      <div v-else-if="today.getTime() > participation.hub.endDate.getTime()">
         <p class="text-center">
           Ended at <strong>{{ participation.hub.endDate.toDateString() }}</strong>
         </p>
@@ -47,8 +47,11 @@ const borderClass = accepted
         <p class="text-center"><strong class="text-danger">Hub is offline</strong></p>
         <a v-show="accepted" href="#" class="btn btn-secondary w-100 disabled">Hub not available</a>
       </div>
-      <div v-if="!accepted">
-        <a href="#" class="btn btn-secondary w-100 disabled">No access</a>
+      <div v-if="props.participation.status == 'PENDING'">
+        <a href="#" class="btn btn-secondary w-100 disabled">Access pending</a>
+      </div>
+      <div v-if="props.participation.status == 'REJECTED'">
+        <a href="#" class="btn btn-danger w-100 disabled">Access rejected</a>
       </div>
     </div>
   </div>

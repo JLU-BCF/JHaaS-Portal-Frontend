@@ -3,14 +3,21 @@ import type { User } from './user.model';
 
 export class Auth {
   userStore = useUserStore();
-  token?: string;
   returnUrl?: string;
-  lastTokenRefresh?: Date;
 
   constructor(user?: User | null) {
     const oldUser = localStorage.getItem('user');
-    if (user) this.setUser(user);
-    else if (oldUser) this.setUser(JSON.parse(oldUser));
+    const oldReturnUrl = localStorage.getItem('return_url');
+
+    if (user) {
+      this.setUser(user);
+    } else if (oldUser) {
+      this.setUser(JSON.parse(oldUser));
+    }
+
+    if (oldReturnUrl) {
+      this.returnUrl = JSON.parse(oldReturnUrl);
+    }
   }
 
   setUser(user: User) {
@@ -18,14 +25,22 @@ export class Auth {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
+  setReturnUrl(url: string) {
+    this.returnUrl = url;
+    localStorage.setItem('return_url', JSON.stringify(url));
+  }
+
+  clearReturnUrl() {
+    this.returnUrl = undefined;
+    localStorage.removeItem('return_url');
+  }
+
   valid(): boolean {
     return typeof this.userStore.user.id === 'string';
   }
 
   reset(): void {
-    this.token = undefined;
-    this.returnUrl = undefined;
-    this.lastTokenRefresh = undefined;
+    this.clearReturnUrl();
     this.userStore.clearUser();
     localStorage.removeItem('user');
   }

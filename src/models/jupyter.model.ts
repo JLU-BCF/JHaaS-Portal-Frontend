@@ -64,6 +64,10 @@ export class JupyterBase {
   public changesAllowed() {
     return ['PENDING', 'ACCEPTED', 'REJECTED'].includes(this.status);
   }
+
+  public invitationsAllowed() {
+    return this.positiveStatus.includes(this.status);
+  }
 }
 
 export class Jupyter extends JupyterBase {
