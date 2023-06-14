@@ -11,8 +11,7 @@ export class Auth {
 
     if (user) {
       this.setUser(user);
-    }
-    else if (oldUser) {
+    } else if (oldUser) {
       this.setUser(JSON.parse(oldUser));
     }
 

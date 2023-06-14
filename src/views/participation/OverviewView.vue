@@ -36,7 +36,8 @@ const pendingParticipations = computed(() =>
   </p>
 
   <div v-if="acceptedParticipations.length">
-    <h2 class="mt-5 mb-3 text-success">Confirmed Participations</h2>
+    <h3 class="mt-5 mb-3 text-success">Confirmed Participations</h3>
+    <hr class="border-success" />
     <div class="row">
       <div
         v-for="participation in acceptedParticipations"
@@ -49,7 +50,8 @@ const pendingParticipations = computed(() =>
   </div>
 
   <div v-if="pendingParticipations.length">
-    <h2 class="mt-5 mb-3 text-secondary">Pending Participation Requests</h2>
+    <h3 class="mt-5 mb-3 text-secondary">Pending Participation Requests</h3>
+    <hr class="border-secondary" />
     <div class="row">
       <div
         v-for="participation in pendingParticipations"
@@ -62,7 +64,8 @@ const pendingParticipations = computed(() =>
   </div>
 
   <div v-if="rejectedParticipations.length">
-    <h2 class="mt-5 mb-3 text-danger">Rejected Participations</h2>
+    <h3 class="mt-5 mb-3 text-danger">Rejected Participations</h3>
+    <hr class="border-danger" />
     <div class="row">
       <div
         v-for="participation in rejectedParticipations"

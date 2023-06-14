@@ -41,7 +41,8 @@ function copyInviteUrl(slug: string) {
   const path = router.resolve({ name: 'participation-participate', params: { slug } }).fullPath;
   const url = new URL(path, window.location.origin).href;
   if (confirm(`Invitation URL:\n\n${url}\n\nDo you want to copy this url to clipboard?`)) {
-    navigator.clipboard.writeText(url)
+    navigator.clipboard
+      .writeText(url)
       .then(() => {
         notify({
           display: 'info',
@@ -109,7 +110,11 @@ function copyInviteUrl(slug: string) {
             {{ jupyter.endDate.toLocaleDateString() }}
           </td>
           <td class="text-end dropdown">
-            <button v-if="jupyter.invitationsAllowed()" class="btn btn-sm btn-outline-dark me-2" @click="copyInviteUrl(jupyter.slug)">
+            <button
+              v-if="jupyter.invitationsAllowed()"
+              class="btn btn-sm btn-outline-dark me-2"
+              @click="copyInviteUrl(jupyter.slug)"
+            >
               Invite
             </button>
             <RouterLink

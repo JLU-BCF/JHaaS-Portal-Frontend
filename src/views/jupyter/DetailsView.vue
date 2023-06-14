@@ -6,6 +6,7 @@ import type { Jupyter } from '@/models/jupyter.model';
 import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vue';
 import ChangeRequestList from '@/components/jupyter/ChangeRequestList.vue';
 import JupyterActions from '@/components/jupyter/JupyterActions.vue';
+import HubParticipations from '@/components/participation/HubParticipations.vue';
 import { useUserStore } from '@/stores/user';
 
 defineProps({
@@ -100,6 +101,13 @@ function updateJupyter(newInstance: Jupyter) {
           :changeRequests="jupyter.changeRequests"
           :isReview="isReview"
         />
+      </div>
+    </div>
+
+    <div v-if="jupyter.invitationsAllowed()" class="row mt-5">
+      <div class="col">
+        <h3>Manage Participations</h3>
+        <HubParticipations :hub="jupyter"></HubParticipations>
       </div>
     </div>
   </div>

@@ -21,36 +21,36 @@ participationStore
   .then((hubInstance) => {
     hub.value = hubInstance;
     loadingParticipation.value = true;
-    participationStore.fetchParticipation(slug)
+    participationStore
+      .fetchParticipation(slug)
       .then((participationInstance) => {
         if (participationInstance) {
           participation.value = new Participation(participationInstance);
           notify({
             display: 'info',
             message: 'You already requested access to this hub.'
-          })
+          });
         }
       })
       .finally(() => {
         loadingParticipation.value = false;
-      })
+      });
   })
   .finally(() => {
-    loadingHub.value = false
+    loadingHub.value = false;
   });
 
 function requestAccess(slug: string) {
   if (!confirm('Do you really want to request access to this hub?')) {
     return;
   }
-  participationStore.requestAccess(slug)
-    .then(() => {
-      notify({
-        display: 'info',
-        message: 'Access has been requested.'
-      });
-      router.push({ name: 'participation-overview' });
+  participationStore.requestAccess(slug).then(() => {
+    notify({
+      display: 'info',
+      message: 'Access has been requested.'
     });
+    router.push({ name: 'participation-overview' });
+  });
 }
 </script>
 
@@ -68,19 +68,16 @@ function requestAccess(slug: string) {
         <p class="card-text">{{ hub.description ?? 'No description provided.' }}</p>
         <p>
           <strong>Start Date:</strong> {{ new Date(hub.startDate).toDateString() }}
-          <br>
+          <br />
           <strong>End Date:</strong> {{ new Date(hub.endDate).toDateString() }}
         </p>
-
 
         <div v-if="loadingParticipation">
           <div class="spinner-grow spinner-grow-sm align-middle" role="status"></div>
           <span class="mx-3">Loading...</span>
         </div>
         <div v-else-if="participation">
-          <h5 class="mt-5">
-            Note:
-          </h5>
+          <h5 class="mt-5">Note:</h5>
           <p class="mb-0">
             You already requested participation for this hub:
             <span v-if="participation.status == 'ACCEPTED'" class="text-success">
@@ -89,9 +86,7 @@ function requestAccess(slug: string) {
             <span v-else-if="participation.status == 'REJECTED'" class="text-danger">
               your request has been rejected!
             </span>
-            <span v-else class="text-secondary">
-              your request is pending!
-            </span>
+            <span v-else class="text-secondary"> your request is pending! </span>
           </p>
         </div>
 
@@ -100,7 +95,6 @@ function requestAccess(slug: string) {
             Request access now
           </button>
         </div>
-
       </div>
     </div>
   </div>
