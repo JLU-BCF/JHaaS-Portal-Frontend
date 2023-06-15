@@ -38,11 +38,11 @@ import { RouterLink } from 'vue-router';
         >
       </li>
       <li class="nav-item">
-        <RouterLink
-          :active-class="'text-dark'"
+        <a
           class="nav-link px-2 text-secondary"
-          :to="{ name: 'imprint' }"
-          >Imprint</RouterLink
+          href="https://www.uni-giessen.de/de/ueber-uns/impressum"
+          target="_blank"
+          >Imprint</a
         >
       </li>
       <li class="nav-item">
