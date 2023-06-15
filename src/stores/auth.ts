@@ -68,12 +68,13 @@ export const useAuthStore = defineStore('auth', () => {
         router.push(auth.value.returnUrl || { name: defaultReturnTarget });
         auth.value.clearReturnUrl();
       })
-      .catch((err) =>
+      .catch(() => {
         notify({
-          display: 'danger',
-          message: err
-        })
-      );
+          display: 'info',
+          message: 'You are logged out.'
+        });
+        router.push({ name: 'start' });
+    });
   }
 
   function logout() {

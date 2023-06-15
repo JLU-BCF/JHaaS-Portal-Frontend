@@ -28,5 +28,17 @@ export default [
     path: '/faq',
     name: 'faq',
     component: () => import('../views/public/FaqView.vue')
+  },
+  {
+    path: '/verify',
+    name: 'verification',
+    component: () => import('../views/auth/AuthView.vue'),
+    children: [
+      {
+        path: '',
+        name: 'verify',
+        component: () => import('../views/auth/VerifyView.vue')
+      }
+    ]
   }
 ];
