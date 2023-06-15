@@ -24,12 +24,6 @@ function createJupyterChange(values: object) {
   <h1>Create Change Request{{ jupyter ? ` for "${jupyter.name}"` : '' }}</h1>
   <hr />
 
-  <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi mollitia porro tempore at
-    facilis fuga assumenda, aut rem, sint provident officiis ipsam magni quod facere velit et eaque
-    impedit corrupti.
-  </p>
-
   <div v-if="jupyter" class="col-12 col-md-10 col-lg-8 col-xxl-6 mt-3">
     <Form
       class="text-start my-5"
@@ -229,9 +223,8 @@ function createJupyterChange(values: object) {
           required
         />
         <label class="form-check-label" for="tos-confirmation-input">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore tempora odio corrupti
-          inventore mollitia, enim laboriosam quia saepe amet necessitatibus, quam, magni minus?
-          Est, odio ea nam quis officia perspiciatis.
+          I accept the
+          <RouterLink :to="{ name: 'tos' }" target="_blank"> terms of use </RouterLink>
         </label>
         <div class="invalid-feedback border-top border-danger mt-3">
           {{ errors.tosConfirmation }}
