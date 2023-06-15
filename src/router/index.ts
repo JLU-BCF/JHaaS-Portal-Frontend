@@ -37,12 +37,13 @@ router.beforeEach(async (to, from, next) => {
   const { notify } = useNotificationStore();
 
   let isAuthPage = false;
-  const isLeaderPage = false;
+  let isLeaderPage = false;
   let isAdminPage = false;
   let isPublicPage = false;
 
   if (to.name) {
     isAuthPage = to.fullPath.startsWith(router.resolve({ name: authRoutes.name }).fullPath);
+    isLeaderPage = to.fullPath.startsWith(router.resolve({ name: jupyterRoutes.name }).fullPath);
     isAdminPage = to.fullPath.startsWith(router.resolve({ name: adminRoutes.name }).fullPath);
     isPublicPage = isAuthPage || publicPages.includes(to.name);
   }
