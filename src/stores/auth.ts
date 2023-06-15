@@ -52,6 +52,10 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function oidcVerify() {
+    if (auth.value.returnUrl == '/verify') {
+      auth.value.returnUrl = undefined;
+    }
+
     fetchWrapper
       .get(`${backend}/`)
       .then((data) => {
@@ -74,7 +78,7 @@ export const useAuthStore = defineStore('auth', () => {
           message: 'You are logged out.'
         });
         router.push({ name: 'start' });
-    });
+      });
   }
 
   function logout() {
