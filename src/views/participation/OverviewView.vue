@@ -28,12 +28,19 @@ const pendingParticipations = computed(() =>
 <template>
   <h1>My Participations</h1>
   <hr />
-
-  <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi mollitia porro tempore at
-    facilis fuga assumenda, aut rem, sint provident officiis ipsam magni quod facere velit et eaque
-    impedit corrupti.
-  </p>
+  <div class="row">
+    <div class="col-12 col-sm-9 col-lg-6">
+      <p>
+        The following is a list of the courses for which you have requested participation. These are
+        sorted by participation status. Once you have been accepted for a course and it has started,
+        you can start your Jupyter Notebook on this page.
+      </p>
+      <p>
+        If you feel you have been incorrectly rejected for a course, please contact your course
+        instructor. He/she can change your participation status even after the course has started.
+      </p>
+    </div>
+  </div>
 
   <div v-if="acceptedParticipations.length">
     <h3 class="mt-5 mb-3 text-success">Confirmed Participations</h3>
