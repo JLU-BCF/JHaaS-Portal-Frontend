@@ -131,6 +131,18 @@ function createJupyter(values: object) {
         <label for="containerimage-input">Juptyer Container Image</label>
         <div class="invalid-feedback">{{ errors.containerImage }}</div>
       </div>
+      <div class="form-floating mb-2">
+        <Field
+          name="notebookDefaultUrl"
+          type="text"
+          class="form-control"
+          id="notebookdefaulturl-input"
+          placeholder="Default URL"
+          :class="{ 'is-invalid': errors.notebookDefaultUrl }"
+        />
+        <label for="notebookdefaulturl-input">Juptyer Notebook Default URL</label>
+        <div class="invalid-feedback">{{ errors.notebookDefaultUrl }}</div>
+      </div>
 
       <p class="lead mb-1 mt-4">Expected usage</p>
 
