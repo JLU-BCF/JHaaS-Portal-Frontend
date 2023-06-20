@@ -9,10 +9,12 @@ import {
   getYearsLaterAsIso
 } from '@/helpers/date';
 import { jupyterRequestSchema } from '@/helpers/validators';
+import { notebooks } from '@/helpers/defaultNotebooks';
 import { ref } from 'vue';
 
 const jupyterStore = useJupyterStore();
 const slugAvail = ref(true);
+const selectedNotebook = ref('spicy');
 
 async function checkSlug(event: UIEvent) {
   const slug = (event.target as HTMLInputElement).value;
@@ -35,7 +37,7 @@ function createJupyter(values: object) {
       class="text-start my-5"
       @submit="createJupyter"
       :validation-schema="jupyterRequestSchema"
-      v-slot="{ errors, isSubmitting }"
+      v-slot="{ errors, isSubmitting, setValues }"
     >
       <p class="lead mb-1 mt-4">General</p>
 
@@ -119,29 +121,52 @@ function createJupyter(values: object) {
 
       <div class="form-floating mb-2">
         <Field
-          name="containerImage"
-          type="text"
-          class="form-control"
-          id="containerimage-input"
-          placeholder="Juptyer Container Image"
-          value="docker.io/jupyter/base-notebook:latest"
-          :class="{ 'is-invalid': errors.containerImage }"
-          required
-        />
-        <label for="containerimage-input">Juptyer Container Image</label>
-        <div class="invalid-feedback">{{ errors.containerImage }}</div>
+          name="notebook"
+          as="select"
+          class="form-select"
+          id="notebookSelection"
+          aria-label="Select your notebook type"
+          v-model="selectedNotebook"
+          @change="setValues({ containerImage: notebooks[selectedNotebook].image, notebookDefaultUrl: notebooks[selectedNotebook].defaultUrl })"
+        >
+          <option v-for="(option, key) in notebooks" :key="key" :value="key">
+            {{ option.label }}
+          </option>
+        </Field>
+        <label for="notebookSelection">Select your notebook type</label>
       </div>
-      <div class="form-floating mb-2">
-        <Field
-          name="notebookDefaultUrl"
-          type="text"
-          class="form-control"
-          id="notebookdefaulturl-input"
-          placeholder="Default URL"
-          :class="{ 'is-invalid': errors.notebookDefaultUrl }"
-        />
-        <label for="notebookdefaulturl-input">Juptyer Notebook Default URL</label>
-        <div class="invalid-feedback">{{ errors.notebookDefaultUrl }}</div>
+
+      <div class="border-start ps-2">
+        <p class="mb-2">
+          {{ notebooks[selectedNotebook].text }}
+        </p>
+        <div class="form-floating mb-2" :class="{'visually-hidden': selectedNotebook !== 'custom'}">
+          <Field
+            name="containerImage"
+            type="text"
+            class="form-control"
+            id="containerimage-input"
+            placeholder="Juptyer Container Image"
+            :value="notebooks[selectedNotebook].image"
+            :class="{ 'is-invalid': errors.containerImage }"
+            required
+          />
+          <label for="containerimage-input">Juptyer Container Image</label>
+          <div class="invalid-feedback">{{ errors.containerImage }}</div>
+        </div>
+        <div class="form-floating mb-2" :class="{'visually-hidden': selectedNotebook !== 'custom'}">
+          <Field
+            name="notebookDefaultUrl"
+            type="text"
+            class="form-control"
+            id="notebookdefaulturl-input"
+            placeholder="Default URL"
+            :value="notebooks[selectedNotebook].defaultUrl"
+            :class="{ 'is-invalid': errors.notebookDefaultUrl }"
+          />
+          <label for="notebookdefaulturl-input">Juptyer Notebook Default URL</label>
+          <div class="invalid-feedback">{{ errors.notebookDefaultUrl }}</div>
+        </div>
       </div>
 
       <p class="lead mb-1 mt-4">Expected usage</p>
