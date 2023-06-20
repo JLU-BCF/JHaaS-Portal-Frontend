@@ -127,7 +127,12 @@ function createJupyter(values: object) {
           id="notebookSelection"
           aria-label="Select your notebook type"
           v-model="selectedNotebook"
-          @change="setValues({ containerImage: notebooks[selectedNotebook].image, notebookDefaultUrl: notebooks[selectedNotebook].defaultUrl })"
+          @change="
+            setValues({
+              containerImage: notebooks[selectedNotebook].image,
+              notebookDefaultUrl: notebooks[selectedNotebook].defaultUrl
+            })
+          "
         >
           <option v-for="(option, key) in notebooks" :key="key" :value="key">
             {{ option.label }}
@@ -140,7 +145,10 @@ function createJupyter(values: object) {
         <p class="mb-2">
           {{ notebooks[selectedNotebook].text }}
         </p>
-        <div class="form-floating mb-2" :class="{'visually-hidden': selectedNotebook !== 'custom'}">
+        <div
+          class="form-floating mb-2"
+          :class="{ 'visually-hidden': selectedNotebook !== 'custom' }"
+        >
           <Field
             name="containerImage"
             type="text"
@@ -154,7 +162,10 @@ function createJupyter(values: object) {
           <label for="containerimage-input">Juptyer Container Image</label>
           <div class="invalid-feedback">{{ errors.containerImage }}</div>
         </div>
-        <div class="form-floating mb-2" :class="{'visually-hidden': selectedNotebook !== 'custom'}">
+        <div
+          class="form-floating mb-2"
+          :class="{ 'visually-hidden': selectedNotebook !== 'custom' }"
+        >
           <Field
             name="notebookDefaultUrl"
             type="text"
