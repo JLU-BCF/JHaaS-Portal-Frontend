@@ -1,3 +1,6 @@
+<script setup lang="ts">
+  const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
+</script>
 <template>
   <h1>Get in Touch today</h1>
   <div class="row">
@@ -16,8 +19,8 @@
       <p>
         <strong>Email address</strong>
         <br />
-        <a href="mailto:bcf@computational.bio.uni-giessen.de"
-          >bcf@computational.bio.uni-giessen.de</a
+        <a :href="`mailto:${feedbackAddress}`"
+          >{{ feedbackAddress }}</a
         >
       </p>
     </div>

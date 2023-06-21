@@ -1,3 +1,6 @@
+<script setup lang="ts">
+  const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
+</script>
 <template>
   <h1>Everything you wanted to know about JHaaS</h1>
   <div class="row">
@@ -13,8 +16,8 @@
         <strong>You can be the first</strong> to ask a question that comes up here:
         <br />
         contact us via
-        <a href="mailto:bcf@computational.bio.uni-giessen.de"
-          >bcf@computational.bio.uni-giessen.de</a
+        <a :href="`mailto:${feedbackAddress}`"
+          >{{ feedbackAddress }}</a
         >
       </p>
     </div>

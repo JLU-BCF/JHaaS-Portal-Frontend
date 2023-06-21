@@ -1,3 +1,6 @@
+<script setup lang="ts">
+  const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
+</script>
 <template>
   <h1>The journey and the background</h1>
   <div class="row">
@@ -16,8 +19,8 @@
       </p>
       <p>
         You are welcome to send bugs, suggestions for improvement and other ideas or comments to
-        <a href="mailto:bcf@computational.bio.uni-giessen.de"
-          >bcf@computational.bio.uni-giessen.de</a
+        <a :href="`mailto:${feedbackAddress}`"
+          >{{ feedbackAddress }}</a
         >. We are looking forward to your feedback and opinion!
       </p>
       <h4 class="mt-5">How it works</h4>
@@ -58,8 +61,8 @@
       <p>
         These are just some examples, but in order for the portal to be purposefully developed to
         meet the needs of users, we need your feedback! So don't hesitate to contact us via
-        <a href="mailto:bcf@computational.bio.uni-giessen.de"
-          >bcf@computational.bio.uni-giessen.de</a
+        <a :href="`mailto:${feedbackAddress}`"
+          >{{ feedbackAddress }}</a
         >.
       </p>
     </div>
