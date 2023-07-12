@@ -50,7 +50,7 @@ export class JupyterBase {
     this.createdAt = new Date(jupyterObject['createdAt']);
   }
 
-  positiveStatus = ['ACCEPTED', 'DEPLOYING', 'DEPLOYED'];
+  positiveStatus = ['ACCEPTED', 'DEPLOYING', 'DEPLOYED', 'REDEPLOY'];
   neutralStatus = ['PENDING', 'DEGRADING', 'DEGRATED', 'CANCELED'];
   negativeStatus = ['REJECTED', 'FAILED'];
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
+const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
 </script>
 <template>
   <h1>Get in Touch today</h1>
@@ -19,9 +19,7 @@
       <p>
         <strong>Email address</strong>
         <br />
-        <a :href="`mailto:${feedbackAddress}`"
-          >{{ feedbackAddress }}</a
-        >
+        <a :href="`mailto:${feedbackAddress}`">{{ feedbackAddress }}</a>
       </p>
     </div>
   </div>

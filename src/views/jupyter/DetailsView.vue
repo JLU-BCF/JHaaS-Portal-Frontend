@@ -33,6 +33,17 @@ jupyterStore
 function updateJupyter(newInstance: Jupyter) {
   jupyter.value = newInstance;
 }
+
+function initiateRedeploy() {
+  if (!jupyter.value) {
+    return;
+  }
+  jupyterStore.jupyterAction(jupyter.value.id, 'redeploy', false).then((jupyterInstance) => {
+    if (jupyterInstance) {
+      updateJupyter(jupyterInstance);
+    }
+  });
+}
 </script>
 
 <template>
@@ -72,6 +83,11 @@ function updateJupyter(newInstance: Jupyter) {
       </a>
       <button @click="copy2clip(jupyter.hubUrl)" class="btn btn-sm btn-outline-info mx-3">
         copy to clipboard
+      </button>
+    </p>
+    <p v-if="jupyter.status == 'FAILED' && user.isAdmin">
+      <button @click="initiateRedeploy" class="btn btn-sm btn-danger mx-3">
+        Mark for Redeployment
       </button>
     </p>
     <div v-if="jupyter && user.isAdmin" class="w-100 mw-330 mt-2">
