@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import { useJupyterStore } from '@/stores/jupyter';
+import { useJupyterStore } from '@/stores/jupyter.store';
 import JupyterList from '@/components/jupyter/JupyterList.vue';
 
 const jupyterStore = useJupyterStore();

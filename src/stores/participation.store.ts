@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useNotificationStore } from '@/stores/notification';
+import { useNotificationStore } from '@/stores/notification.store';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 
 export type HubForParticipation = {

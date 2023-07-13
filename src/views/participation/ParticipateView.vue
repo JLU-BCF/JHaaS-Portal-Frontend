@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import router from '@/router';
 import { useRoute, RouterLink } from 'vue-router';
-import { useParticipationStore, type HubForParticipation } from '@/stores/participation';
+import { useParticipationStore, type HubForParticipation } from '@/stores/participation.store';
 import { ref, type Ref } from 'vue';
 import { Participation } from '@/models/participation.model';
-import { useNotificationStore } from '@/stores/notification';
-import { useUserStore } from '@/stores/user';
+import { useNotificationStore } from '@/stores/notification.store';
+import { useUserStore } from '@/stores/user.store';
 
 const route = useRoute();
 const slug = route.params.slug;

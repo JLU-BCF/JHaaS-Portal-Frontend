@@ -1,4 +1,4 @@
-import { useNotificationStore } from '@/stores/notification';
+import { useNotificationStore } from '@/stores/notification.store';
 
 const { notify } = useNotificationStore();
 

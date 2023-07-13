@@ -3,8 +3,8 @@ import { Auth } from '@/models/auth.model';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import router from '@/router';
 import { ref } from 'vue';
-import { useNotificationStore } from '@/stores/notification';
-import { useJupyterStore } from './jupyter';
+import { useNotificationStore } from '@/stores/notification.store';
+import { useJupyterStore } from './jupyter.store';
 
 export const useAuthStore = defineStore('auth', () => {
   const backend = import.meta.env.VITE_BACKEND_PATH;
@@ -12,44 +12,6 @@ export const useAuthStore = defineStore('auth', () => {
   const jupyterStore = useJupyterStore();
 
   const auth = ref(new Auth());
-
-  async function localLogin(values: { [key: string]: string }) {
-    fetchWrapper
-      .post(`${backend}/auth/local/login`, values)
-      .then((data) => {
-        auth.value.setUser(data);
-        notify({
-          display: 'info',
-          message: 'You are now logged in.'
-        });
-        router.push(auth.value.returnUrl || { name: 'jupyter-overview' });
-      })
-      .catch((err) =>
-        notify({
-          display: 'danger',
-          message: err
-        })
-      );
-  }
-
-  async function localRegister(values: { [key: string]: string }) {
-    fetchWrapper
-      .post(`${backend}/auth/local/signup`, values)
-      .then((data) => {
-        auth.value.setUser(data);
-        notify({
-          display: 'info',
-          message: 'You are now registered and logged in.'
-        });
-        router.push(auth.value.returnUrl || { name: 'jupyter-overview' });
-      })
-      .catch((err) =>
-        notify({
-          display: 'danger',
-          message: err
-        })
-      );
-  }
 
   async function oidcVerify() {
     if (auth.value.returnUrl == '/verify') {
@@ -88,5 +50,5 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'start' });
   }
 
-  return { auth, localLogin, localRegister, oidcVerify, logout };
+  return { auth, oidcVerify, logout };
 });

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Ref, ref, computed } from 'vue';
-import { useParticipationStore } from '../../stores/participation';
-import { Participation } from '../../models/participation.model';
+import { useParticipationStore } from '@/stores/participation.store';
+import { Participation } from '@/models/participation.model';
 import JupyterCard from '@/components/jupyter/JupyterCard.vue';
 
 const today = new Date();

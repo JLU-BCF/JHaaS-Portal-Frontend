@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Form, Field } from 'vee-validate';
-import { useJupyterStore } from '@/stores/jupyter';
+import { useJupyterStore } from '@/stores/jupyter.store';
 import { RouterLink } from 'vue-router';
 import {
   getNextSemesterStartDateAsIso,

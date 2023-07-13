@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router';
-import { useJupyterStore } from '@/stores/jupyter';
+import { useJupyterStore } from '@/stores/jupyter.store';
 import { ref, type Ref } from 'vue';
 import type { Jupyter } from '@/models/jupyter.model';
 import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vue';
 import ChangeRequestList from '@/components/jupyter/ChangeRequestList.vue';
 import JupyterActions from '@/components/jupyter/JupyterActions.vue';
 import HubParticipations from '@/components/participation/HubParticipations.vue';
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user.store';
 import router from '@/router';
-import { copy2clip } from '../../helpers/clipboard';
+import { copy2clip } from '@/helpers/clipboard';
 
 defineProps({
   isReview: Boolean

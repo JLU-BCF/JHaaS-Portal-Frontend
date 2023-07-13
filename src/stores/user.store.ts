@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { User } from '@/models/user.model';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
-import { useNotificationStore } from '@/stores/notification';
+import { useNotificationStore } from '@/stores/notification.store';
 
 export const useUserStore = defineStore('user', () => {
   const user = ref(new User());

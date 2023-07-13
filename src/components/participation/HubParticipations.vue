@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Jupyter } from '@/models/jupyter.model';
 import { Participation } from '@/models/participation.model';
-import { useParticipationStore } from '@/stores/participation';
+import { useParticipationStore } from '@/stores/participation.store';
 import ParticipationTable from '@/components/participation/ParticipationTable.vue';
 import { computed, ref, type Ref } from 'vue';
 

@@ -57,7 +57,7 @@ export class JupyterBase {
   public getStatusColor() {
     if (this.status) {
       if (this.positiveStatus.includes(this.status)) return 'success';
-      if (this.neutralStatus.includes(this.status)) return 'secondary';
+      if (this.neutralStatus.includes(this.status)) return 'info';
       if (this.negativeStatus.includes(this.status)) return 'danger';
     }
     return '';

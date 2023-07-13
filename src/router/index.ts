@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-import { useUserStore } from '@/stores/user';
+import { useAuthStore } from '@/stores/auth.store';
+import { useUserStore } from '@/stores/user.store';
 import publicRoutes from '@/router/public.routes';
 import authRoutes from '@/router/auth.routes';
 import userRoutes from '@/router/user.routes';
 import jupyterRoutes from '@/router/jupyter.routes';
 import participationRoutes from '@/router/participation.routes';
 import adminRoutes from '@/router/admin.routes';
-import { useNotificationStore } from '@/stores/notification';
+import { useNotificationStore } from '@/stores/notification.store';
 
 const publicPages: Array<string | symbol> = ['verify'];
 for (const publicRoute of publicRoutes) {

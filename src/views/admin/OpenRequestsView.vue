@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useJupyterStore } from '@/stores/jupyter';
+import { useJupyterStore } from '@/stores/jupyter.store';
 import type { Jupyter } from '@/models/jupyter.model';
 import { ref, type Ref } from 'vue';
 import JupyterList from '@/components/jupyter/JupyterList.vue';

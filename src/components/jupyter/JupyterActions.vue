@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type JupyterBase, Jupyter } from '@/models/jupyter.model';
-import { useJupyterStore } from '@/stores/jupyter';
+import { useJupyterStore } from '@/stores/jupyter.store';
 
 const props = defineProps({
   jupyter: {

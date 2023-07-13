@@ -1,4 +1,4 @@
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user.store';
 import type { User } from './user.model';
 
 export class Auth {

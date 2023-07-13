@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-import { useUserStore } from '@/stores/user';
+import { useAuthStore } from '@/stores/auth.store';
+import { useUserStore } from '@/stores/user.store';
 import { onMounted, onUpdated } from 'vue';
 
 const local_accounts_enabled = ['true', true, 1].includes(

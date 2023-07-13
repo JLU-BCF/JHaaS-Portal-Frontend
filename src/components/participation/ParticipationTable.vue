@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Participation } from '@/models/participation.model';
-import { useParticipationStore } from '@/stores/participation';
+import { useParticipationStore } from '@/stores/participation.store';
 
 defineProps({
   participations: {
