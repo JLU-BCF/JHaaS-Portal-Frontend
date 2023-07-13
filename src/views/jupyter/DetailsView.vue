@@ -34,11 +34,11 @@ function updateJupyter(newInstance: Jupyter) {
   jupyter.value = newInstance;
 }
 
-function initiateRedeploy() {
+function initiateLifecycleAction(action: 'redeploy' | 'degrade') {
   if (!jupyter.value) {
     return;
   }
-  jupyterStore.jupyterAction(jupyter.value.id, 'redeploy', false).then((jupyterInstance) => {
+  jupyterStore.jupyterAction(jupyter.value.id, action, false).then((jupyterInstance) => {
     if (jupyterInstance) {
       updateJupyter(jupyterInstance);
     }
@@ -86,8 +86,13 @@ function initiateRedeploy() {
       </button>
     </p>
     <p v-if="jupyter.status == 'FAILED' && user.isAdmin">
-      <button @click="initiateRedeploy" class="btn btn-sm btn-danger mx-3">
+      <button @click="initiateLifecycleAction('redeploy')" class="btn btn-sm btn-danger mx-3">
         Mark for Redeployment
+      </button>
+    </p>
+    <p v-if="['DEPLOYED', 'FAILED'].includes(jupyter.status) && user.isAdmin">
+      <button @click="initiateLifecycleAction('degrade')" class="btn btn-sm btn-danger mx-3">
+        Mark for Degration
       </button>
     </p>
     <div v-if="jupyter && user.isAdmin" class="w-100 mw-330 mt-2">

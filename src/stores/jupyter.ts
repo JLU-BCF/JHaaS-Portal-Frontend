@@ -91,7 +91,7 @@ export const useJupyterStore = defineStore('jupyter', () => {
 
   async function jupyterAction(
     id: string,
-    action: 'cancel' | 'accept' | 'reject' | 'redeploy',
+    action: 'cancel' | 'accept' | 'reject' | 'redeploy' | 'degrade',
     isChangeRequest: boolean
   ) {
     if (

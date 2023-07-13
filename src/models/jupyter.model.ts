@@ -51,7 +51,7 @@ export class JupyterBase {
   }
 
   positiveStatus = ['ACCEPTED', 'DEPLOYING', 'DEPLOYED', 'REDEPLOY'];
-  neutralStatus = ['PENDING', 'DEGRADING', 'DEGRATED', 'CANCELED'];
+  neutralStatus = ['PENDING', 'DEGRADE', 'DEGRADING', 'DEGRATED', 'CANCELED'];
   negativeStatus = ['REJECTED', 'FAILED'];
 
   public getStatusColor() {
