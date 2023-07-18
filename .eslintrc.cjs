@@ -8,12 +8,12 @@ module.exports = {
     '@typescript-eslint'
   ],
   'extends': [
-    'plugin:vue/vue3-essential',
     'eslint:recommended',
-    '@vue/eslint-config-typescript',
-    '@vue/eslint-config-prettier/skip-formatting',
+    'plugin:vue/vue3-essential',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended'
+    'plugin:@typescript-eslint/recommended',
+    '@vue/eslint-config-typescript',
+    '@vue/eslint-config-prettier/skip-formatting'
   ],
   'parserOptions': {
     'parser': '@typescript-eslint/parser',
@@ -23,8 +23,13 @@ module.exports = {
     'eol-last': ['error', 'always'],
     'quotes': ['error', 'single'],
     'semi': ['error', 'always'],
-    'indent': ['error', 2],
+    // Turn normal identation checks off,
+    // as we use @typescript-eslint/indent
+    'indent': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '(next|res|req)' }],
-    '@typescript-eslint/indent': ['error', 2]
+    '@typescript-eslint/indent': ['error', 2, {
+      'SwitchCase': 1,
+      'flatTernaryExpressions': true,
+    }]
   }
 };

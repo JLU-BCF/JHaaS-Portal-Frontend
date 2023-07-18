@@ -5,7 +5,7 @@ import { useParticipationStore, type HubForParticipation } from '@/stores/partic
 import { ref, type Ref } from 'vue';
 import { Participation } from '@/models/participation.model';
 import { useNotificationStore } from '@/stores/notification.store';
-import { useUserStore } from '@/stores/user.store';
+import { useAuthStore } from '@/stores/auth.store';
 
 const route = useRoute();
 const slug = route.params.slug;
@@ -17,7 +17,7 @@ const loadingHub = ref(true);
 const loadingParticipation = ref(false);
 const { notify } = useNotificationStore();
 
-const { user } = useUserStore();
+const { user } = useAuthStore();
 
 participationStore
   .fetchJupyterForParticipation(slug)

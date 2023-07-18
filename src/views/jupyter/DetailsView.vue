@@ -7,7 +7,7 @@ import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vu
 import ChangeRequestList from '@/components/jupyter/ChangeRequestList.vue';
 import JupyterActions from '@/components/jupyter/JupyterActions.vue';
 import HubParticipations from '@/components/participation/HubParticipations.vue';
-import { useUserStore } from '@/stores/user.store';
+import { useAuthStore } from '@/stores/auth.store';
 import router from '@/router';
 import { copy2clip } from '@/helpers/clipboard';
 
@@ -16,7 +16,7 @@ defineProps({
 });
 
 const route = useRoute();
-const { user } = useUserStore();
+const { user } = useAuthStore();
 const jupyterStore = useJupyterStore();
 const jupyter: Ref<Jupyter | undefined> = ref();
 

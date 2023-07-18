@@ -47,8 +47,8 @@ async function handleResponse(
       return JSON.parse(text);
     })
     .catch((err) => {
-      const { auth, logout } = useAuthStore();
-      if (response.status == 401 && auth.valid()) {
+      const { user, logout } = useAuthStore();
+      if (response.status == 401 && user.valid()) {
         localStorage.setItem(
           'failed_action',
           JSON.stringify({

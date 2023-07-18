@@ -1,38 +1,73 @@
 import { defineStore } from 'pinia';
-import { Auth } from '@/models/auth.model';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import router from '@/router';
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import { useNotificationStore } from '@/stores/notification.store';
 import { useJupyterStore } from './jupyter.store';
+import { User } from '@/models/user.model';
 
 export const useAuthStore = defineStore('auth', () => {
   const backend = import.meta.env.VITE_BACKEND_PATH;
-  const { notify } = useNotificationStore();
   const jupyterStore = useJupyterStore();
+  const { notify } = useNotificationStore();
 
-  const auth = ref(new Auth());
+  // Handling of User
+  const user: Ref<User> = ref(new User());
 
+  const oldUser = localStorage.getItem('user');
+  if (oldUser) {
+    user.value.setUser(JSON.parse(oldUser));
+  }
+
+  function setUser(newUser: User) {
+    user.value.setUser(newUser);
+    localStorage.setItem('user', JSON.stringify(newUser));
+  }
+
+  function clearUser() {
+    user.value = new User();
+    localStorage.removeItem('user');
+  }
+
+  // Handling of returnURL
+  const returnUrl: Ref<string | undefined> = ref();
+
+  const oldReturnUrl = localStorage.getItem('return_url');
+  if (oldReturnUrl) {
+    returnUrl.value = JSON.parse(oldReturnUrl);
+  }
+
+  function setReturnUrl(url: string) {
+    returnUrl.value = url;
+    localStorage.setItem('return_url', JSON.stringify(url));
+  }
+
+  function clearReturnUrl() {
+    returnUrl.value = undefined;
+    localStorage.removeItem('return_url');
+  }
+
+  // Auth functions
   async function oidcVerify() {
-    if (auth.value.returnUrl == '/verify') {
-      auth.value.returnUrl = undefined;
+    if (returnUrl.value == '/verify') {
+      returnUrl.value = undefined;
     }
 
     fetchWrapper
       .get(`${backend}/`)
       .then((data) => {
-        auth.value.setUser(data);
+        setUser(data);
         notify({
           display: 'info',
           message: 'You are now logged in.'
         });
-        const defaultReturnTarget = auth.value.userStore.user.isAdmin
+        const defaultReturnTarget = user.value.isAdmin
           ? 'admin-overview'
-          : auth.value.userStore.user.isLead
+          : user.value.isLead
             ? 'jupyter-overview'
             : 'participation-overview';
-        router.push(auth.value.returnUrl || { name: defaultReturnTarget });
-        auth.value.clearReturnUrl();
+        router.push(returnUrl.value || { name: defaultReturnTarget });
+        clearReturnUrl();
       })
       .catch(() => {
         notify({
@@ -43,12 +78,27 @@ export const useAuthStore = defineStore('auth', () => {
       });
   }
 
+  async function fetchLoginMethod() {
+    return fetchWrapper
+      .get(`${backend}/user/${user.value.id}/auth`)
+      .then((val) => {
+        return val;
+      })
+      .catch((err) =>
+        notify({
+          display: 'danger',
+          message: err
+        })
+      );
+  }
+
   function logout() {
-    auth.value.reset();
-    auth.value.setReturnUrl(router.currentRoute.value.fullPath);
+    clearReturnUrl();
+    clearUser();
+    setReturnUrl(router.currentRoute.value.fullPath);
     jupyterStore.clearMyJupyters();
     router.push({ name: 'start' });
   }
 
-  return { auth, oidcVerify, logout };
+  return { user, returnUrl, setReturnUrl, oidcVerify, fetchLoginMethod, logout };
 });

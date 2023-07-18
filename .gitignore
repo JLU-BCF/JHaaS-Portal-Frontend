@@ -1,4 +1,5 @@
 /compose.yml
+/.env
 
 # NFS zombies
 .nfs*

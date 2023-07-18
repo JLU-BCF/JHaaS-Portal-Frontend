@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.store';
-import { useUserStore } from '@/stores/user.store';
 import publicRoutes from '@/router/public.routes';
 import authRoutes from '@/router/auth.routes';
 import userRoutes from '@/router/user.routes';
@@ -32,8 +31,7 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  const { auth } = useAuthStore();
-  const { user } = useUserStore();
+  const { user, setReturnUrl } = useAuthStore();
   const { notify } = useNotificationStore();
 
   let isAuthPage = false;
@@ -48,7 +46,7 @@ router.beforeEach(async (to, from, next) => {
     isPublicPage = isAuthPage || publicPages.includes(to.name);
   }
 
-  if (isAuthPage && auth.valid()) {
+  if (isAuthPage && user.valid()) {
     notify({
       display: 'info',
       message: 'You are already logged in.'
@@ -56,8 +54,8 @@ router.beforeEach(async (to, from, next) => {
     return next({ name: 'start' });
   }
 
-  if (!isPublicPage && !auth.valid()) {
-    auth.setReturnUrl(to.fullPath);
+  if (!isPublicPage && !user.valid()) {
+    setReturnUrl(to.fullPath);
     notify({
       display: 'warning',
       message: 'You must be logged in to view this page.'

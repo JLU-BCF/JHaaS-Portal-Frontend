@@ -1,16 +1,9 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router';
-import { useAuthStore } from '@/stores/auth.store';
-import { useUserStore } from '@/stores/user.store';
 import { onMounted, onUpdated } from 'vue';
+import { useAuthStore } from '@/stores/auth.store';
 
-const local_accounts_enabled = ['true', true, 1].includes(
-  import.meta.env.VITE_ENABLE_LOCAL_ACCOUNTS
-);
-const authStore = useAuthStore();
-const userStore = useUserStore();
-const auth = authStore.auth;
-const user = userStore.user;
+const { user } = useAuthStore();
 const route = useRoute();
 
 onMounted(addCloseNavListeners);
@@ -65,7 +58,7 @@ function addCloseNavListeners() {
               >About</RouterLink
             >
           </li>
-          <li v-if="auth.valid()" class="nav-item">
+          <li v-if="user.valid()" class="nav-item">
             <RouterLink
               :active-class="'active'"
               class="nav-link"
@@ -73,12 +66,12 @@ function addCloseNavListeners() {
               >Participation</RouterLink
             >
           </li>
-          <li v-if="auth.valid() && user.isLead" class="nav-item">
+          <li v-if="user.valid() && user.isLead" class="nav-item">
             <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'jupyter-overview' }"
               >Leadership</RouterLink
             >
           </li>
-          <li v-if="auth.valid() && user.isAdmin" class="nav-item">
+          <li v-if="user.valid() && user.isAdmin" class="nav-item">
             <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'admin-overview' }"
               >Administration</RouterLink
             >
@@ -86,7 +79,7 @@ function addCloseNavListeners() {
         </ul>
         <ul class="navbar-nav mb-2 mb-md-0">
           <li
-            v-if="auth.valid()"
+            v-if="user.valid()"
             class="nav-item dropdown"
             :class="route.matched.some(({ name }) => name == 'user') ? 'active' : ''"
           >
@@ -111,11 +104,6 @@ function addCloseNavListeners() {
                 </form>
               </li>
             </ul>
-          </li>
-          <li v-else-if="local_accounts_enabled" class="nav-item">
-            <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'login' }"
-              >Login</RouterLink
-            >
           </li>
           <li v-else class="nav-item">
             <a href="/api/auth/oidc/login" class="nav-link">Login</a>
