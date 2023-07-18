@@ -1,4 +1,0 @@
-VITE_BACKEND_PATH=/api
-VITE_FEEDBACK_ADDRESS=support@computational.bio.uni-giessen.de
-VITE_AUTHENTIK_DOMAIN=auth.jhaas.gi.denbi.de
-VITE_AUTHENTIK_URL=https://auth.jhaas.gi.denbi.de

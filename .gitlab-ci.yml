@@ -1,6 +1,8 @@
 variables:
   NODE_CACHE_DIR: node_modules/
-  ENV_FILE: environments/localhost
+  # If file ENV_CI exists (e.g. through CI settings), .env will be a link to it
+  # If not, .env will be a link to $ENV_FILE
+  ENV_FILE: environments/local
 
 stages:
   - dependencies
@@ -37,7 +39,7 @@ build_image:
   dependencies:
     - node_modules
   script:
-    - ln -s "$ENV_FILE" ".env"
+    - test -e "ENV_CI" && ln -s "ENV_CI" ".env" || ln -s "$ENV_FILE" ".env"
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"},\"$HARBOR_HOST\":{\"username\":\"$HARBOR_USERNAME\",\"password\":\"$HARBOR_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - sed -i '/^node_modules\/$/d' .dockerignore
