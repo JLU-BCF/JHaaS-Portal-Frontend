@@ -1,23 +1,23 @@
 interface UserInterface {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  isAdmin: boolean;
-  isLead: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  id?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  isAdmin?: boolean;
+  isLead?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export class User implements UserInterface {
-  id!: string;
-  firstName!: string;
-  lastName!: string;
-  email!: string;
-  isAdmin!: boolean;
-  isLead!: boolean;
-  createdAt!: Date;
-  updatedAt!: Date;
+  id?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  isAdmin?: boolean;
+  isLead?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 
   constructor(userObject?: UserInterface) {
     userObject && this.setUser(userObject);
@@ -32,6 +32,17 @@ export class User implements UserInterface {
     this.isLead = userObject.isLead;
     this.createdAt = userObject.createdAt;
     this.updatedAt = userObject.updatedAt;
+  }
+
+  public clearUser(): void {
+    this.id = undefined;
+    this.firstName = undefined;
+    this.lastName = undefined;
+    this.email = undefined;
+    this.isAdmin = undefined;
+    this.isLead = undefined;
+    this.createdAt = undefined;
+    this.updatedAt = undefined;
   }
 
   public valid(): boolean {

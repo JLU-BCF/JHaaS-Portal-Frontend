@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
+import { useFrontendConfigurationStore } from '@/stores/config.store';
+const { frontendConfiguration } = useFrontendConfigurationStore();
 </script>
 <template>
   <h1>Everything you wanted to know about JHaaS</h1>
@@ -16,7 +17,7 @@ const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
         <strong>You can be the first</strong> to ask a question that comes up here:
         <br />
         contact us via
-        <a :href="`mailto:${feedbackAddress}`">{{ feedbackAddress }}</a>
+        <a :href="`mailto:${frontendConfiguration.FEEDBACK_MAIL_ADDRESS}`">{{ frontendConfiguration.FEEDBACK_MAIL_ADDRESS }}</a>
       </p>
     </div>
   </div>

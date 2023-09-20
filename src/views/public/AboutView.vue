@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
+import { useFrontendConfigurationStore } from '@/stores/config.store';
+const { frontendConfiguration } = useFrontendConfigurationStore();
 </script>
 <template>
   <h1>The journey and the background</h1>
@@ -19,7 +20,7 @@ const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
       </p>
       <p>
         You are welcome to send bugs, suggestions for improvement and other ideas or comments to
-        <a :href="`mailto:${feedbackAddress}`">{{ feedbackAddress }}</a
+        <a :href="`mailto:${frontendConfiguration.FEEDBACK_MAIL_ADDRESS}`">{{ frontendConfiguration.FEEDBACK_MAIL_ADDRESS }}</a
         >. We are looking forward to your feedback and opinion!
       </p>
       <h4 class="mt-5">How it works</h4>
@@ -60,7 +61,7 @@ const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
       <p>
         These are just some examples, but in order for the portal to be purposefully developed to
         meet the needs of users, we need your feedback! So don't hesitate to contact us via
-        <a :href="`mailto:${feedbackAddress}`">{{ feedbackAddress }}</a
+        <a :href="`mailto:${frontendConfiguration.FEEDBACK_MAIL_ADDRESS}`">{{ frontendConfiguration.FEEDBACK_MAIL_ADDRESS }}</a
         >.
       </p>
     </div>

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth.store';
+import { useFrontendConfigurationStore } from '@/stores/config.store';
 import { ref } from 'vue';
-const authentik_domain = import.meta.env.VITE_AUTHENTIK_DOMAIN;
-const authentik_url = import.meta.env.VITE_AUTHENTIK_URL;
+const { frontendConfiguration } = useFrontendConfigurationStore();
 const { user, fetchLoginMethod } = useAuthStore();
 const credsInfo = ref({} as { [key: string]: string });
 fetchLoginMethod().then((val) => {
@@ -23,14 +23,14 @@ fetchLoginMethod().then((val) => {
     <div class="card-header">Settings</div>
     <div class="card-body">
       <p class="card-text">
-        Your profile is managed through Authentik (<a :href="authentik_url">{{
-          authentik_domain
+        Your profile is managed through Authentik (<a :href="frontendConfiguration.AUTHENTIK_URL">{{
+          frontendConfiguration.AUTHENTIK_FQDN
         }}</a
         >).
       </p>
       <p>Changes to your profile in Authentik will only take effect after a logout-login-cycle.</p>
       <a
-        :href="`${authentik_url}/if/user/#/settings`"
+        :href="`${frontendConfiguration.AUTHENTIK_URL}/if/user/#/settings`"
         class="btn btn-secondary w-100"
         target="_blank"
         >Open authentik settings</a

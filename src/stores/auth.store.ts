@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function clearUser() {
-    user.value = new User();
+    user.value.clearUser();
     localStorage.removeItem('user');
   }
 

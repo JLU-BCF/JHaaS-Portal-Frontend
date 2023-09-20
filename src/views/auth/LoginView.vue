@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const authentik_domain = import.meta.env.VITE_AUTHENTIK_DOMAIN;
+import { useFrontendConfigurationStore } from '@/stores/config.store';
+const { frontendConfiguration } = useFrontendConfigurationStore();
 </script>
 
 <template>
@@ -7,9 +8,9 @@ const authentik_domain = import.meta.env.VITE_AUTHENTIK_DOMAIN;
   <p>Choose your Login Method</p>
   <div class="my-5">
     <a href="/api/auth/oidc/login" class="btn btn-outline-dark w-100 my-1">
-      Authentik
+      {{ frontendConfiguration.AUTHENTIK_NAME }}
       <br />
-      <small class="fw-light"> {{ authentik_domain }} </small>
+      <small class="fw-light"> {{ frontendConfiguration.AUTHENTIK_FQDN }} </small>
     </a>
   </div>
 </template>

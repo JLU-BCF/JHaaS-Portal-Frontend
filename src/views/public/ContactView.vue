@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
+import { useFrontendConfigurationStore } from '@/stores/config.store';
+const { frontendConfiguration } = useFrontendConfigurationStore();
 </script>
 <template>
   <h1>Get in Touch today</h1>
@@ -19,7 +20,7 @@ const feedbackAddress = import.meta.env.VITE_FEEDBACK_ADDRESS;
       <p>
         <strong>Email address</strong>
         <br />
-        <a :href="`mailto:${feedbackAddress}`">{{ feedbackAddress }}</a>
+        <a :href="`mailto:${frontendConfiguration.FEEDBACK_MAIL_ADDRESS}`">{{ frontendConfiguration.FEEDBACK_MAIL_ADDRESS }}</a>
       </p>
     </div>
   </div>

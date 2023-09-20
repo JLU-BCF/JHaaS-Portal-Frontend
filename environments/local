@@ -1,4 +1,1 @@
 VITE_BACKEND_PATH=/api
-VITE_FEEDBACK_ADDRESS=support@computational.bio.uni-giessen.de
-VITE_AUTHENTIK_DOMAIN=authentik
-VITE_AUTHENTIK_URL=http://authentik:9000
