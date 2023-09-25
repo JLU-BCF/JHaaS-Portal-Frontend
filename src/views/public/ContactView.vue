@@ -20,7 +20,7 @@ const { frontendConfiguration } = useFrontendConfigurationStore();
       <p>
         <strong>Email address</strong>
         <br />
-        <a :href="`mailto:${frontendConfiguration.FEEDBACK_MAIL_ADDRESS}`">{{ frontendConfiguration.FEEDBACK_MAIL_ADDRESS }}</a>
+        <a :href="`mailto:${frontendConfiguration.MAIL_FEEDBACK_ADDRESS}`">{{ frontendConfiguration.MAIL_FEEDBACK_ADDRESS }}</a>
       </p>
     </div>
   </div>

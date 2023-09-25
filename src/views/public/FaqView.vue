@@ -17,7 +17,7 @@ const { frontendConfiguration } = useFrontendConfigurationStore();
         <strong>You can be the first</strong> to ask a question that comes up here:
         <br />
         contact us via
-        <a :href="`mailto:${frontendConfiguration.FEEDBACK_MAIL_ADDRESS}`">{{ frontendConfiguration.FEEDBACK_MAIL_ADDRESS }}</a>
+        <a :href="`mailto:${frontendConfiguration.MAIL_FEEDBACK_ADDRESS}`">{{ frontendConfiguration.MAIL_FEEDBACK_ADDRESS }}</a>
       </p>
     </div>
   </div>
