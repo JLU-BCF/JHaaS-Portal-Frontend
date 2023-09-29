@@ -8,6 +8,7 @@ interface FrontendConfiguration {
   AUTHENTIK_URL: string;
   AUTHENTIK_NAME: string;
   MAIL_FEEDBACK_ADDRESS: string;
+  TOS_ADDRESS: string;
 }
 
 export const useFrontendConfigurationStore = defineStore('frontend_configuration', () => {
@@ -18,7 +19,8 @@ export const useFrontendConfigurationStore = defineStore('frontend_configuration
     AUTHENTIK_FQDN: '',
     AUTHENTIK_URL: '',
     AUTHENTIK_NAME: '',
-    MAIL_FEEDBACK_ADDRESS: ''
+    MAIL_FEEDBACK_ADDRESS: '',
+    TOS_ADDRESS: ''
   };
 
   const oldConf = localStorage.getItem('frontend-configuration');
@@ -36,6 +38,7 @@ export const useFrontendConfigurationStore = defineStore('frontend_configuration
         frontendConfiguration.value.AUTHENTIK_URL = val.AUTHENTIK_URL;
         frontendConfiguration.value.AUTHENTIK_NAME = val.AUTHENTIK_NAME;
         frontendConfiguration.value.MAIL_FEEDBACK_ADDRESS = val.MAIL_FEEDBACK_ADDRESS;
+        frontendConfiguration.value.TOS_ADDRESS = val.TOS_ADDRESS;
 
         localStorage.setItem('frontend-configuration', JSON.stringify(frontendConfiguration.value));
       })
