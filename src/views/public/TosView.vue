@@ -3,10 +3,10 @@ import { ref } from 'vue';
 
 const tosContent = ref(`<p>
   <span class="spinner-grow spinner-grow-sm align-middle" role="status"></span>
-  ToS loading. If the ToS do not load, you can access them <a href="/api/tos/latest">here</a>.
+  ToS loading. If the ToS do not load, you can access them <a href="/tos/latest.html">here</a>.
 </p>`);
 
-fetch('/api/tos/latest')
+fetch('/tos/latest.html')
   .then(async (val) => {
     tosContent.value = await val.text();
   });
