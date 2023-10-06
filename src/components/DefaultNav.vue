@@ -2,8 +2,10 @@
 import { RouterLink, useRoute } from 'vue-router';
 import { onMounted, onUpdated } from 'vue';
 import { useAuthStore } from '@/stores/auth.store';
+import { useFrontendConfigurationStore } from '@/stores/config.store';
 
 const { user } = useAuthStore();
+const { frontendConfiguration } = useFrontendConfigurationStore();
 const route = useRoute();
 
 onMounted(addCloseNavListeners);
@@ -56,6 +58,11 @@ function addCloseNavListeners() {
           <li class="nav-item">
             <RouterLink :active-class="'active'" class="nav-link" :to="{ name: 'about' }"
               >About</RouterLink
+            >
+          </li>
+          <li v-if="frontendConfiguration.DOCS_ADDRESS" class="nav-item">
+            <a class="nav-link" :href="frontendConfiguration.DOCS_ADDRESS" target="_blank"
+              >Help</a
             >
           </li>
           <li v-if="user.valid()" class="nav-item">
