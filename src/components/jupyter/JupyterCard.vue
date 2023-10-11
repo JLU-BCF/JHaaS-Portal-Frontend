@@ -13,11 +13,12 @@ const props = defineProps({
 });
 
 const accepted = props.participation.status == 'ACCEPTED';
-const borderClass = accepted
-  ? 'border-success'
-  : props.participation.status == 'PENDING'
-    ? 'border-secondary'
-    : 'border-danger';
+
+// prettier-ignore
+const borderClass =
+  props.participation.status == 'ACCEPTED' ? 'border-success' :
+  props.participation.status == 'PENDING' ? 'border-secondary' :
+  'border-danger';
 </script>
 
 <template>

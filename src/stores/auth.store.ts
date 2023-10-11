@@ -61,11 +61,13 @@ export const useAuthStore = defineStore('auth', () => {
           display: 'info',
           message: 'You are now logged in.'
         });
-        const defaultReturnTarget = user.value.isAdmin
-          ? 'admin-overview'
-          : user.value.isLead
-            ? 'jupyter-overview'
-            : 'participation-overview';
+
+        // prettier-ignore
+        const defaultReturnTarget =
+          user.value.isAdmin ? 'admin-overview' :
+          user.value.isLead ? 'jupyter-overview' :
+          'participation-overview';
+
         router.push(returnUrl.value || { name: defaultReturnTarget });
         clearReturnUrl();
       })

@@ -61,9 +61,7 @@ function addCloseNavListeners() {
             >
           </li>
           <li v-if="frontendConfiguration.DOCS_ADDRESS" class="nav-item">
-            <a class="nav-link" :href="frontendConfiguration.DOCS_ADDRESS" target="_blank"
-              >Help</a
-            >
+            <a class="nav-link" :href="frontendConfiguration.DOCS_ADDRESS" target="_blank">Help</a>
           </li>
           <li v-if="user.valid()" class="nav-item">
             <RouterLink

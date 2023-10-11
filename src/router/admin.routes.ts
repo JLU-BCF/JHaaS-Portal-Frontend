@@ -46,6 +46,22 @@ export default {
           }
         }
       ]
+    },
+    {
+      path: 'tos',
+      name: 'admin-tos',
+      children: [
+        {
+          path: '',
+          name: 'admin-tos-overview',
+          component: () => import('../views/admin/ListTosView.vue')
+        },
+        {
+          path: 'create',
+          name: 'admin-tos-create',
+          component: () => import('../views/admin/CreateTosView.vue')
+        }
+      ]
     }
   ]
 };

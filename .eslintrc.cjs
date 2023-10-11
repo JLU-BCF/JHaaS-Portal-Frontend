@@ -8,11 +8,8 @@ module.exports = {
     '@typescript-eslint'
   ],
   'extends': [
-    'eslint:recommended',
     'plugin:vue/vue3-essential',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
-    '@vue/eslint-config-typescript',
+    '@vue/eslint-config-typescript/recommended',
     '@vue/eslint-config-prettier/skip-formatting'
   ],
   'parserOptions': {
@@ -23,9 +20,6 @@ module.exports = {
     'eol-last': ['error', 'always'],
     'quotes': ['error', 'single'],
     'semi': ['error', 'always'],
-    // Turn normal identation checks off,
-    // as we use @typescript-eslint/indent
-    'indent': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '(next|res|req)' }],
     '@typescript-eslint/indent': ['error', 2, {
       'SwitchCase': 1,

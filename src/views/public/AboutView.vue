@@ -20,7 +20,9 @@ const { frontendConfiguration } = useFrontendConfigurationStore();
       </p>
       <p>
         You are welcome to send bugs, suggestions for improvement and other ideas or comments to
-        <a :href="`mailto:${frontendConfiguration.MAIL_FEEDBACK_ADDRESS}`">{{ frontendConfiguration.MAIL_FEEDBACK_ADDRESS }}</a
+        <a :href="`mailto:${frontendConfiguration.MAIL_FEEDBACK_ADDRESS}`">{{
+          frontendConfiguration.MAIL_FEEDBACK_ADDRESS
+        }}</a
         >. We are looking forward to your feedback and opinion!
       </p>
       <h4 class="mt-5">How it works</h4>
@@ -61,7 +63,9 @@ const { frontendConfiguration } = useFrontendConfigurationStore();
       <p>
         These are just some examples, but in order for the portal to be purposefully developed to
         meet the needs of users, we need your feedback! So don't hesitate to contact us via
-        <a :href="`mailto:${frontendConfiguration.MAIL_FEEDBACK_ADDRESS}`">{{ frontendConfiguration.MAIL_FEEDBACK_ADDRESS }}</a
+        <a :href="`mailto:${frontendConfiguration.MAIL_FEEDBACK_ADDRESS}`">{{
+          frontendConfiguration.MAIL_FEEDBACK_ADDRESS
+        }}</a
         >.
       </p>
     </div>

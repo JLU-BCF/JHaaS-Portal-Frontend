@@ -19,22 +19,14 @@ import { RouterLink } from 'vue-router';
     </div>
     <div class="col-12 col-md-6 col-lg-4 mt-4">
       <p class="lead">User Management</p>
-      <RouterLink class="btn btn-outline-dark mb-2 w-100" :to="{ name: 'admin-create-user' }">
-        Create local User
-      </RouterLink>
-
       <RouterLink class="btn btn-outline-dark mb-2 w-100" :to="{ name: 'jupyter-create' }">
         Search Users
       </RouterLink>
     </div>
     <div class="col-12 col-md-6 col-lg-4 mt-4">
       <p class="lead">Misc Management</p>
-      <RouterLink class="btn btn-outline-dark mb-2 w-100" :to="{ name: 'jupyter-create' }">
-        Failures
-      </RouterLink>
-
-      <RouterLink class="btn btn-outline-dark mb-2 w-100" :to="{ name: 'jupyter-create' }">
-        Access Storage
+      <RouterLink class="btn btn-outline-dark mb-2 w-100" :to="{ name: 'admin-tos-overview' }">
+        Terms of Service
       </RouterLink>
     </div>
   </div>
