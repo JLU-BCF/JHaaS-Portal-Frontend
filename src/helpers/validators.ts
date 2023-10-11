@@ -55,3 +55,8 @@ export const localRegisterSchema = Yup.object().shape({
   firstName: Yup.string().max(128).required().label('First Name'),
   lastName: Yup.string().max(128).required().label('Last Name')
 });
+
+export const tosCreationSchema = Yup.object().shape({
+  textMarkdown: Yup.string().required().label('TOS text'),
+  validityStart: Yup.date().required().default(new Date()).label('validity start date')
+});
