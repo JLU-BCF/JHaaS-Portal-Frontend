@@ -3,9 +3,7 @@ import { tosCreationSchema } from '@/helpers/validators';
 import { Form, Field } from 'vee-validate';
 import { computed, ref } from 'vue';
 import { marked } from 'marked';
-import {
-  getTodayAsIso
-} from '@/helpers/date';
+import { getTodayAsIso } from '@/helpers/date';
 import { useTosStore } from '@/stores/tos.store';
 
 const tosStore = useTosStore();
@@ -35,17 +33,30 @@ const text_html = computed(() => {
       :validation-schema="tosCreationSchema"
       v-slot="{ errors, isSubmitting }"
     >
-
       <div class="btn-group mb-4" role="group" aria-label="Toggle Edit and Preview">
-
-        <input type="radio" class="btn-check" name="preview" id="preview-off" autocomplete="off" :value="false" v-model="previewActive" checked>
+        <input
+          type="radio"
+          class="btn-check"
+          name="preview"
+          id="preview-off"
+          autocomplete="off"
+          :value="false"
+          v-model="previewActive"
+          checked
+        />
         <label class="btn btn-sm btn-outline-secondary" for="preview-off">Edit</label>
 
-        <input type="radio" class="btn-check" name="preview" id="preview-on" autocomplete="off" :value="true" v-model="previewActive">
+        <input
+          type="radio"
+          class="btn-check"
+          name="preview"
+          id="preview-on"
+          autocomplete="off"
+          :value="true"
+          v-model="previewActive"
+        />
         <label class="btn btn-sm btn-outline-secondary" for="preview-on">Preview</label>
-
       </div>
-
 
       <div class="form-group mb-4" :hidden="previewActive">
         <label for="tos-input">Terms of Service - Editor</label>
@@ -80,9 +91,7 @@ const text_html = computed(() => {
             v-model="draftActive"
             checked
           />
-          <label class="form-check-label" for="draft-on">
-            This is a draft.
-          </label>
+          <label class="form-check-label" for="draft-on"> This is a draft. </label>
         </div>
         <div class="form-check">
           <Field
@@ -93,18 +102,14 @@ const text_html = computed(() => {
             id="draft-off"
             v-model="draftActive"
           />
-          <label class="form-check-label" for="draft-off">
-            This is the final version.
-          </label>
+          <label class="form-check-label" for="draft-off"> This is the final version. </label>
         </div>
         <div class="invalid-feedback">{{ errors.draft }}</div>
       </div>
 
       <div class="form-group mb-4">
         <label for="validity-input">
-          <span class="text-primary" v-if="draftActive">
-            Planned
-          </span>
+          <span class="text-primary" v-if="draftActive"> Planned </span>
           Validity Start Date
         </label>
         <Field
@@ -131,7 +136,8 @@ const text_html = computed(() => {
             id="warning-acceptance"
           />
           <label class="form-check-label text-danger" for="warning-acceptance">
-            I understand that the Terms of Service will be published immediately and cannot be revoked.
+            I understand that the Terms of Service will be published immediately and cannot be
+            revoked.
           </label>
           <div class="invalid-feedback">{{ errors.publish }}</div>
         </div>
@@ -144,8 +150,6 @@ const text_html = computed(() => {
         </button>
       </div>
       <div v-if="errors.apiError" class="alert alert-danger mt-3 mb-0">{{ errors.apiError }}</div>
-
-
     </Form>
   </div>
 </template>

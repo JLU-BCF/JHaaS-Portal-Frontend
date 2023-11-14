@@ -61,6 +61,8 @@ export const tosCreationSchema = Yup.object().shape({
   validityStart: Yup.date().required().default(new Date()).label('validity start date'),
   draft: Yup.boolean().required().default(false),
   publish: Yup.boolean().when('draft', ([draft], schema) => {
-    return draft ? schema.optional() : schema.required('You must acknowledge the consequences of a final version.');
+    return draft
+      ? schema.optional()
+      : schema.required('You must acknowledge the consequences of a final version.');
   })
 });

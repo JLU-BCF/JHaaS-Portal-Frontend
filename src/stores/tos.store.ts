@@ -57,9 +57,79 @@ export const useTosStore = defineStore('tos', () => {
       .finally(() => (fetchInProgress.value = false));
   }
 
+  async function findTos(id: string | string[]): Promise<Tos>;
+  async function findTos(id: string | string[]): Promise<void | Tos> {
+    const url = `${backend}/tos/find/${id}`;
+    fetchInProgress.value = true;
+
+    return fetchWrapper
+      .get(url)
+      .then((responseData: ITos) => {
+        return new Tos(responseData);
+      })
+      .catch((err) =>
+        notify({
+          display: 'danger',
+          message: err
+        })
+      )
+      .finally(() => (fetchInProgress.value = false));
+  }
+
+  async function updateTos(id: string, values: object) {
+    const url = `${backend}/tos/${id}`;
+    fetchInProgress.value = true;
+
+    return fetchWrapper
+      .put(url, values)
+      .then((responseData: ITos) => {
+        notify({
+          display: 'info',
+          message: 'Successfully created TOS'
+        });
+        const updatedTos = new Tos(responseData);
+        // TODO remove old TOS from tosList
+        tosList.value.push(updatedTos);
+
+        router.push({ name: 'admin-tos-overview', params: { slug: updatedTos.id } });
+      })
+      .catch((err) =>
+        notify({
+          display: 'danger',
+          message: err
+        })
+      )
+      .finally(() => (fetchInProgress.value = false));
+  }
+
+  async function deleteTos(id: string) {
+    if (!confirm('Do you really want to delete this draft?')) {
+      return;
+    }
+
+    const url = `${backend}/tos/${id}`;
+    fetchInProgress.value = true;
+
+    return fetchWrapper
+      .delete(url)
+      .then(() => {
+        // TODO remove from tosList
+      })
+      .catch((err) =>
+        notify({
+          display: 'danger',
+          message: err
+        })
+      )
+      .finally(() => (fetchInProgress.value = false));
+  }
+
   return {
     fetchTosList,
     createTos,
+    findTos,
+    updateTos,
+    deleteTos,
     fetchInProgress,
     tosList
   };

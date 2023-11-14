@@ -28,7 +28,9 @@ fetchLoginMethod().then((val) => {
         }}</a
         >).
       </p>
-      <p>Changes to your profile in Authentik will only take effect after profile synchronisation.</p>
+      <p>
+        Changes to your profile in Authentik will only take effect after profile synchronisation.
+      </p>
       <p class="mt-4">
         <a
           :href="`${frontendConfiguration.AUTHENTIK_URL}/if/user/#/settings`"
@@ -38,10 +40,7 @@ fetchLoginMethod().then((val) => {
         >
       </p>
       <p>
-        <a
-          href="/api/auth/oidc/login"
-          class="btn btn-outline-dark w-100"
-          target="_self"
+        <a href="/api/auth/oidc/login" class="btn btn-outline-dark w-100" target="_self"
           >Sync Profile</a
         >
       </p>

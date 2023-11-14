@@ -6,7 +6,7 @@ export interface ITos {
   published_date: Date | null;
   validity_start: Date;
   createdAt: Date;
-};
+}
 
 export class Tos implements ITos {
   id: string;

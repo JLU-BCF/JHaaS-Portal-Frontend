@@ -6,31 +6,33 @@ const tosStore = useTosStore();
 tosStore.fetchTosList();
 </script>
 <style>
-  .trunc-column {
-    width: 5em;
-    max-width: 5em;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-  }
-  .trunc-column:hover {
-    z-index: 1;
-    overflow-x: visible;
-    text-overflow: clip;
-  }
-  .trunc-column:hover > span {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    background: white !important;
-    background-color: white !important;
-  }
+.trunc-column {
+  width: 5em;
+  max-width: 5em;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.trunc-column:hover {
+  z-index: 1;
+  overflow-x: visible;
+  text-overflow: clip;
+}
+.trunc-column:hover > span {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background: white !important;
+  background-color: white !important;
+}
 </style>
 <template>
   <div class="row">
-    <div class="col-12 d-flex justify-content-between">
+    <div class="col-12 d-flex justify-content-between mb-3">
       <h1>TOS Management</h1>
-      <RouterLink class="btn btn-outline-success mb-5" :to="{ name: 'admin-tos-create' }"
-        >+ Add TOS</RouterLink
-      >
+      <div class="d-inline-block">
+        <RouterLink class="btn btn-outline-success" :to="{ name: 'admin-tos-create' }"
+          >+ Add TOS</RouterLink
+        >
+      </div>
     </div>
   </div>
 
@@ -43,9 +45,8 @@ tosStore.fetchTosList();
   <div v-else-if="tosStore.tosList.length == 0">
     <h4 class="text-danger">There are no TOS yet.</h4>
     <p class="text-danger">
-      Please <RouterLink class="link-danger" :to="{ name: 'admin-tos-create' }"
-        >create TOS</RouterLink
-      >.
+      Please
+      <RouterLink class="link-danger" :to="{ name: 'admin-tos-create' }">create TOS</RouterLink>.
     </p>
   </div>
 
@@ -81,20 +82,29 @@ tosStore.fetchTosList();
             {{ dateToDateString(tos.createdAt) }}
           </td>
           <td class="text-end">
+            <button
+              v-if="tos.draft"
+              @click="tosStore.deleteTos(tos.id)"
+              class="btn btn-sm btn-outline-danger me-1"
+              type="button"
+            >
+              Delete
+            </button>
             <RouterLink
+              v-if="tos.draft"
               :to="{
-                name: 'admin-tos-create',
-                // params: { slug: jupyter.slug }
+                name: 'admin-tos-edit',
+                params: { id: tos.id }
               }"
-              class="btn btn-sm btn-outline-dark"
+              class="btn btn-sm btn-outline-dark me-1"
               type="button"
             >
               Edit
             </RouterLink>
             <RouterLink
               :to="{
-                name: 'admin-tos-create',
-                // params: { slug: jupyter.slug }
+                name: 'admin-tos-view',
+                params: { id: tos.id }
               }"
               class="btn btn-sm btn-dark"
               type="button"
