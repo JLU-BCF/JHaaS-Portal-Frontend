@@ -43,6 +43,11 @@ function takeParticipationAction(
         v-for="participation in participations"
         :key="`${participation.participantId}-${participation.hubId}`"
       >
+        <td v-if="participation.participant" scope="row" class="trunc-column">
+          <span>
+            {{ participation.participant.externalId }}
+          </span>
+        </td>
         <td v-if="participation.participant">
           {{ participation.participant.firstName }}
           {{ participation.participant.lastName }}

@@ -49,7 +49,7 @@ const pendingParticipations = computed(() =>
       <div
         v-for="participation in acceptedParticipations"
         :key="participation.hubId"
-        class="col-12 col-md-6 col-xl-4"
+        class="col-12 col-md-6 col-xl-4 mb-4"
       >
         <JupyterCard :participation="participation" :today="today" />
       </div>
@@ -63,7 +63,7 @@ const pendingParticipations = computed(() =>
       <div
         v-for="participation in pendingParticipations"
         :key="participation.hubId"
-        class="col-12 col-md-6 col-xl-4"
+        class="col-12 col-md-6 col-xl-4 mb-4"
       >
         <JupyterCard :participation="participation" />
       </div>
@@ -77,7 +77,7 @@ const pendingParticipations = computed(() =>
       <div
         v-for="participation in rejectedParticipations"
         :key="participation.hubId"
-        class="col-12 col-md-6 col-xl-4"
+        class="col-12 col-md-6 col-xl-4 mb-4"
       >
         <JupyterCard :participation="participation" />
       </div>

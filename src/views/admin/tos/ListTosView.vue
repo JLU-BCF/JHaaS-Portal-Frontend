@@ -5,25 +5,6 @@ import { dateToDateString } from '@/helpers/date';
 const tosStore = useTosStore();
 tosStore.fetchTosList();
 </script>
-<style>
-.trunc-column {
-  width: 5em;
-  max-width: 5em;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
-.trunc-column:hover {
-  z-index: 1;
-  overflow-x: visible;
-  text-overflow: clip;
-}
-.trunc-column:hover > span {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background: white !important;
-  background-color: white !important;
-}
-</style>
 <template>
   <div class="row">
     <div class="col-12 d-flex justify-content-between mb-3">

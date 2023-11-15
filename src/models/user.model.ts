@@ -1,5 +1,6 @@
 interface UserInterface {
   id?: string;
+  externalId?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -11,6 +12,7 @@ interface UserInterface {
 
 export class User implements UserInterface {
   id?: string;
+  externalId?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
@@ -25,6 +27,7 @@ export class User implements UserInterface {
 
   public setUser(userObject: UserInterface): void {
     this.id = userObject.id;
+    this.externalId = userObject.externalId;
     this.firstName = userObject.firstName;
     this.lastName = userObject.lastName;
     this.email = userObject.email;
@@ -36,6 +39,7 @@ export class User implements UserInterface {
 
   public clearUser(): void {
     this.id = undefined;
+    this.externalId = undefined;
     this.firstName = undefined;
     this.lastName = undefined;
     this.email = undefined;
