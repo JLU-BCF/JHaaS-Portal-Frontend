@@ -54,12 +54,22 @@ export default {
         {
           path: '',
           name: 'admin-tos-overview',
-          component: () => import('../views/admin/ListTosView.vue')
+          component: () => import('../views/admin/tos/ListTosView.vue')
         },
         {
           path: 'create',
           name: 'admin-tos-create',
-          component: () => import('../views/admin/CreateTosView.vue')
+          component: () => import('../views/admin/tos/CreateTosView.vue')
+        },
+        {
+          path: ':id',
+          name: 'admin-tos-view',
+          component: () => import('../views/admin/tos/ShowTosView.vue')
+        },
+        {
+          path: 'edit/:id',
+          name: 'admin-tos-edit',
+          component: () => import('../views/admin/tos/EditTosView.vue')
         }
       ]
     }

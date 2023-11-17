@@ -28,13 +28,22 @@ fetchLoginMethod().then((val) => {
         }}</a
         >).
       </p>
-      <p>Changes to your profile in Authentik will only take effect after a logout-login-cycle.</p>
-      <a
-        :href="`${frontendConfiguration.AUTHENTIK_URL}/if/user/#/settings`"
-        class="btn btn-secondary w-100"
-        target="_blank"
-        >Open authentik settings</a
-      >
+      <p>
+        Changes to your profile in Authentik will only take effect after profile synchronisation.
+      </p>
+      <p class="mt-4">
+        <a
+          :href="`${frontendConfiguration.AUTHENTIK_URL}/if/user/#/settings`"
+          class="btn btn-outline-dark w-100"
+          target="_blank"
+          >Open authentik settings</a
+        >
+      </p>
+      <p>
+        <a href="/api/auth/oidc/login" class="btn btn-outline-dark w-100" target="_self"
+          >Sync Profile</a
+        >
+      </p>
     </div>
   </div>
 </template>

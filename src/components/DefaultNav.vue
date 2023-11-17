@@ -97,12 +97,11 @@ function addCloseNavListeners() {
               >{{ user.firstName }}</a
             >
             <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end">
-              <li>
+              <li class="mb-2">
                 <RouterLink :to="{ name: 'profile' }" class="dropdown-item" :active-class="'active'"
-                  >Profile Settings</RouterLink
+                  >Account</RouterLink
                 >
               </li>
-              <li><hr class="dropdown-divider" /></li>
               <li>
                 <form action="/api/auth/logout" method="post">
                   <button class="dropdown-item" type="submit">Logout</button>

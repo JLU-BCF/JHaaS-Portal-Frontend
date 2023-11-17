@@ -55,3 +55,14 @@ export const localRegisterSchema = Yup.object().shape({
   firstName: Yup.string().max(128).required().label('First Name'),
   lastName: Yup.string().max(128).required().label('Last Name')
 });
+
+export const tosCreationSchema = Yup.object().shape({
+  textMarkdown: Yup.string().required().label('TOS text'),
+  validityStart: Yup.date().required().default(new Date()).label('validity start date'),
+  draft: Yup.boolean().required().default(false),
+  publish: Yup.boolean().when('draft', ([draft], schema) => {
+    return draft
+      ? schema.optional()
+      : schema.required('You must acknowledge the consequences of a final version.');
+  })
+});
