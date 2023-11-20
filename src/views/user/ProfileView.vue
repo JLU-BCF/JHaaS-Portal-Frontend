@@ -1,15 +1,9 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth.store';
 import { useFrontendConfigurationStore } from '@/stores/config.store';
-import { ref } from 'vue';
 
 const { frontendConfiguration } = useFrontendConfigurationStore();
-const { user, fetchLoginMethod } = useAuthStore();
-
-const credsInfo = ref({} as { [key: string]: string });
-fetchLoginMethod().then((val) => {
-  credsInfo.value = val;
-});
+const { user } = useAuthStore();
 
 const currentUrlEncoded = encodeURIComponent(window.location.href);
 </script>
@@ -30,14 +24,8 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
     >).
   </p>
 
-  <p class="text-danger mt-3">
-    <span class="fs-2">⚠</span><br/>
-    Changes to your account are currently only possible via the Authentik settings.<br/>
-    Please also use the Authentik settings for password and MFA changes.
-  </p>
-
   <div class="row">
-    <div class="col-12 col-md-4 col-xl-3">
+    <div class="col-12 col-md-6 col-xl-3">
       <div class="card mt-5">
         <div class="card-header">
           <strong>Basic Settings</strong>
@@ -48,18 +36,20 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
           </p>
           <p class="mt-4">
             <a
-              aria-disabled="true"
-              :href="`${frontendConfiguration.AUTHENTIK_URL}/if/flow/password-setup/?next=${currentUrlEncoded}`"
-              class="btn btn-outline-dark w-100 disabled"
+              :aria-disabled="(!frontendConfiguration.AUTHENTIK_CONFIG_PASSWORD)"
+              :class="(!frontendConfiguration.AUTHENTIK_CONFIG_PASSWORD) ? 'disabled' : ''"
+              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_PASSWORD}/?next=${currentUrlEncoded}`"
+              class="btn btn-outline-dark w-100"
               target="_blank"
               >Change Password</a
             >
           </p>
           <p>
             <a
-              aria-disabled="true"
-              :href="`${frontendConfiguration.AUTHENTIK_URL}/if/flow/mfa-static-setup/?next=${currentUrlEncoded}`"
-              class="btn btn-outline-dark w-100 disabled"
+            :aria-disabled="(!frontendConfiguration.AUTHENTIK_CONFIG_STATIC)"
+              :class="(!frontendConfiguration.AUTHENTIK_CONFIG_STATIC) ? 'disabled' : ''"
+              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_STATIC}/?next=${currentUrlEncoded}`"
+              class="btn btn-outline-dark w-100"
               target="_blank"
               >Generate Recovery Keys</a
             >
@@ -68,7 +58,7 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
       </div>
     </div>
 
-    <div class="col-12 col-md-4 col-xl-3">
+    <div class="col-12 col-md-6 col-xl-3">
       <div class="card mt-5">
         <div class="card-header">
           <strong>MFA Settings</strong>
@@ -82,18 +72,20 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
           </p>
           <p class="mt-4">
             <a
-              aria-disabled="true"
-              :href="`${frontendConfiguration.AUTHENTIK_URL}/if/flow/totp-setup/?next=${currentUrlEncoded}`"
-              class="btn btn-outline-dark w-100 disabled"
+              :aria-disabled="(!frontendConfiguration.AUTHENTIK_CONFIG_TOTP)"
+              :class="(!frontendConfiguration.AUTHENTIK_CONFIG_TOTP) ? 'disabled' : ''"
+              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_TOTP}/?next=${currentUrlEncoded}`"
+              class="btn btn-outline-dark w-100"
               target="_blank"
               >Enroll TOTP Device</a
             >
           </p>
           <p>
             <a
-              aria-disabled="true"
-              :href="`${frontendConfiguration.AUTHENTIK_URL}/if/flow/webauthn-setup/?next=${currentUrlEncoded}`"
-              class="btn btn-outline-dark w-100 disabled"
+              :aria-disabled="(!frontendConfiguration.AUTHENTIK_CONFIG_WEBAUTHN)"
+              :class="(!frontendConfiguration.AUTHENTIK_CONFIG_WEBAUTHN) ? 'disabled' : ''"
+              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_WEBAUTHN}/?next=${currentUrlEncoded}`"
+              class="btn btn-outline-dark w-100"
               target="_blank"
               >Enroll WebAuthn Device</a
             >
@@ -102,7 +94,7 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
       </div>
     </div>
 
-    <div class="col-12 col-md-4 col-xl-3">
+    <div class="col-12 col-md-6 col-xl-3">
       <div class="card mt-5">
         <div class="card-header">
           <strong>Authentik Settings</strong>
@@ -122,6 +114,32 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
           <p>
             <a href="/api/auth/oidc/login" class="btn btn-outline-dark w-100" target="_self"
               >Sync Profile</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-3">
+      <div class="card mt-5 border-danger">
+        <div class="card-header text-danger">
+          <strong>Danger Zone</strong>
+        </div>
+        <div class="card-body">
+          <p>
+            Changes taken here are irreversible.
+          </p>
+          <p class="mt-4">
+            <a
+              :href="`${frontendConfiguration.AUTHENTIK_URL}/if/flow/mfa-recovery/`"
+              class="btn btn-outline-danger w-100"
+              target="_blank"
+              >Reset MFA</a
+            >
+          </p>
+          <p>
+            <a aria-disabled="true" href="/api/auth/oidc/login" class="btn btn-outline-danger w-100 disabled" target="_self"
+              >Delete Account</a
             >
           </p>
         </div>
