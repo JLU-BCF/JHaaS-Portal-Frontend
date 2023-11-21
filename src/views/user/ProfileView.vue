@@ -18,10 +18,7 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
   <hr />
 
   <p class="mt-5">
-    Your profile is managed through Authentik (<a :href="frontendConfiguration.AUTHENTIK_URL">{{
-      frontendConfiguration.AUTHENTIK_FQDN
-    }}</a
-    >).
+    Your profile is managed through <a :href="frontendConfiguration.AUTHENTIK_URL">Authentik</a>.
   </p>
 
   <div class="row">
@@ -31,26 +28,25 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
           <strong>Basic Settings</strong>
         </div>
         <div class="card-body">
-          <p>
-            Make basic adjustments to your account.
-          </p>
+          <p>Make basic changes to the access to your account.</p>
+          <p>If you have lost your recovery tokens, you can generate new tokens here.</p>
           <p class="mt-4">
             <a
-              :aria-disabled="(!frontendConfiguration.AUTHENTIK_CONFIG_PASSWORD)"
-              :class="(!frontendConfiguration.AUTHENTIK_CONFIG_PASSWORD) ? 'disabled' : ''"
-              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_PASSWORD}/?next=${currentUrlEncoded}`"
+              :aria-disabled="!frontendConfiguration.AUTHENTIK_CONFIG_PASSWORD"
+              :class="!frontendConfiguration.AUTHENTIK_CONFIG_PASSWORD ? 'disabled' : ''"
+              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_PASSWORD}/?redirect=${currentUrlEncoded}`"
               class="btn btn-outline-dark w-100"
-              target="_blank"
+              target="_self"
               >Change Password</a
             >
           </p>
           <p>
             <a
-            :aria-disabled="(!frontendConfiguration.AUTHENTIK_CONFIG_STATIC)"
-              :class="(!frontendConfiguration.AUTHENTIK_CONFIG_STATIC) ? 'disabled' : ''"
-              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_STATIC}/?next=${currentUrlEncoded}`"
+              :aria-disabled="!frontendConfiguration.AUTHENTIK_CONFIG_STATIC"
+              :class="!frontendConfiguration.AUTHENTIK_CONFIG_STATIC ? 'disabled' : ''"
+              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_STATIC}/?redirect=${currentUrlEncoded}`"
               class="btn btn-outline-dark w-100"
-              target="_blank"
+              target="_self"
               >Generate Recovery Keys</a
             >
           </p>
@@ -65,28 +61,31 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
         </div>
         <div class="card-body">
           <p>
-            JHaaS uses multi-factor authentication by default to make your logins as secure as possible.
+            JHaaS uses multi-factor authentication by default to make your logins as secure as
+            possible.
           </p>
           <p>
-            It is advisable to store several MFA devices. On the one hand, this serves as a backup in case a device is lost. On the other hand, there are devices, such as Windows Hello, that only work at a specific workstation.
+            It is advisable to store several MFA devices. On the one hand, this serves as a backup
+            in case a device is lost. On the other hand, there are devices, such as Windows Hello,
+            that only work at a specific workstation.
           </p>
           <p class="mt-4">
             <a
-              :aria-disabled="(!frontendConfiguration.AUTHENTIK_CONFIG_TOTP)"
-              :class="(!frontendConfiguration.AUTHENTIK_CONFIG_TOTP) ? 'disabled' : ''"
-              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_TOTP}/?next=${currentUrlEncoded}`"
+              :aria-disabled="!frontendConfiguration.AUTHENTIK_CONFIG_TOTP"
+              :class="!frontendConfiguration.AUTHENTIK_CONFIG_TOTP ? 'disabled' : ''"
+              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_TOTP}/?redirect=${currentUrlEncoded}`"
               class="btn btn-outline-dark w-100"
-              target="_blank"
+              target="_self"
               >Enroll TOTP Device</a
             >
           </p>
           <p>
             <a
-              :aria-disabled="(!frontendConfiguration.AUTHENTIK_CONFIG_WEBAUTHN)"
-              :class="(!frontendConfiguration.AUTHENTIK_CONFIG_WEBAUTHN) ? 'disabled' : ''"
-              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_WEBAUTHN}/?next=${currentUrlEncoded}`"
+              :aria-disabled="!frontendConfiguration.AUTHENTIK_CONFIG_WEBAUTHN"
+              :class="!frontendConfiguration.AUTHENTIK_CONFIG_WEBAUTHN ? 'disabled' : ''"
+              :href="`${frontendConfiguration.AUTHENTIK_URL}/flows/-/configure/${frontendConfiguration.AUTHENTIK_CONFIG_WEBAUTHN}/?redirect=${currentUrlEncoded}`"
               class="btn btn-outline-dark w-100"
-              target="_blank"
+              target="_self"
               >Enroll WebAuthn Device</a
             >
           </p>
@@ -100,8 +99,10 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
           <strong>Authentik Settings</strong>
         </div>
         <div class="card-body">
+          <p>Advanced changes to your account can be made via the Authentik interface.</p>
           <p>
-            Changes to your profile in Authentik will only take effect after profile synchronisation.
+            Changes to your profile in Authentik will only take effect after profile
+            synchronisation.
           </p>
           <p class="mt-4">
             <a
@@ -126,19 +127,26 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
           <strong>Danger Zone</strong>
         </div>
         <div class="card-body">
+          <p>Be careful. Changes made here are irreversible.</p>
           <p>
-            Changes taken here are irreversible.
+            It is not yet possible to delete your account automatically. Please contact support if
+            you would like to delete your account.
           </p>
           <p class="mt-4">
             <a
+              aria-disabled="true"
               :href="`${frontendConfiguration.AUTHENTIK_URL}/if/flow/mfa-recovery/`"
-              class="btn btn-outline-danger w-100"
+              class="btn btn-outline-danger w-100 disabled"
               target="_blank"
               >Reset MFA</a
             >
           </p>
           <p>
-            <a aria-disabled="true" href="/api/auth/oidc/login" class="btn btn-outline-danger w-100 disabled" target="_self"
+            <a
+              aria-disabled="true"
+              href="/api/auth/oidc/login"
+              class="btn btn-outline-danger w-100 disabled"
+              target="_self"
               >Delete Account</a
             >
           </p>
@@ -146,5 +154,4 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
       </div>
     </div>
   </div>
-
 </template>

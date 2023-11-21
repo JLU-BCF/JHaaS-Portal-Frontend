@@ -47,7 +47,6 @@ export const useFrontendConfigurationStore = defineStore('frontend_configuration
     fetchWrapper
       .get(`${backend}/frontend-configuration`)
       .then((val: FrontendConfiguration) => {
-
         Object.assign(
           frontendConfiguration.value,
           Object.keys(val)
