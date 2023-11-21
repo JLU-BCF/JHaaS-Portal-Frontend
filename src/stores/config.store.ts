@@ -8,6 +8,10 @@ interface FrontendConfiguration {
   AUTHENTIK_FQDN: string;
   AUTHENTIK_URL: string;
   AUTHENTIK_NAME: string;
+  AUTHENTIK_CONFIG_TOTP: string;
+  AUTHENTIK_CONFIG_WEBAUTHN: string;
+  AUTHENTIK_CONFIG_STATIC: string;
+  AUTHENTIK_CONFIG_PASSWORD: string;
   MAIL_FEEDBACK_ADDRESS: string;
   TOS_ADDRESS: string;
   DOCS_ADDRESS: string;
@@ -23,6 +27,10 @@ export const useFrontendConfigurationStore = defineStore('frontend_configuration
     AUTHENTIK_FQDN: '',
     AUTHENTIK_URL: '',
     AUTHENTIK_NAME: '',
+    AUTHENTIK_CONFIG_TOTP: '',
+    AUTHENTIK_CONFIG_WEBAUTHN: '',
+    AUTHENTIK_CONFIG_STATIC: '',
+    AUTHENTIK_CONFIG_PASSWORD: '',
     MAIL_FEEDBACK_ADDRESS: '',
     TOS_ADDRESS: '',
     DOCS_ADDRESS: ''
@@ -39,12 +47,12 @@ export const useFrontendConfigurationStore = defineStore('frontend_configuration
     fetchWrapper
       .get(`${backend}/frontend-configuration`)
       .then((val: FrontendConfiguration) => {
-        frontendConfiguration.value.AUTHENTIK_FQDN = val.AUTHENTIK_FQDN;
-        frontendConfiguration.value.AUTHENTIK_URL = val.AUTHENTIK_URL;
-        frontendConfiguration.value.AUTHENTIK_NAME = val.AUTHENTIK_NAME;
-        frontendConfiguration.value.MAIL_FEEDBACK_ADDRESS = val.MAIL_FEEDBACK_ADDRESS;
-        frontendConfiguration.value.TOS_ADDRESS = val.TOS_ADDRESS;
-        frontendConfiguration.value.DOCS_ADDRESS = val.DOCS_ADDRESS;
+        Object.assign(
+          frontendConfiguration.value,
+          Object.keys(val)
+            .filter((k) => val[k as keyof FrontendConfiguration] != null)
+            .reduce((a, k) => ({ ...a, [k]: val[k as keyof FrontendConfiguration] }), {})
+        );
 
         localStorage.setItem('frontend-configuration', JSON.stringify(frontendConfiguration.value));
       })
