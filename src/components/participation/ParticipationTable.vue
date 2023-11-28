@@ -61,6 +61,17 @@ function takeParticipationAction(
         <td>
           <div class="d-grid gap-1 d-flex">
             <button
+              class="btn btn-sm btn-danger"
+              @click="
+                participationStore.cancelParticipation(
+                  participation.participantId,
+                  participation.hubId
+                )
+              "
+            >
+              &#128465;
+            </button>
+            <button
               class="btn btn-sm btn-danger w-100"
               :disabled="participation.status === 'REJECTED'"
               @click="

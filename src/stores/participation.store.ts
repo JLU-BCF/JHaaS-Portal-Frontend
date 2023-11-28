@@ -91,12 +91,29 @@ export const useParticipationStore = defineStore('participation', () => {
       });
   }
 
+  async function cancelParticipation(participantId: string, hubId: string) {
+    if (!confirm('Should this participation really be canceled?')) {
+      return;
+    }
+
+    return fetchWrapper
+      .delete(`${backend}/participation/${participantId}/${hubId}`)
+      .then((data) => data)
+      .catch((err) => {
+        notify({
+          display: 'danger',
+          message: err
+        });
+      });
+  }
+
   return {
     fetchUserParticipations,
     fetchHubParticipations,
     fetchParticipation,
     fetchJupyterForParticipation,
     requestAccess,
-    participationAction
+    participationAction,
+    cancelParticipation
   };
 });
