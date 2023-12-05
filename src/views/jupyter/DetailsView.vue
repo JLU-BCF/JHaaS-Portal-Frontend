@@ -85,7 +85,7 @@ function initiateLifecycleAction(action: 'redeploy' | 'degrade') {
         copy to clipboard
       </button>
     </p>
-    <p v-if="jupyter.status == 'FAILED' && user.isAdmin">
+    <p v-if="['DEPLOYED', 'FAILED'].includes(jupyter.status) && user.isAdmin">
       <button @click="initiateLifecycleAction('redeploy')" class="btn btn-sm btn-danger mx-3">
         Mark for Redeployment
       </button>

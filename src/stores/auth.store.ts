@@ -80,20 +80,6 @@ export const useAuthStore = defineStore('auth', () => {
       });
   }
 
-  async function fetchLoginMethod() {
-    return fetchWrapper
-      .get(`${backend}/user/${user.value.id}/auth`)
-      .then((val) => {
-        return val;
-      })
-      .catch((err) =>
-        notify({
-          display: 'danger',
-          message: err
-        })
-      );
-  }
-
   function logout() {
     clearReturnUrl();
     clearUser();
@@ -102,5 +88,5 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'start' });
   }
 
-  return { user, returnUrl, setReturnUrl, oidcVerify, fetchLoginMethod, logout };
+  return { user, returnUrl, setReturnUrl, oidcVerify, logout };
 });
