@@ -44,6 +44,11 @@ function updateParticipation(updatedParticipation: Participation) {
     }
   });
 }
+
+function removeParticipation(removedParticipation: Participation) {
+  const removedParticipationIndex = participations.value.indexOf(removedParticipation);
+  participations.value.splice(removedParticipationIndex, 1);
+}
 </script>
 
 <template>
@@ -60,6 +65,7 @@ function updateParticipation(updatedParticipation: Participation) {
       <h6 class="text-secondary">Pending Participations</h6>
       <ParticipationTable
         @participation-action-taken="updateParticipation"
+        @participation-canceled="removeParticipation"
         :participations="pendingParticipations"
         tableClass="table-secondary"
       >
@@ -73,6 +79,7 @@ function updateParticipation(updatedParticipation: Participation) {
       <h6 class="text-success">Confirmed Participations</h6>
       <ParticipationTable
         @participation-action-taken="updateParticipation"
+        @participation-canceled="removeParticipation"
         :participations="acceptedParticipations"
         tableClass="table-success"
       >
@@ -86,6 +93,7 @@ function updateParticipation(updatedParticipation: Participation) {
       <h6 class="text-danger">Rejected Participations</h6>
       <ParticipationTable
         @participation-action-taken="updateParticipation"
+        @participation-canceled="removeParticipation"
         :participations="rejectedParticipations"
         tableClass="table-danger"
       >

@@ -15,20 +15,32 @@ defineProps({
 const emits = defineEmits({
   participationActionTaken(instance: Participation) {
     return instance;
+  },
+  participationCanceled(instance: Participation) {
+    return instance;
   }
 });
 
 const participationStore = useParticipationStore();
 
 function takeParticipationAction(
-  participantId: string,
-  hubId: string,
+  participation: Participation,
   action: 'accept' | 'reject'
 ) {
   participationStore
-    .participationAction(participantId, hubId, action)
+    .participationAction(participation.participantId, participation.hubId, action)
     .then((participationInstance) => {
       if (participationInstance) emits('participationActionTaken', participationInstance);
+    });
+}
+
+function cancelParticipation(
+  participation: Participation
+) {
+  participationStore
+    .cancelParticipation(participation.participantId, participation.hubId)
+    .then((deleteResult) => {
+      if (deleteResult) emits('participationCanceled', participation);
     });
 }
 </script>
@@ -62,30 +74,21 @@ function takeParticipationAction(
           <div class="d-grid gap-1 d-flex">
             <button
               class="btn btn-sm btn-danger"
-              @click="
-                participationStore.cancelParticipation(
-                  participation.participantId,
-                  participation.hubId
-                )
-              "
+              @click="cancelParticipation(participation)"
             >
               &#128465;
             </button>
             <button
               class="btn btn-sm btn-danger w-100"
               :disabled="participation.status === 'REJECTED'"
-              @click="
-                takeParticipationAction(participation.participantId, participation.hubId, 'reject')
-              "
+              @click="takeParticipationAction(participation, 'reject')"
             >
               Reject
             </button>
             <button
               class="btn btn-sm btn-success w-100"
               :disabled="participation.status === 'ACCEPTED'"
-              @click="
-                takeParticipationAction(participation.participantId, participation.hubId, 'accept')
-              "
+              @click="takeParticipationAction(participation, 'accept')"
             >
               Accept
             </button>
