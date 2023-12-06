@@ -23,10 +23,7 @@ const emits = defineEmits({
 
 const participationStore = useParticipationStore();
 
-function takeParticipationAction(
-  participation: Participation,
-  action: 'accept' | 'reject'
-) {
+function takeParticipationAction(participation: Participation, action: 'accept' | 'reject') {
   participationStore
     .participationAction(participation.participantId, participation.hubId, action)
     .then((participationInstance) => {
@@ -34,9 +31,7 @@ function takeParticipationAction(
     });
 }
 
-function cancelParticipation(
-  participation: Participation
-) {
+function cancelParticipation(participation: Participation) {
   participationStore
     .cancelParticipation(participation.participantId, participation.hubId)
     .then((deleteResult) => {
@@ -72,10 +67,7 @@ function cancelParticipation(
         <td v-if="!participation.participant">Unknown participant.</td>
         <td>
           <div class="d-grid gap-1 d-flex">
-            <button
-              class="btn btn-sm btn-danger"
-              @click="cancelParticipation(participation)"
-            >
+            <button class="btn btn-sm btn-danger" @click="cancelParticipation(participation)">
               &#128465;
             </button>
             <button
