@@ -11,6 +11,11 @@ export default {
       path: 'participate/:slug',
       name: 'participation-participate',
       component: () => import('../views/participation/ParticipateView.vue')
+    },
+    {
+      path: 'revoke/:slug',
+      name: 'participation-revoke',
+      component: () => import('../views/participation/RevokeView.vue')
     }
   ]
 };

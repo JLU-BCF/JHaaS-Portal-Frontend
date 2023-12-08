@@ -91,14 +91,22 @@ export const useParticipationStore = defineStore('participation', () => {
       });
   }
 
-  async function cancelParticipation(participantId: string, hubId: string) {
+  async function cancelParticipation(participantId: string, hubId: string, verificationToken?: string) {
     if (!confirm('Should this participation really be canceled?')) {
       return;
     }
 
     return fetchWrapper
-      .delete(`${backend}/participation/${participantId}/${hubId}`)
-      .then((data) => data)
+      .delete(`${backend}/participation/${participantId}/${hubId}`, {
+        verificationToken
+      })
+      .then((data) => {
+        notify({
+          display: 'info',
+          message: data
+        });
+        return data;
+      })
       .catch((err) => {
         notify({
           display: 'danger',
