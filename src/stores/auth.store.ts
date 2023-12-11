@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import router from '@/router';
-import { ref, type Ref } from 'vue';
+import { ref } from 'vue';
 import { useNotificationStore } from '@/stores/notification.store';
 import { useJupyterStore } from './jupyter.store';
 import { User } from '@/models/user.model';
@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
   const { notify } = useNotificationStore();
 
   // Handling of User
-  const user: Ref<User> = ref(new User());
+  const user = ref<User>(new User());
 
   const oldUser = localStorage.getItem('user');
   if (oldUser) {
@@ -25,12 +25,12 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function clearUser() {
-    user.value.clearUser();
+    Object.assign(user.value, new User());
     localStorage.removeItem('user');
   }
 
   // Handling of returnURL
-  const returnUrl: Ref<string | undefined> = ref();
+  const returnUrl = ref<string>();
 
   const oldReturnUrl = localStorage.getItem('return_url');
   if (oldReturnUrl) {
@@ -88,5 +88,29 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'start' });
   }
 
-  return { user, returnUrl, setReturnUrl, oidcVerify, logout };
+  async function deleteAccount(verificationToken?: string) {
+    if (!confirm('Do you really want to delete your account?')) {
+      return Promise.reject();
+    }
+
+    return fetchWrapper
+      .delete(`${backend}/user/${user.value.id}`, {
+        verificationToken
+      })
+      .then((data) => {
+        notify({
+          display: 'info',
+          message: data
+        });
+        return data;
+      })
+      .catch((err) => {
+        notify({
+          display: 'danger',
+          message: err
+        });
+      });
+  }
+
+  return { user, returnUrl, setReturnUrl, oidcVerify, logout, deleteAccount };
 });

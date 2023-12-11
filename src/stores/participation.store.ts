@@ -93,7 +93,7 @@ export const useParticipationStore = defineStore('participation', () => {
 
   async function cancelParticipation(participantId: string, hubId: string, verificationToken?: string) {
     if (!confirm('Should this participation really be canceled?')) {
-      return;
+      return Promise.reject();
     }
 
     return fetchWrapper

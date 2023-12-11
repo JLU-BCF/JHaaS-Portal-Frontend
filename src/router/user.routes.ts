@@ -8,6 +8,11 @@ export default {
       component: () => import('../views/user/ProfileView.vue')
     },
     {
+      path: 'delete',
+      name: 'user-delete',
+      component: () => import('../views/user/DeleteView.vue')
+    },
+    {
       path: 'logout',
       component: () => import('../views/auth/AuthView.vue'),
       children: [
