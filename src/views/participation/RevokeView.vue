@@ -39,7 +39,8 @@ participationStore
   });
 
 function confirmExit(participantId: string, hubId: string) {
-  participationStore.cancelParticipation(participantId, hubId, verificationToken?.toString())
+  participationStore
+    .cancelParticipation(participantId, hubId, verificationToken?.toString())
     .then(() => {
       router.push({ name: 'participation-overview' });
     });
@@ -73,9 +74,9 @@ function confirmExit(participantId: string, hubId: string) {
           <hr />
           <h5 class="text-danger">Caution:</h5>
           <p class="text-danger">
-            You are about to leave <strong>{{ hub.name }}</strong>.
-            This will delete all your data on this hub and will prevent you from logging into this hub.
-            You can request access to the hub again at any time.
+            You are about to leave <strong>{{ hub.name }}</strong
+            >. This will delete all your data on this hub and will prevent you from logging into
+            this hub. You can request access to the hub again at any time.
           </p>
           <button
             class="btn btn-outline-danger w-100"
@@ -89,9 +90,7 @@ function confirmExit(participantId: string, hubId: string) {
         <div v-else-if="hub.creatorId == user.id">
           <hr />
           <h5 class="text-danger">Information</h5>
-          <p class="text-danger">
-            You cannot cancel participation, as this is your own hub!
-          </p>
+          <p class="text-danger">You cannot cancel participation, as this is your own hub!</p>
           <RouterLink
             :to="{ name: 'jupyter-details', params: { slug: hub.slug } }"
             class="btn btn-outline-info w-100"

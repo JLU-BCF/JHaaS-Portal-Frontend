@@ -26,10 +26,8 @@ participationStore.fetchUserParticipations().then((data) => {
 });
 
 function confirmDeletion() {
-  deleteAccount(verificationToken?.toString())
-    .then(logout);
+  deleteAccount(verificationToken?.toString()).then(logout);
 }
-
 </script>
 
 <template>
@@ -49,7 +47,9 @@ function confirmDeletion() {
         <hr />
         Your participations:
         <ul>
-          <li v-for="participation in participations" :key="participation.hubId">{{ participation.hub?.name }} ({{ participation.status }})</li>
+          <li v-for="participation in participations" :key="participation.hubId">
+            {{ participation.hub?.name }} ({{ participation.status }})
+          </li>
         </ul>
       </div>
 
@@ -57,37 +57,29 @@ function confirmDeletion() {
         <hr />
         You have created following hubs:
         <ul>
-          <li v-for="hub in jupyterStore.myJupyters" :key="hub.id">{{ hub.name }} ({{ hub.status }})</li>
+          <li v-for="hub in jupyterStore.myJupyters" :key="hub.id">
+            {{ hub.name }} ({{ hub.status }})
+          </li>
         </ul>
       </div>
 
       <hr />
       <h5 class="text-danger">Caution:</h5>
       <p class="text-danger">
-        You are about to <strong>permanently delete your account</strong>.
-        This will delete your data on all hubs you participate and have participated in.
-        You can register for JHaaS again at any time.
+        You are about to <strong>permanently delete your account</strong>. This will delete your
+        data on all hubs you participate and have participated in. You can register for JHaaS again
+        at any time.
       </p>
-      <p class="text-center text-danger">
-        This action cannot be undone!
-      </p>
-      <button
-        class="btn btn-outline-danger w-100"
-        @click="confirmDeletion()"
-      >
+      <p class="text-center text-danger">This action cannot be undone!</p>
+      <button class="btn btn-outline-danger w-100" @click="confirmDeletion()">
         I understand and I want to
         <br />
         <strong>permanently delete my account</strong>
       </button>
     </div>
-
   </div>
 
-  <RouterLink
-    class="btn btn-outline-dark mt-5 w-100 mw-330"
-    :to="{ name: 'profile' }"
-  >
+  <RouterLink class="btn btn-outline-dark mt-5 w-100 mw-330" :to="{ name: 'profile' }">
     Cancel and go back
   </RouterLink>
-
 </template>

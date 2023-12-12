@@ -142,11 +142,9 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
             >
           </p>
           <p>
-            <button
-              class="btn btn-outline-danger w-100"
-              @click="deleteAccount()"
-              >Delete Account</button
-            >
+            <button class="btn btn-outline-danger w-100" @click="deleteAccount()">
+              Delete Account
+            </button>
           </p>
         </div>
       </div>
