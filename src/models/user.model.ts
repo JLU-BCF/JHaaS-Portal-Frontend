@@ -1,4 +1,4 @@
-interface UserInterface {
+export interface UserInterface {
   id: string;
   externalId: string;
   firstName: string;
@@ -8,6 +8,9 @@ interface UserInterface {
   isLead: boolean;
   createdAt: Date;
   updatedAt: Date;
+
+  setUser(userObject: UserInterface): void;
+  valid(): boolean;
 }
 
 export class User implements UserInterface {

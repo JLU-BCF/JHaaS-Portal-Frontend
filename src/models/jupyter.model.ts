@@ -1,4 +1,4 @@
-import { User } from '@/models/user.model';
+import { User, type UserInterface } from '@/models/user.model';
 
 export type JupyterHubRequestUserConf = {
   storagePerUser: number;
@@ -9,7 +9,7 @@ export type JupyterHubRequestUserConf = {
 
 interface JupyterBaseInterface {
   id: string;
-  creator: User;
+  creator: UserInterface;
   name: string;
   slug: string;
   hubUrl: string;
@@ -25,7 +25,7 @@ interface JupyterBaseInterface {
 
 export class JupyterBase {
   id!: string;
-  creator!: User;
+  creator!: UserInterface;
   name!: string;
   slug!: string;
   hubUrl!: string;

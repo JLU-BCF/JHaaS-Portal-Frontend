@@ -2,10 +2,28 @@
 import { useAuthStore } from '@/stores/auth.store';
 import { useRoute } from 'vue-router';
 import { dateToDateString } from '@/helpers/date';
+import { Participation } from '@/models/participation.model';
+import { ref } from 'vue';
+import { useParticipationStore } from '@/stores/participation.store';
+import { useJupyterStore } from '@/stores/jupyter.store';
 
 const { user, deleteAccount, logout } = useAuthStore();
 const route = useRoute();
 const verificationToken = route.query.verification;
+
+const jupyterStore = useJupyterStore();
+if (user.isLead) {
+  jupyterStore.loadMyJupyters();
+}
+
+const participationStore = useParticipationStore();
+const participations = ref<Participation[]>([]);
+
+participationStore.fetchUserParticipations().then((data) => {
+  for (const participation of data.instances) {
+    participations.value.push(new Participation(participation));
+  }
+});
 
 function confirmDeletion() {
   deleteAccount(verificationToken?.toString())
@@ -27,9 +45,21 @@ function confirmDeletion() {
         Member since: {{ dateToDateString(user.createdAt) }}
       </p>
 
-      <hr />
+      <div v-if="participations.length">
+        <hr />
+        Your participations:
+        <ul>
+          <li v-for="participation in participations" :key="participation.hubId">{{ participation.hub?.name }} ({{ participation.status }})</li>
+        </ul>
+      </div>
 
-      You are participating following Hubs:
+      <div v-if="jupyterStore.myJupyters.length">
+        <hr />
+        You have created following hubs:
+        <ul>
+          <li v-for="hub in jupyterStore.myJupyters" :key="hub.id">{{ hub.name }} ({{ hub.status }})</li>
+        </ul>
+      </div>
 
       <hr />
       <h5 class="text-danger">Caution:</h5>
@@ -52,5 +82,12 @@ function confirmDeletion() {
     </div>
 
   </div>
+
+  <RouterLink
+    class="btn btn-outline-dark mt-5 w-100 mw-330"
+    :to="{ name: 'profile' }"
+  >
+    Cancel and go back
+  </RouterLink>
 
 </template>

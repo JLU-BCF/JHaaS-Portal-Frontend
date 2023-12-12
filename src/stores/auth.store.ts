@@ -109,6 +109,7 @@ export const useAuthStore = defineStore('auth', () => {
           display: 'danger',
           message: err
         });
+        return Promise.reject();
       });
   }
 
