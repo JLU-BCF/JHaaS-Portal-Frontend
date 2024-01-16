@@ -9,6 +9,8 @@ export interface UserInterface {
   createdAt: Date;
   updatedAt: Date;
 
+  verify(): void;
+  verified(): boolean;
   setUser(userObject: UserInterface): void;
   valid(): boolean;
 }
@@ -25,6 +27,7 @@ export class User implements UserInterface {
   updatedAt!: Date;
 
   private isValid = false;
+  private isVerified = false;
 
   constructor(userObject?: UserInterface) {
     userObject && this.setUser(userObject);
@@ -42,6 +45,14 @@ export class User implements UserInterface {
     this.updatedAt = new Date(userObject.updatedAt);
 
     this.isValid = true;
+  }
+
+  public verify(): void {
+    this.isVerified = true;
+  }
+
+  public verified(): boolean {
+    return this.isVerified;
   }
 
   public valid(): boolean {
