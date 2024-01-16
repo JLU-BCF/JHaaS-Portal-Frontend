@@ -30,27 +30,27 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   // Handling of returnURL
-  const returnUrl = ref<string>();
+  let returnUrl: string | undefined;
 
   const oldReturnUrl = localStorage.getItem('return_url');
   if (oldReturnUrl) {
-    returnUrl.value = JSON.parse(oldReturnUrl);
+    returnUrl = JSON.parse(oldReturnUrl);
   }
 
   function setReturnUrl(url: string) {
-    returnUrl.value = url;
+    returnUrl = url;
     localStorage.setItem('return_url', JSON.stringify(url));
   }
 
   function clearReturnUrl() {
-    returnUrl.value = undefined;
+    returnUrl = undefined;
     localStorage.removeItem('return_url');
   }
 
   // Auth functions
   async function oidcVerify() {
-    if (returnUrl.value == '/verify') {
-      returnUrl.value = undefined;
+    if (returnUrl == '/verify') {
+      returnUrl = undefined;
     }
 
     fetchWrapper
@@ -68,7 +68,7 @@ export const useAuthStore = defineStore('auth', () => {
           user.value.isLead ? 'jupyter-overview' :
           'participation-overview';
 
-        router.push(returnUrl.value || { name: defaultReturnTarget });
+        router.push(returnUrl || { name: defaultReturnTarget });
         clearReturnUrl();
       })
       .catch(() => {
@@ -77,6 +77,22 @@ export const useAuthStore = defineStore('auth', () => {
           message: 'You are logged out.'
         });
         router.push({ name: 'start' });
+      });
+  }
+
+  async function backendVerify(): Promise<boolean> {
+    return fetchWrapper.get(`${backend}/`)
+      .then((data) => {
+        setUser(data);
+        user.value.verify();
+        return true;
+      })
+      .catch((e) => {
+        notify({
+          display: 'warning',
+          message: e
+        });
+        return false;
       });
   }
 
@@ -113,5 +129,5 @@ export const useAuthStore = defineStore('auth', () => {
       });
   }
 
-  return { user, returnUrl, setReturnUrl, oidcVerify, logout, deleteAccount };
+  return { user, setReturnUrl, oidcVerify, backendVerify, logout, deleteAccount };
 });
