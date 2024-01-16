@@ -19,6 +19,15 @@ export default defineConfig({
         target: 'http://jhaas-portal-backend:8000',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      '/docs': {
+        target: 'http://jhaas-user-docs:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/docs/, '')
+      },
+      '/livereload': {
+        target: 'http://jhaas-user-docs:8000',
+        changeOrigin: true
       }
     }
   }
