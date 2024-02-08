@@ -46,7 +46,7 @@ async function handleResponse(
       if (!response.ok) throw text;
       try {
         return JSON.parse(text);
-      } catch(e) {
+      } catch (e) {
         return text;
       }
     })
@@ -67,8 +67,7 @@ async function handleResponse(
       if (err) {
         try {
           return Promise.reject(JSON.parse(err));
-        }
-        catch(e) {
+        } catch (e) {
           return Promise.reject(err);
         }
       } else {

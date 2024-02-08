@@ -81,7 +81,8 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function backendVerify(): Promise<boolean> {
-    return fetchWrapper.get(`${backend}/`)
+    return fetchWrapper
+      .get(`${backend}/`)
       .then((data) => {
         setUser(data);
         user.value.verify();

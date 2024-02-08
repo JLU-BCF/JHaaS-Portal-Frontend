@@ -120,16 +120,15 @@ export const useParticipationStore = defineStore('participation', () => {
       });
   }
 
-  async function notebookAction(
-    participation: Participation,
-    action: 'start' | 'stop' | 'delete'
-  ) {
+  async function notebookAction(participation: Participation, action: 'start' | 'stop' | 'delete') {
     if (!confirm(`Do you really want to ${action} this Notebook?`)) {
       return Promise.reject();
     }
 
     return fetchWrapper
-      .post(`${backend}/participation/notebook/${action}/${participation.participantId}/${participation.hubId}`)
+      .post(
+        `${backend}/participation/notebook/${action}/${participation.participantId}/${participation.hubId}`
+      )
       .then((data) => {
         notify({
           display: 'info',

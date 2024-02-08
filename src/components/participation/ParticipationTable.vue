@@ -38,16 +38,15 @@ function cancelParticipation(participation: Participation) {
       if (deleteResult) emits('participationCanceled', participation);
     });
 }
-
 </script>
 
 <template>
-  <div class="row border rounded mx-2 my-1 p-2"
+  <div
+    class="row border rounded mx-2 my-1 p-2"
     :class="tableClass"
     v-for="participation in participations"
     :key="`${participation.participantId}-${participation.hubId}`"
   >
-
     <div class="col-12 d-flex justify-content-start align-items-end flex-wrap">
       <h5 class="mb-0">
         {{ participation.participant.firstName }} {{ participation.participant.lastName }}
@@ -60,7 +59,7 @@ function cancelParticipation(participation: Participation) {
       }}</a>
     </div>
 
-    <hr class="my-2" :class="tableClass">
+    <hr class="my-2" :class="tableClass" />
 
     <div class="col-12 col-lg-6">
       <p class="fw-light fs-6 mb-0">Participation</p>
@@ -85,12 +84,7 @@ function cancelParticipation(participation: Participation) {
         >
           Accept
         </button>
-        <button
-          class="btn btn-sm btn-dark w-100 mx-1"
-          :disabled="true"
-        >
-          Promote
-        </button>
+        <button class="btn btn-sm btn-dark w-100 mx-1" :disabled="true">Promote</button>
       </div>
     </div>
 
@@ -120,11 +114,9 @@ function cancelParticipation(participation: Participation) {
           @click="cancelParticipation(participation)"
           :href="`${participation.hub?.hubUrl}`"
         >
-            Access
+          Access
         </a>
       </div>
     </div>
-
   </div>
-
 </template>
