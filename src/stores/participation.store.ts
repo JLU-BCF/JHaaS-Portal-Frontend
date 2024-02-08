@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useNotificationStore } from '@/stores/notification.store';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
+import type { Participation } from '@/models/participation.model';
 
 export type HubForParticipation = {
   creatorId: string;
@@ -119,6 +120,31 @@ export const useParticipationStore = defineStore('participation', () => {
       });
   }
 
+  async function notebookAction(
+    participation: Participation,
+    action: 'start' | 'stop' | 'delete'
+  ) {
+    if (!confirm(`Do you really want to ${action} this Notebook?`)) {
+      return Promise.reject();
+    }
+
+    return fetchWrapper
+      .post(`${backend}/participation/notebook/${action}/${participation.participantId}/${participation.hubId}`)
+      .then((data) => {
+        notify({
+          display: 'info',
+          message: data
+        });
+        return data;
+      })
+      .catch((err) => {
+        notify({
+          display: 'danger',
+          message: err
+        });
+      });
+  }
+
   return {
     fetchUserParticipations,
     fetchHubParticipations,
@@ -126,6 +152,7 @@ export const useParticipationStore = defineStore('participation', () => {
     fetchJupyterForParticipation,
     requestAccess,
     participationAction,
-    cancelParticipation
+    cancelParticipation,
+    notebookAction
   };
 });

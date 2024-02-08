@@ -38,55 +38,93 @@ function cancelParticipation(participation: Participation) {
       if (deleteResult) emits('participationCanceled', participation);
     });
 }
+
 </script>
 
 <template>
-  <table
-    class="mb-0 table table-striped table-responsive table-hover align-middle"
+  <div class="row border rounded mx-2 my-1 p-2"
     :class="tableClass"
+    v-for="participation in participations"
+    :key="`${participation.participantId}-${participation.hubId}`"
   >
-    <tbody>
-      <tr
-        v-for="participation in participations"
-        :key="`${participation.participantId}-${participation.hubId}`"
-      >
-        <td v-if="participation.participant" scope="row" class="trunc-column">
-          <span>
-            {{ participation.participant.externalId }}
-          </span>
-        </td>
-        <td v-if="participation.participant">
-          {{ participation.participant.firstName }}
-          {{ participation.participant.lastName }}
-        </td>
-        <td v-if="participation.participant">
-          <a :href="`mailto:${participation.participant.email}`">{{
-            participation.participant.email
-          }}</a>
-        </td>
-        <td v-if="!participation.participant">Unknown participant.</td>
-        <td>
-          <div class="d-grid gap-1 d-flex">
-            <button class="btn btn-sm btn-danger" @click="cancelParticipation(participation)">
-              &#128465;
-            </button>
-            <button
-              class="btn btn-sm btn-danger w-100"
-              :disabled="participation.status === 'REJECTED'"
-              @click="takeParticipationAction(participation, 'reject')"
-            >
-              Reject
-            </button>
-            <button
-              class="btn btn-sm btn-success w-100"
-              :disabled="participation.status === 'ACCEPTED'"
-              @click="takeParticipationAction(participation, 'accept')"
-            >
-              Accept
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+    <div class="col-12 d-flex justify-content-start align-items-end flex-wrap">
+      <h5 class="mb-0">
+        {{ participation.participant.firstName }} {{ participation.participant.lastName }}
+      </h5>
+      <h6 class="text-muted mb-0 ms-2 trunc-column">
+        <small class="">{{ participation.participant.externalId }}</small>
+      </h6>
+      <a class="ms-auto" :href="`mailto:${participation.participant.email}`">{{
+        participation.participant.email
+      }}</a>
+    </div>
+
+    <hr class="my-2" :class="tableClass">
+
+    <div class="col-12 col-lg-6">
+      <p class="fw-light fs-6 mb-0">Participation</p>
+      <div class="d-flex justify-content-between my-1">
+        <button
+          class="btn btn-sm btn-danger w-100 mx-1"
+          @click="cancelParticipation(participation)"
+        >
+          Cancel
+        </button>
+        <button
+          class="btn btn-sm btn-warning w-100 mx-1"
+          :disabled="participation.status === 'REJECTED'"
+          @click="takeParticipationAction(participation, 'reject')"
+        >
+          Reject
+        </button>
+        <button
+          class="btn btn-sm btn-success w-100 mx-1"
+          :disabled="participation.status === 'ACCEPTED'"
+          @click="takeParticipationAction(participation, 'accept')"
+        >
+          Accept
+        </button>
+        <button
+          class="btn btn-sm btn-dark w-100 mx-1"
+          :disabled="true"
+        >
+          Promote
+        </button>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <p class="fw-light fs-6 mb-0">Jupyter Notebook</p>
+      <div class="d-flex justify-content-between my-1">
+        <button
+          class="btn btn-sm btn-danger w-100 mx-1"
+          @click="participationStore.notebookAction(participation, 'delete')"
+        >
+          Delete
+        </button>
+        <button
+          class="btn btn-sm btn-info w-100 mx-1"
+          @click="participationStore.notebookAction(participation, 'stop')"
+        >
+          Stop
+        </button>
+        <button
+          class="btn btn-sm btn-info w-100 mx-1"
+          @click="participationStore.notebookAction(participation, 'start')"
+        >
+          Start
+        </button>
+        <a
+          class="btn btn-sm btn-dark w-100 mx-1"
+          @click="cancelParticipation(participation)"
+          :href="`${participation.hub?.hubUrl}`"
+        >
+            Access
+        </a>
+      </div>
+    </div>
+
+  </div>
+
 </template>

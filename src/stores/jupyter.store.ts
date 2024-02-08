@@ -155,6 +155,58 @@ export const useJupyterStore = defineStore('jupyter', () => {
     jupytersLoaded = false;
   }
 
+  async function getJupyterHubUsers(slug: string | string[]) {
+    return fetchWrapper
+      .get(`${backend}/jupyter/jh-users/${slug}`)
+      .then((data) => data)
+      .catch(() => {
+        notify({
+          display: 'danger',
+          message: 'Could not fetch jupyter hub users.'
+        });
+        return false;
+      });
+  }
+
+  async function stopNotebook(slug: string | string[]) {
+    return fetchWrapper
+      .post(`${backend}/jupyter/stop-nb/${slug}`)
+      .then((data) => data)
+      .catch(() => {
+        notify({
+          display: 'danger',
+          message: 'Could not stop Notebooks.'
+        });
+        return false;
+      });
+  }
+
+  async function startNotebook(slug: string | string[]) {
+    return fetchWrapper
+      .post(`${backend}/jupyter/start-nb/${slug}`)
+      .then((data) => data)
+      .catch(() => {
+        notify({
+          display: 'danger',
+          message: 'Could not stop Notebooks.'
+        });
+        return false;
+      });
+  }
+
+  async function stopAllNotebooks(slug: string | string[]) {
+    return fetchWrapper
+      .post(`${backend}/jupyter/stopall/${slug}`)
+      .then((data) => data)
+      .catch(() => {
+        notify({
+          display: 'danger',
+          message: 'Could not stop Notebooks.'
+        });
+        return false;
+      });
+  }
+
   return {
     fetch,
     createJupyter,
@@ -162,6 +214,10 @@ export const useJupyterStore = defineStore('jupyter', () => {
     checkSlug,
     loadMyJupyters,
     clearMyJupyters,
+    getJupyterHubUsers,
+    stopNotebook,
+    startNotebook,
+    stopAllNotebooks,
     fetchInProgress,
     myJupyters
   };

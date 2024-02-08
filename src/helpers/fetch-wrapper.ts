@@ -62,17 +62,17 @@ async function handleResponse(
           })
         );
         logout();
-        throw 'You have been logged out.';
+        return Promise.reject('You have been logged out.');
       }
       if (err) {
         try {
-          return JSON.parse(err);
+          return Promise.reject(JSON.parse(err));
         }
         catch(e) {
-          return err;
+          return Promise.reject(err);
         }
       } else {
-        return response.statusText;
+        return Promise.reject(response.statusText);
       }
     });
 }

@@ -44,6 +44,10 @@ function initiateLifecycleAction(action: 'redeploy' | 'degrade') {
     }
   });
 }
+
+function stopAllNotebooks() {
+  jupyterStore.stopAllNotebooks(route.params.slug);
+}
 </script>
 
 <template>
@@ -93,6 +97,11 @@ function initiateLifecycleAction(action: 'redeploy' | 'degrade') {
     <p v-if="['DEPLOYED', 'FAILED'].includes(jupyter.status) && user.isAdmin">
       <button @click="initiateLifecycleAction('degrade')" class="btn btn-sm btn-danger mx-3">
         Mark for Degration
+      </button>
+    </p>
+    <p v-if="['DEPLOYED'].includes(jupyter.status)">
+      <button @click="stopAllNotebooks" class="btn btn-sm btn-warning mx-3">
+        Stop all Notebooks
       </button>
     </p>
     <div v-if="jupyter && user.isAdmin" class="w-100 mw-330 mt-2">

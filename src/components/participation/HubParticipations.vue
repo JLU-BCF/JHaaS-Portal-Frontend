@@ -67,7 +67,7 @@ function removeParticipation(removedParticipation: Participation) {
         @participation-action-taken="updateParticipation"
         @participation-canceled="removeParticipation"
         :participations="pendingParticipations"
-        tableClass="table-secondary"
+        tableClass="border-secondary"
       >
       </ParticipationTable>
     </div>
@@ -81,7 +81,7 @@ function removeParticipation(removedParticipation: Participation) {
         @participation-action-taken="updateParticipation"
         @participation-canceled="removeParticipation"
         :participations="acceptedParticipations"
-        tableClass="table-success"
+        tableClass="border-success"
       >
       </ParticipationTable>
     </div>
@@ -95,7 +95,7 @@ function removeParticipation(removedParticipation: Participation) {
         @participation-action-taken="updateParticipation"
         @participation-canceled="removeParticipation"
         :participations="rejectedParticipations"
-        tableClass="table-danger"
+        tableClass="border-danger"
       >
       </ParticipationTable>
     </div>

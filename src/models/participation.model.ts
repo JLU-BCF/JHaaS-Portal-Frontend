@@ -16,7 +16,7 @@ export class Participation implements ParticipationInterface {
   hubId!: string;
   status!: string;
   hub?: Jupyter;
-  participant?: User;
+  participant!: User;
   createdAt!: Date;
   updatedAt!: Date;
 
