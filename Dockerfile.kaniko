@@ -3,7 +3,7 @@
 # This Dockerfile can only be used within the CI pipeline,
 # as it depends on artifacts from preceding jobs.
 ##########################################################
-FROM node:18 AS build
+FROM node:20 AS build
 
 ARG APPDIR=/jhaas-app
 WORKDIR ${APPDIR}

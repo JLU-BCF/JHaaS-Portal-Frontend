@@ -1,4 +1,4 @@
-FROM node:18 as develop
+FROM node:20 as develop
 
 ARG USER='1000:1000'
 ARG CACHEDIR=/jhaas-cache
@@ -17,7 +17,7 @@ WORKDIR ${APPDIR}
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-FROM node:18 AS build
+FROM node:20 AS build
 
 ARG APPDIR=/jhaas-app
 
