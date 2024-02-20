@@ -1,4 +1,7 @@
-FROM node:20 as develop
+ARG NODE_TAG="20"
+ARG NGINX_TAG="1.25-alpine-slim"
+
+FROM node:${NODE_TAG} as develop
 
 ARG USER='1000:1000'
 ARG CACHEDIR=/jhaas-cache
@@ -17,7 +20,7 @@ WORKDIR ${APPDIR}
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-FROM node:20 AS build
+FROM node:${NODE_TAG} AS build
 
 ARG APPDIR=/jhaas-app
 
@@ -29,7 +32,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM nginx:1.23-alpine AS production
+FROM nginx:${NGINX_TAG} AS production
 
 ARG APPDIR=/jhaas-app
 
