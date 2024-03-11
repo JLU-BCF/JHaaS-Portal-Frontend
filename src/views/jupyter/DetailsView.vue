@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router';
 import { useJupyterStore } from '@/stores/jupyter.store';
-import { ref, type Ref } from 'vue';
+import { ref } from 'vue';
 import type { Jupyter } from '@/models/jupyter.model';
 import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vue';
 import ChangeRequestList from '@/components/jupyter/ChangeRequestList.vue';
@@ -18,7 +18,7 @@ defineProps({
 const route = useRoute();
 const { user } = useAuthStore();
 const jupyterStore = useJupyterStore();
-const jupyter: Ref<Jupyter | undefined> = ref();
+const jupyter = ref<Jupyter | undefined>();
 
 const participationPath = router.resolve({
   name: 'participation-participate',

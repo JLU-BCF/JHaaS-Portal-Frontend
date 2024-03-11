@@ -168,32 +168,6 @@ export const useJupyterStore = defineStore('jupyter', () => {
       });
   }
 
-  async function stopNotebook(slug: string | string[]) {
-    return fetchWrapper
-      .post(`${backend}/jupyter/stop-nb/${slug}`)
-      .then((data) => data)
-      .catch(() => {
-        notify({
-          display: 'danger',
-          message: 'Could not stop Notebooks.'
-        });
-        return false;
-      });
-  }
-
-  async function startNotebook(slug: string | string[]) {
-    return fetchWrapper
-      .post(`${backend}/jupyter/start-nb/${slug}`)
-      .then((data) => data)
-      .catch(() => {
-        notify({
-          display: 'danger',
-          message: 'Could not stop Notebooks.'
-        });
-        return false;
-      });
-  }
-
   async function stopAllNotebooks(slug: string | string[]) {
     return fetchWrapper
       .post(`${backend}/jupyter/stopall/${slug}`)
@@ -215,8 +189,6 @@ export const useJupyterStore = defineStore('jupyter', () => {
     loadMyJupyters,
     clearMyJupyters,
     getJupyterHubUsers,
-    stopNotebook,
-    startNotebook,
     stopAllNotebooks,
     fetchInProgress,
     myJupyters

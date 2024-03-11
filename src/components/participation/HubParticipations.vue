@@ -4,6 +4,7 @@ import { Participation } from '@/models/participation.model';
 import { useParticipationStore } from '@/stores/participation.store';
 import ParticipationTable from '@/components/participation/ParticipationTable.vue';
 import { computed, ref, type Ref } from 'vue';
+import { useJupyterStore } from '@/stores/jupyter.store';
 
 const props = defineProps({
   hub: {
@@ -13,16 +14,29 @@ const props = defineProps({
 });
 
 const loadingParticipations = ref(true);
+const loadingJupyterHubUsers = ref(props.hub.status == 'DEPLOYED');
 
 const participationStore = useParticipationStore();
+const jupyterStore = useJupyterStore();
+
 const participations: Ref<Participation[]> = ref([]);
+const jupyterHubUsers = ref<string[]>([]);
 
 participationStore.fetchHubParticipations(props.hub.slug).then((data) => {
-  loadingParticipations.value = false;
   for (const participation of data.instances) {
     participations.value.push(new Participation(participation));
   }
+  loadingParticipations.value = false;
 });
+
+if (props.hub.status == 'DEPLOYED') {
+  jupyterStore.getJupyterHubUsers(props.hub.slug).then((userIds) => {
+    for (const userId of userIds) {
+      jupyterHubUsers.value.push(userId);
+    }
+    loadingJupyterHubUsers.value = false;
+  });
+}
 
 const acceptedParticipations = computed(() =>
   participations.value.filter((elem) => elem.status == 'ACCEPTED')
@@ -52,7 +66,7 @@ function removeParticipation(removedParticipation: Participation) {
 </script>
 
 <template>
-  <div v-if="loadingParticipations">
+  <div v-if="loadingParticipations || loadingJupyterHubUsers">
     <div class="spinner-grow spinner-grow-sm align-middle" role="status"></div>
     <span class="mx-3">Loading participations...</span>
   </div>
@@ -66,8 +80,10 @@ function removeParticipation(removedParticipation: Participation) {
       <ParticipationTable
         @participation-action-taken="updateParticipation"
         @participation-canceled="removeParticipation"
+        :hub="hub"
+        :jupyterHubUsers="jupyterHubUsers"
         :participations="pendingParticipations"
-        tableClass="border-secondary"
+        borderClass="border-secondary"
       >
       </ParticipationTable>
     </div>
@@ -80,8 +96,10 @@ function removeParticipation(removedParticipation: Participation) {
       <ParticipationTable
         @participation-action-taken="updateParticipation"
         @participation-canceled="removeParticipation"
+        :hub="hub"
+        :jupyterHubUsers="jupyterHubUsers"
         :participations="acceptedParticipations"
-        tableClass="border-success"
+        borderClass="border-success"
       >
       </ParticipationTable>
     </div>
@@ -94,8 +112,10 @@ function removeParticipation(removedParticipation: Participation) {
       <ParticipationTable
         @participation-action-taken="updateParticipation"
         @participation-canceled="removeParticipation"
+        :hub="hub"
+        :jupyterHubUsers="jupyterHubUsers"
         :participations="rejectedParticipations"
-        tableClass="border-danger"
+        borderClass="border-danger"
       >
       </ParticipationTable>
     </div>
