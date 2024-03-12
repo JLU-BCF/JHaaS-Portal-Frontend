@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import router from '@/router';
-import { ref, type Ref } from 'vue';
+import { ref } from 'vue';
 import { useNotificationStore } from '@/stores/notification.store';
 import { useJupyterStore } from './jupyter.store';
 import { User } from '@/models/user.model';
@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', () => {
   const { notify } = useNotificationStore();
 
   // Handling of User
-  const user: Ref<User> = ref(new User());
+  const user = ref<User>(new User());
 
   const oldUser = localStorage.getItem('user');
   if (oldUser) {
@@ -25,32 +25,32 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function clearUser() {
-    user.value.clearUser();
+    Object.assign(user.value, new User());
     localStorage.removeItem('user');
   }
 
   // Handling of returnURL
-  const returnUrl: Ref<string | undefined> = ref();
+  let returnUrl: string | undefined;
 
   const oldReturnUrl = localStorage.getItem('return_url');
   if (oldReturnUrl) {
-    returnUrl.value = JSON.parse(oldReturnUrl);
+    returnUrl = JSON.parse(oldReturnUrl);
   }
 
   function setReturnUrl(url: string) {
-    returnUrl.value = url;
+    returnUrl = url;
     localStorage.setItem('return_url', JSON.stringify(url));
   }
 
   function clearReturnUrl() {
-    returnUrl.value = undefined;
+    returnUrl = undefined;
     localStorage.removeItem('return_url');
   }
 
   // Auth functions
   async function oidcVerify() {
-    if (returnUrl.value == '/verify') {
-      returnUrl.value = undefined;
+    if (returnUrl == '/verify') {
+      returnUrl = undefined;
     }
 
     fetchWrapper
@@ -68,7 +68,7 @@ export const useAuthStore = defineStore('auth', () => {
           user.value.isLead ? 'jupyter-overview' :
           'participation-overview';
 
-        router.push(returnUrl.value || { name: defaultReturnTarget });
+        router.push(returnUrl || { name: defaultReturnTarget });
         clearReturnUrl();
       })
       .catch(() => {
@@ -80,18 +80,21 @@ export const useAuthStore = defineStore('auth', () => {
       });
   }
 
-  async function fetchLoginMethod() {
+  async function backendVerify(): Promise<boolean> {
     return fetchWrapper
-      .get(`${backend}/user/${user.value.id}/auth`)
-      .then((val) => {
-        return val;
+      .get(`${backend}/`)
+      .then((data) => {
+        setUser(data);
+        user.value.verify();
+        return true;
       })
-      .catch((err) =>
+      .catch((e) => {
         notify({
-          display: 'danger',
-          message: err
-        })
-      );
+          display: 'warning',
+          message: e
+        });
+        return false;
+      });
   }
 
   function logout() {
@@ -102,5 +105,30 @@ export const useAuthStore = defineStore('auth', () => {
     router.push({ name: 'start' });
   }
 
-  return { user, returnUrl, setReturnUrl, oidcVerify, fetchLoginMethod, logout };
+  async function deleteAccount(verificationToken?: string) {
+    if (!confirm('Do you really want to delete your account?')) {
+      return Promise.reject();
+    }
+
+    return fetchWrapper
+      .delete(`${backend}/user/${user.value.id}`, {
+        verificationToken
+      })
+      .then((data) => {
+        notify({
+          display: 'info',
+          message: data
+        });
+        return data;
+      })
+      .catch((err) => {
+        notify({
+          display: 'danger',
+          message: err
+        });
+        return Promise.reject();
+      });
+  }
+
+  return { user, setReturnUrl, oidcVerify, backendVerify, logout, deleteAccount };
 });

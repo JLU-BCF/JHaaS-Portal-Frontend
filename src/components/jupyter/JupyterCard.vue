@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { Participation } from '@/models/participation.model';
+import { useParticipationStore } from '@/stores/participation.store';
+
+const participationStore = useParticipationStore();
 
 const props = defineProps({
   participation: {
@@ -24,8 +27,33 @@ const borderClass =
 <template>
   <div v-if="participation.hub" class="card" :class="borderClass">
     <div class="card-body">
-      <h5 class="card-title">{{ participation.hub.name }}</h5>
-      <p class="card-text">{{ participation.hub.description }}</p>
+      <div class="d-flex justify-content-between">
+        <h5 class="card-title lh-base m-0">{{ participation.hub.name }}</h5>
+        <div class="btn-group">
+          <button
+            class="btn btn-sm btn-danger dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          ></button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <button
+                class="dropdown-item text-danger"
+                @click="
+                  participationStore.cancelParticipation(
+                    participation.participantId,
+                    participation.hubId
+                  )
+                "
+              >
+                cancel participation
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <p class="card-text mt-1">{{ participation.hub.description }}</p>
       <hr />
       <div v-if="today.getTime() < participation.hub.startDate.getTime()">
         <p class="text-center">

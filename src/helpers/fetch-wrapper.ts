@@ -44,7 +44,11 @@ async function handleResponse(
     .text()
     .then((text) => {
       if (!response.ok) throw text;
-      return JSON.parse(text);
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        return text;
+      }
     })
     .catch((err) => {
       const { user, logout } = useAuthStore();
@@ -58,8 +62,16 @@ async function handleResponse(
           })
         );
         logout();
-        throw 'You have been logged out.';
+        return Promise.reject('You have been logged out.');
       }
-      throw err ? JSON.parse(err) : response.statusText;
+      if (err) {
+        try {
+          return Promise.reject(JSON.parse(err));
+        } catch (e) {
+          return Promise.reject(err);
+        }
+      } else {
+        return Promise.reject(response.statusText);
+      }
     });
 }

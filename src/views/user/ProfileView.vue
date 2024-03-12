@@ -3,7 +3,7 @@ import { useAuthStore } from '@/stores/auth.store';
 import { useFrontendConfigurationStore } from '@/stores/config.store';
 
 const { frontendConfiguration } = useFrontendConfigurationStore();
-const { user } = useAuthStore();
+const { user, deleteAccount } = useAuthStore();
 
 const currentUrlEncoded = encodeURIComponent(window.location.href);
 </script>
@@ -142,13 +142,9 @@ const currentUrlEncoded = encodeURIComponent(window.location.href);
             >
           </p>
           <p>
-            <a
-              aria-disabled="true"
-              href="/api/auth/oidc/login"
-              class="btn btn-outline-danger w-100 disabled"
-              target="_self"
-              >Delete Account</a
-            >
+            <button class="btn btn-outline-danger w-100" @click="deleteAccount()">
+              Delete Account
+            </button>
           </p>
         </div>
       </div>

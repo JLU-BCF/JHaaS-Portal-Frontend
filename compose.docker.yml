@@ -17,6 +17,7 @@ services:
     volumes:
       - cache:${CACHEDIR:-/jhaas-cache}
       - ./:${APPDIR:-/jhaas-app}
+      - ./docker-entrypoint-dev.sh:/entrypoint.sh:ro
 
 networks:
   jhaas-portal-priv:

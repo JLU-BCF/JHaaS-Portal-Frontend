@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, useRoute } from 'vue-router';
 import { useJupyterStore } from '@/stores/jupyter.store';
-import { ref, type Ref } from 'vue';
+import { ref } from 'vue';
 import type { Jupyter } from '@/models/jupyter.model';
 import JupyterRequestDetails from '@/components/jupyter/JupyterRequestDetails.vue';
 import ChangeRequestList from '@/components/jupyter/ChangeRequestList.vue';
@@ -18,7 +18,7 @@ defineProps({
 const route = useRoute();
 const { user } = useAuthStore();
 const jupyterStore = useJupyterStore();
-const jupyter: Ref<Jupyter | undefined> = ref();
+const jupyter = ref<Jupyter | undefined>();
 
 const participationPath = router.resolve({
   name: 'participation-participate',
@@ -43,6 +43,10 @@ function initiateLifecycleAction(action: 'redeploy' | 'degrade') {
       updateJupyter(jupyterInstance);
     }
   });
+}
+
+function stopAllNotebooks() {
+  jupyterStore.stopAllNotebooks(route.params.slug);
 }
 </script>
 
@@ -85,7 +89,7 @@ function initiateLifecycleAction(action: 'redeploy' | 'degrade') {
         copy to clipboard
       </button>
     </p>
-    <p v-if="jupyter.status == 'FAILED' && user.isAdmin">
+    <p v-if="['DEPLOYED', 'FAILED'].includes(jupyter.status) && user.isAdmin">
       <button @click="initiateLifecycleAction('redeploy')" class="btn btn-sm btn-danger mx-3">
         Mark for Redeployment
       </button>
@@ -93,6 +97,11 @@ function initiateLifecycleAction(action: 'redeploy' | 'degrade') {
     <p v-if="['DEPLOYED', 'FAILED'].includes(jupyter.status) && user.isAdmin">
       <button @click="initiateLifecycleAction('degrade')" class="btn btn-sm btn-danger mx-3">
         Mark for Degration
+      </button>
+    </p>
+    <p v-if="['DEPLOYED'].includes(jupyter.status)">
+      <button @click="stopAllNotebooks" class="btn btn-sm btn-warning mx-3">
+        Stop all Notebooks
       </button>
     </p>
     <div v-if="jupyter && user.isAdmin" class="w-100 mw-330 mt-2">

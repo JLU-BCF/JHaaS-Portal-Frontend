@@ -5,7 +5,7 @@ version: '3'
 
 services:
   jhaas-portal-frontend:
-    image: node:18
+    image: node:${NODE_TAG:-20}
     container_name: jhaas-portal-frontend
     hostname: jhaas-portal-frontend
     restart: unless-stopped

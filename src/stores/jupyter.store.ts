@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
-import { ref, type Ref } from 'vue';
+import { ref } from 'vue';
 import { useNotificationStore } from '@/stores/notification.store';
 import { Jupyter } from '@/models/jupyter.model';
 import router from '@/router';
@@ -12,7 +12,7 @@ export const useJupyterStore = defineStore('jupyter', () => {
 
   let jupytersLoaded = false;
   const fetchInProgress = ref(false);
-  const myJupyters: Ref<Jupyter[]> = ref([]);
+  const myJupyters = ref<Jupyter[]>([]);
 
   async function fetch(scope: 'id' | 'slug', id: string | string[]): Promise<Jupyter>;
   async function fetch(scope?: 'mine' | 'pending' | 'all'): Promise<Jupyter[]>;
@@ -155,6 +155,32 @@ export const useJupyterStore = defineStore('jupyter', () => {
     jupytersLoaded = false;
   }
 
+  async function getJupyterHubUsers(slug: string | string[]) {
+    return fetchWrapper
+      .get(`${backend}/jupyter/jh-users/${slug}`)
+      .then((data) => data)
+      .catch(() => {
+        notify({
+          display: 'danger',
+          message: 'Could not fetch jupyter hub users.'
+        });
+        return false;
+      });
+  }
+
+  async function stopAllNotebooks(slug: string | string[]) {
+    return fetchWrapper
+      .post(`${backend}/jupyter/stopall/${slug}`)
+      .then((data) => data)
+      .catch(() => {
+        notify({
+          display: 'danger',
+          message: 'Could not stop Notebooks.'
+        });
+        return false;
+      });
+  }
+
   return {
     fetch,
     createJupyter,
@@ -162,6 +188,8 @@ export const useJupyterStore = defineStore('jupyter', () => {
     checkSlug,
     loadMyJupyters,
     clearMyJupyters,
+    getJupyterHubUsers,
+    stopAllNotebooks,
     fetchInProgress,
     myJupyters
   };

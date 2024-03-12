@@ -1,25 +1,33 @@
-interface UserInterface {
-  id?: string;
-  externalId?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  isAdmin?: boolean;
-  isLead?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
+export interface UserInterface {
+  id: string;
+  externalId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  isAdmin: boolean;
+  isLead: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+
+  verify(): void;
+  verified(): boolean;
+  setUser(userObject: UserInterface): void;
+  valid(): boolean;
 }
 
 export class User implements UserInterface {
-  id?: string;
-  externalId?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  isAdmin?: boolean;
-  isLead?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
+  id!: string;
+  externalId!: string;
+  firstName!: string;
+  lastName!: string;
+  email!: string;
+  isAdmin!: boolean;
+  isLead!: boolean;
+  createdAt!: Date;
+  updatedAt!: Date;
+
+  private isValid = false;
+  private isVerified = false;
 
   constructor(userObject?: UserInterface) {
     userObject && this.setUser(userObject);
@@ -33,23 +41,21 @@ export class User implements UserInterface {
     this.email = userObject.email;
     this.isAdmin = userObject.isAdmin;
     this.isLead = userObject.isLead;
-    this.createdAt = userObject.createdAt;
-    this.updatedAt = userObject.updatedAt;
+    this.createdAt = new Date(userObject.createdAt);
+    this.updatedAt = new Date(userObject.updatedAt);
+
+    this.isValid = true;
   }
 
-  public clearUser(): void {
-    this.id = undefined;
-    this.externalId = undefined;
-    this.firstName = undefined;
-    this.lastName = undefined;
-    this.email = undefined;
-    this.isAdmin = undefined;
-    this.isLead = undefined;
-    this.createdAt = undefined;
-    this.updatedAt = undefined;
+  public verify(): void {
+    this.isVerified = true;
+  }
+
+  public verified(): boolean {
+    return this.isVerified;
   }
 
   public valid(): boolean {
-    return this.id !== undefined;
+    return this.isValid;
   }
 }
