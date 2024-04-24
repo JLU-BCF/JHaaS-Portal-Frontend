@@ -14,7 +14,7 @@ import { ref } from 'vue';
 
 const jupyterStore = useJupyterStore();
 const slugAvail = ref(true);
-const selectedNotebook = ref('spicy');
+const selectedNotebook = ref('scipy');
 
 async function checkSlug(event: UIEvent) {
   const slug = (event.target as HTMLInputElement).value;

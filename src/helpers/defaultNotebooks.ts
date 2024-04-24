@@ -7,8 +7,8 @@ export const notebooks: {
     image: 'docker.io/jupyter/minimal-notebook:latest',
     defaultUrl: '/lab'
   },
-  spicy: {
-    label: 'Spicy',
+  scipy: {
+    label: 'Scipy',
     text: 'Popular packages from the scientific Python ecosystem',
     image: 'docker.io/jupyter/scipy-notebook:latest',
     defaultUrl: '/lab'
