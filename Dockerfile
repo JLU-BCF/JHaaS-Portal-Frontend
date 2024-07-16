@@ -1,4 +1,4 @@
-ARG NODE_TAG="20"
+ARG NODE_TAG="22"
 ARG NGINX_TAG="1.25-alpine-slim"
 
 FROM node:${NODE_TAG} as develop

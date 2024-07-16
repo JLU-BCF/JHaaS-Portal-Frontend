@@ -14,28 +14,28 @@
     "update": "ncu -u"
   },
   "dependencies": {
-    "marked": "^12.0.1",
+    "marked": "^13.0.2",
     "pinia": "^2.1.7",
-    "vee-validate": "^4.12.6",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0",
+    "vee-validate": "^4.13.2",
+    "vue": "^3.4.31",
+    "vue-router": "^4.4.0",
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.10.1",
+    "@rushstack/eslint-patch": "^1.10.3",
     "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.12.7",
-    "@vitejs/plugin-vue": "^5.0.4",
+    "@types/node": "^20.14.10",
+    "@vitejs/plugin-vue": "^5.0.5",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.57.0",
-    "eslint-plugin-vue": "^9.24.1",
-    "npm-check-updates": "^16.14.18",
+    "eslint-plugin-vue": "^9.27.0",
+    "npm-check-updates": "^16.14.20",
     "npm-run-all": "^4.1.5",
-    "prettier": "^3.2.5",
-    "typescript": "~5.4.4",
-    "vite": "^5.2.8",
-    "vue-tsc": "^2.0.12"
+    "prettier": "^3.3.3",
+    "typescript": "~5.5.3",
+    "vite": "^5.3.3",
+    "vue-tsc": "^2.0.26"
   }
 }
