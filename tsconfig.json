@@ -6,9 +6,12 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    "target": "es2022",
     "preserveValueImports": false,
     "importsNotUsedAsValues": "remove",
     "verbatimModuleSyntax": true,
-    "lib": ["ES2016", "DOM", "DOM.Iterable", "ES2018.Promise"]
-  }
+  },
+  "lib": [
+    "es2022"
+  ]
 }
