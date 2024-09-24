@@ -8,7 +8,7 @@ import participationRoutes from '@/router/participation.routes';
 import adminRoutes from '@/router/admin.routes';
 import { useNotificationStore } from '@/stores/notification.store';
 
-const publicPages: Array<string | symbol> = ['verify'];
+const publicPages: (string | symbol)[] = ['verify'];
 for (const publicRoute of publicRoutes) {
   publicPages.push(publicRoute.name);
 }

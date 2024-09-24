@@ -47,6 +47,7 @@ async function handleResponse(
       try {
         return JSON.parse(text);
       } catch (e) {
+        console.error(e);
         return text;
       }
     })
@@ -68,6 +69,7 @@ async function handleResponse(
         try {
           return Promise.reject(JSON.parse(err));
         } catch (e) {
+          console.error(e);
           return Promise.reject(err);
         }
       } else {

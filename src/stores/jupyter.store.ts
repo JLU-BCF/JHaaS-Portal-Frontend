@@ -23,7 +23,6 @@ export const useJupyterStore = defineStore('jupyter', () => {
     fetchInProgress.value = true;
     let url = `${backend}/jupyter`;
 
-    /* eslint-disable indent */
     switch (scope) {
       case 'id':
         url += `/by-id/${id}`;
@@ -41,7 +40,6 @@ export const useJupyterStore = defineStore('jupyter', () => {
       default:
         url += '/list';
     }
-    /* eslint-enable indent */
 
     return fetchWrapper
       .get(url)
@@ -49,7 +47,7 @@ export const useJupyterStore = defineStore('jupyter', () => {
         if (['id', 'slug'].includes(scope)) {
           return new Jupyter(data);
         }
-        let jupyters: Array<Jupyter> = [];
+        let jupyters: Jupyter[] = [];
         data.instances.forEach((element: Jupyter) => {
           jupyters.push(new Jupyter(element));
         });

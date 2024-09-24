@@ -1,11 +1,11 @@
 import { User, type UserInterface } from '@/models/user.model';
 
-export type JupyterHubRequestUserConf = {
+export interface JupyterHubRequestUserConf {
   storagePerUser: number;
   cpusPerUser: number;
   ramPerUser: number;
   userCount: number;
-};
+}
 
 interface JupyterBaseInterface {
   id: string;
@@ -73,7 +73,7 @@ export class JupyterBase {
 }
 
 export class Jupyter extends JupyterBase {
-  changeRequests: Array<JupyterChange> = [];
+  changeRequests: JupyterChange[] = [];
   public pending() {
     return this.changeRequests.filter((elem) => elem.status == 'PENDING').length;
   }
@@ -94,10 +94,6 @@ export class Jupyter extends JupyterBase {
 }
 
 export class JupyterChange extends JupyterBase {
-  constructor(jupyterObject: JupyterBaseInterface) {
-    super(jupyterObject);
-  }
-
   public changesAllowed() {
     return ['PENDING', 'REJECTED'].includes(this.status);
   }

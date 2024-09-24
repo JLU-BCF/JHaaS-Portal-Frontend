@@ -20,8 +20,10 @@ const text_html = computed(() => {
 });
 
 tosStore.findTos(route.params.id).then((tosInstance) => {
-  tos.value = tosInstance;
-  text_md.value = tosInstance.text_markdown;
+  if (tosInstance) {
+    tos.value = tosInstance;
+    text_md.value = tosInstance.text_markdown;
+  }
 });
 
 function updateTos(values: object) {

@@ -3,14 +3,14 @@ import { useNotificationStore } from '@/stores/notification.store';
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import type { Participation } from '@/models/participation.model';
 
-export type HubForParticipation = {
+export interface HubForParticipation {
   creatorId: string;
   name: string;
   slug: string;
   description?: string;
   startDate: Date;
   endDate: Date;
-};
+}
 
 export const useParticipationStore = defineStore('participation', () => {
   const backend = import.meta.env.VITE_BACKEND_PATH;

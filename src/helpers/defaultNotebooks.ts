@@ -1,6 +1,7 @@
-export const notebooks: {
-  [key: string]: { label: string; text: string; image: string; defaultUrl: string };
-} = {
+export const notebooks: Record<
+  string,
+  { label: string; text: string; image: string; defaultUrl: string }
+> = {
   minimal: {
     label: 'Minimal',
     text: 'Basic command-line tools useful when working in Jupyter applications',

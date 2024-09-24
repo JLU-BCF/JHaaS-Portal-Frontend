@@ -49,7 +49,7 @@ function cancelParticipation(participation: Participation) {
     });
 }
 
-const moreActionsCollapseState = ref<{ [key: string]: boolean }>({});
+const moreActionsCollapseState = ref<Record<string, boolean>>({});
 function collapseMoreActions(participantId: string) {
   moreActionsCollapseState.value[participantId] =
     moreActionsCollapseState.value[participantId] != true;

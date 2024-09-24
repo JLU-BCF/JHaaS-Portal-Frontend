@@ -14,7 +14,11 @@ const route = useRoute();
 const tosStore = useTosStore();
 const tos: Ref<Tos | undefined> = ref();
 
-tosStore.findTos(route.params.id).then((tosInstance) => (tos.value = tosInstance));
+tosStore.findTos(route.params.id).then((tosInstance) => {
+  if (tosInstance) {
+    tos.value = tosInstance;
+  }
+});
 </script>
 
 <template>

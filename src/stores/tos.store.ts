@@ -57,7 +57,6 @@ export const useTosStore = defineStore('tos', () => {
       .finally(() => (fetchInProgress.value = false));
   }
 
-  async function findTos(id: string | string[]): Promise<Tos>;
   async function findTos(id: string | string[]): Promise<void | Tos> {
     const url = `${backend}/tos/find/${id}`;
     fetchInProgress.value = true;
