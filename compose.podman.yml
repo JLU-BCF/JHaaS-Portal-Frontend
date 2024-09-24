@@ -1,7 +1,6 @@
 # This file is for use with Podman!
 # This is a compose file for development! Do not use in prod!
 # This file needs the backend to be started first!
-version: '3'
 
 services:
   jhaas-portal-frontend:

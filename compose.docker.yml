@@ -1,5 +1,6 @@
+# This file is for use with Docker!
 # This is a compose file for development! Do not use in prod!
-version: '3'
+# This file needs the backend to be started first!
 
 services:
   jhaas-portal-frontend:
